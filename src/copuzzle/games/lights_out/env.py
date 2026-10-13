@@ -16,6 +16,7 @@ from gymnasium.error import ResetNeeded
 
 from .oracle import is_reachable
 from .rules import PuzzleRule
+from .structure import export_structure
 
 
 def _binary_space(shape: int | tuple[int, ...]) -> spaces.MultiBinary:
@@ -33,9 +34,10 @@ class PuzzleEnv(gym.Env):
     goal is sampled. Explicit equal state/goal pairs are allowed, but already
     finish the episode; inspect ``info["is_success"]`` and reset again.
 
-    The default observation hides graph structure. ``reveal_graph=True`` adds
-    adjacency to the observation, but no oracle solution or distance is ever
-    included in observations or info.
+    The default ``legacy_hidden`` profile hides structure; the legacy flag
+    ``reveal_graph=True`` selects ``legacy_adjacency`` for either rule family.
+    ``structure_v1`` exposes row-major grid metadata or graph adjacency. No
+    oracle solution or distance is included in observations or info.
     """
 
     metadata = {"render_modes": ["ansi"]}
@@ -44,8 +46,10 @@ class PuzzleEnv(gym.Env):
         self,
         rule: PuzzleRule,
         max_episode_steps: int = 30,
-        reveal_graph: bool = False,
+        reveal_graph: bool | None = None,
         render_mode: str | None = None,
+        *,
+        observation_profile: str | None = None,
     ) -> None:
         super().__init__()
         if (
@@ -54,14 +58,24 @@ class PuzzleEnv(gym.Env):
             or max_episode_steps <= 0
         ):
             raise ValueError("max_episode_steps must be a positive integer")
-        if not isinstance(reveal_graph, (bool, np.bool_)):
-            raise TypeError("reveal_graph must be a boolean")
+        if reveal_graph is not None and not isinstance(reveal_graph, (bool, np.bool_)):
+            raise TypeError("reveal_graph must be a boolean or None")
+        if observation_profile is None:
+            observation_profile = "legacy_adjacency" if reveal_graph else "legacy_hidden"
+        elif observation_profile not in ("legacy_hidden", "legacy_adjacency", "structure_v1"):
+            raise ValueError("unknown observation_profile")
+        elif observation_profile == "structure_v1" and reveal_graph is not None:
+            raise ValueError("structure_v1 cannot be combined with the legacy reveal_graph flag")
+        elif reveal_graph is not None and bool(reveal_graph) != (observation_profile == "legacy_adjacency"):
+            raise ValueError("observation_profile conflicts with reveal_graph")
         if render_mode not in (None, "ansi"):
             raise ValueError("render_mode must be None or 'ansi'")
 
         self.rule = rule
         self.max_episode_steps = int(max_episode_steps)
-        self.reveal_graph = bool(reveal_graph)
+        self.observation_profile = observation_profile
+        self.reveal_graph = observation_profile == "legacy_adjacency"
+        self._public_structure = export_structure(rule) if observation_profile == "structure_v1" else None
         self.render_mode = render_mode
         self.action_space = spaces.Discrete(rule.n_buttons)
         observation_fields = {
@@ -72,6 +86,17 @@ class PuzzleEnv(gym.Env):
             observation_fields["adjacency"] = _binary_space(
                 (rule.n_buttons, rule.n_buttons)
             )
+        elif self._public_structure is not None:
+            for name, array in self._public_structure.observation_fields().items():
+                if name == "adjacency":
+                    observation_fields[name] = _binary_space(array.shape)
+                else:
+                    observation_fields[name] = spaces.Box(
+                        low=0 if name == "grid_coordinates" else 1,
+                        high=np.iinfo(np.int32).max,
+                        shape=array.shape,
+                        dtype=np.int32,
+                    )
         self.observation_space = spaces.Dict(observation_fields)
 
         self._board: np.ndarray | None = None
@@ -92,6 +117,8 @@ class PuzzleEnv(gym.Env):
             observation["adjacency"] = np.array(
                 self.rule.adjacency, dtype=np.uint8, copy=True
             )
+        elif self._public_structure is not None:
+            observation.update(self._public_structure.observation_fields())
         return observation
 
     def _info(self) -> dict[str, Any]:

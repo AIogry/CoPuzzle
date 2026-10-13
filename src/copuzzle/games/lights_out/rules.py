@@ -8,11 +8,12 @@ every operation also flips its own light.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-import hashlib
 import operator
 import re
 
 import numpy as np
+
+from .structure import _grid_adjacency, _grid_shape, _logical_rule_id
 
 
 def _binary_array(value: object, *, name: str) -> np.ndarray:
@@ -45,16 +46,19 @@ def _positive_integer(value: object, *, name: str) -> int:
 
 @dataclass(frozen=True, eq=False)
 class PuzzleRule:
-    """One fixed rule, with optional display coordinates.
+    """One fixed rule, with optional display coordinates and grid metadata.
 
     ``rule_id`` identifies the ordered logical graph. Names and coordinates
-    do not affect it. Node relabeling generally changes the identifier.
+    and grid metadata do not affect it. Node relabeling generally changes the
+    identifier. ``grid_shape`` declares a standard row-major grid explicitly;
+    the task name is never used to infer the rule family.
     Arrays are copied and made immutable during construction.
     """
 
     name: str
     adjacency: np.ndarray
     coordinates: np.ndarray | None = None
+    grid_shape: tuple[int, int] | None = None
     toggle_matrix: np.ndarray = field(init=False, repr=False)
     rule_id: str = field(init=False)
 
@@ -74,13 +78,17 @@ class PuzzleRule:
             raise ValueError("adjacency must be symmetric for an undirected graph")
         n_buttons = adjacency.shape[0]
         toggle_matrix = adjacency ^ np.eye(n_buttons, dtype=np.uint8)
-        digest = hashlib.sha256()
-        digest.update(b"copuzzle/undirected-self-toggle/v1\0")
-        digest.update(str(n_buttons).encode("ascii") + b"\0")
-        digest.update(adjacency.tobytes(order="C"))
         object.__setattr__(self, "adjacency", _immutable(adjacency))
         object.__setattr__(self, "toggle_matrix", _immutable(toggle_matrix))
-        object.__setattr__(self, "rule_id", digest.hexdigest())
+        object.__setattr__(self, "rule_id", _logical_rule_id(adjacency))
+
+        if self.grid_shape is not None:
+            shape = _grid_shape(self.grid_shape)
+            if shape[0] * shape[1] != n_buttons:
+                raise ValueError("grid_shape product must equal n_buttons")
+            if not np.array_equal(adjacency, _grid_adjacency(shape)):
+                raise ValueError("grid_shape requires the standard row-major grid adjacency")
+            object.__setattr__(self, "grid_shape", shape)
 
         if self.coordinates is not None:
             try:
@@ -147,7 +155,7 @@ def grid_rule(rows: int, cols: int) -> PuzzleRule:
                 if next_row < rows and next_col < cols:
                     neighbor = next_row * cols + next_col
                     adjacency[index, neighbor] = adjacency[neighbor, index] = 1
-    return PuzzleRule(f"grid-{rows}x{cols}", adjacency, coordinates)
+    return PuzzleRule(f"grid-{rows}x{cols}", adjacency, coordinates, grid_shape=(rows, cols))
 
 
 def graph_rule(
@@ -160,22 +168,25 @@ def graph_rule(
 
 
 def get_rule(task_id: str) -> PuzzleRule:
-    """Resolve grid-RxC, graph-path9, or graph-cycle9 task identifiers."""
+    """Resolve grid-RxC, graph-pathN (N >= 1), or graph-cycleN (N >= 3)."""
     if not isinstance(task_id, str):
         raise ValueError("task_id must be a string")
     match = re.fullmatch(r"grid-([1-9][0-9]*)x([1-9][0-9]*)", task_id)
     if match:
         return grid_rule(int(match.group(1)), int(match.group(2)))
-    if task_id in {"graph-path9", "graph-cycle9"}:
-        n_buttons = 9
+    match = re.fullmatch(r"graph-(path|cycle)([1-9][0-9]*)", task_id)
+    if match:
+        topology, n_buttons = match.group(1), int(match.group(2))
+        if topology == "cycle" and n_buttons < 3:
+            raise ValueError("A simple cycle requires at least 3 nodes")
         adjacency = np.zeros((n_buttons, n_buttons), dtype=np.uint8)
         for index in range(n_buttons - 1):
             adjacency[index, index + 1] = adjacency[index + 1, index] = 1
-        if task_id == "graph-cycle9":
+        if topology == "cycle":
             adjacency[0, -1] = adjacency[-1, 0] = 1
             angles = 2 * np.pi * np.arange(n_buttons) / n_buttons
             coordinates = np.column_stack((np.cos(angles), np.sin(angles)))
         else:
             coordinates = np.column_stack((np.arange(n_buttons), np.zeros(n_buttons)))
         return graph_rule(adjacency, name=task_id, coordinates=coordinates)
-    raise ValueError(f"unknown task_id {task_id!r}; expected grid-RxC, graph-path9, or graph-cycle9")
+    raise ValueError(f"unknown task_id {task_id!r}; expected grid-RxC, graph-pathN, or graph-cycleN")

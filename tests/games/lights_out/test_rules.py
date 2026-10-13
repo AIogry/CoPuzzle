@@ -118,7 +118,7 @@ def test_invalid_grid_dimensions(rows, cols):
         grid_rule(rows, cols)
 
 
-@pytest.mark.parametrize("task_id", ["", "grid-0x3", "grid-3X3", "graph-path8", 3])
+@pytest.mark.parametrize("task_id", ["", "grid-0x3", "grid-3X3", "graph-path0", 3])
 def test_unknown_task(task_id):
     with pytest.raises(ValueError):
         get_rule(task_id)

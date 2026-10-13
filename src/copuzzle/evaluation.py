@@ -3,6 +3,11 @@
 from .games.lights_out.evaluation import (
     TASK_SCHEMA,
     RESULT_SCHEMA,
+    STRUCTURE_TASK_SCHEMA,
+    STRUCTURE_RESULT_SCHEMA,
+    TaskSuite,
+    with_structure,
+    save_task_suite,
     write_json,
     generate_task_suite,
     validate_task_suite,
@@ -16,6 +21,11 @@ from .games.lights_out.evaluation import (
 __all__ = [
     "TASK_SCHEMA",
     "RESULT_SCHEMA",
+    "STRUCTURE_TASK_SCHEMA",
+    "STRUCTURE_RESULT_SCHEMA",
+    "TaskSuite",
+    "with_structure",
+    "save_task_suite",
     "write_json",
     "generate_task_suite",
     "validate_task_suite",

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "copuzzle"
-version = "0.1.0.dev1"
-description = "Abstract operation trajectories and goal-conditioned evaluation for rule-based puzzles"
+version = "0.1.0.dev3"
+description = "Abstract and physical goal-conditioned puzzles with offline trajectories"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.23,<3", "gymnasium>=1.0,<2"]
@@ -17,12 +17,17 @@ classifiers = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7,<10", "build>=1,<2"]
+physics = ["mujoco>=3.2,<4"]
+render = ["mujoco>=3.2,<4", "imageio>=2.31,<3"]
 
 [project.scripts]
 copuzzle = "copuzzle.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"copuzzle.games.lights_out.physics" = ["assets/ur5e/*", "assets/ur5e/assets/*.obj"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

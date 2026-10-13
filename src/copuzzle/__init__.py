@@ -1,18 +1,27 @@
-"""CoPuzzle: independent abstract puzzle environments and offline data."""
+"""CoPuzzle: independent goal-conditioned puzzles and offline data."""
 from gymnasium.envs.registration import register, registry
 
 from copuzzle.games.lights_out import PuzzleEnv, PuzzleRule, get_rule, graph_rule, grid_rule, make_env
+from copuzzle.games.lights_out.presets import TASK_PRESETS
+from copuzzle.games.lights_out.structure import PublicStructure, export_structure, load_structure, save_structure
 
-__version__ = "0.1.0.dev1"
+__version__ = "0.1.0.dev3"
 
 
-for _gym_id, _task in {
-    "CoPuzzle/Grid3x3-v0": "grid-3x3",
-    "CoPuzzle/Grid4x4-v0": "grid-4x4",
-    "CoPuzzle/GraphPath9-v0": "graph-path9",
-    "CoPuzzle/GraphCycle9-v0": "graph-cycle9",
-}.items():
-    if _gym_id not in registry:
-        register(id=_gym_id, entry_point="copuzzle:make_env", kwargs={"task_id": _task})
+def make_physics_env(task_id="grid-3x3", **kwargs):
+    """Load optional MuJoCo support only when a physical environment is created."""
+    from copuzzle.games.lights_out.physics import make_physics_env as factory
+    return factory(task_id, **kwargs)
 
-__all__ = ["PuzzleEnv", "PuzzleRule", "get_rule", "graph_rule", "grid_rule", "make_env"]
+
+for _preset in TASK_PRESETS:
+    if _preset.gym_id not in registry:
+        register(id=_preset.gym_id, entry_point="copuzzle:make_env",
+                 kwargs={"task_id": _preset.task_id})
+    _physics_id = _preset.gym_id.replace("CoPuzzle/", "CoPuzzle/Physical")
+    if _physics_id not in registry:
+        register(id=_physics_id, entry_point="copuzzle:make_physics_env",
+                 kwargs={"task_id": _preset.task_id})
+
+__all__ = ["PuzzleEnv", "PuzzleRule", "get_rule", "graph_rule", "grid_rule", "make_env",
+           "PublicStructure", "export_structure", "load_structure", "save_structure", "make_physics_env"]

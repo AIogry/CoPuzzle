@@ -14,6 +14,7 @@ import json
 import numpy as np
 
 from copuzzle import get_rule, make_env
+from copuzzle.games.lights_out.presets import TASK_PRESETS
 from copuzzle.games.lights_out.data import GoalSampler, generate_dataset, relabel_transitions
 
 
@@ -86,5 +87,5 @@ def demonstrate(task: str) -> dict:
 
 if __name__ == "__main__":
     print("Offline GCRL interface example; no model is trained or scored.")
-    for task in ("grid-3x3", "grid-4x4", "graph-path9", "graph-cycle9"):
-        print(json.dumps(demonstrate(task), sort_keys=True))
+    for preset in TASK_PRESETS:
+        print(json.dumps(demonstrate(preset.task_id), sort_keys=True))
