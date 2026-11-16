@@ -1,0 +1,43 @@
+{
+  "schema": "copuzzle.release_plan.v1",
+  "document_kind": "work_ledger_not_executable_training_config",
+  "goal_status": "active",
+  "acceptance_complete": false,
+  "started_local_date": "2026-11-17",
+  "timezone": "Asia/Shanghai",
+  "starting_revision": "1332193ed53abffdc5a6144ebd347977968702e1",
+  "current_protocol": "copuzzle.rule-composition.rc1",
+  "target": "publicly usable CoPuzzle v1 benchmark release candidate",
+  "core_instances": ["grid-3x3", "grid-4x4", "pancake-6", "topspin-8-4", "sliding-2x3", "hanoi-5"],
+  "conditions": ["transition_holdout", "state_holdout"],
+  "physical_extension": ["grid-3x3", "pancake-4", "topspin-20-4"],
+  "framework": "jax_flax_optax",
+  "planned_data_seeds": [101, 202, 303],
+  "planned_fit_seeds": [0, 1, 2],
+  "minimum_learned_method_classes": ["goal_conditioned_bc", "offline_goal_conditioned_rl", "learned_dynamics_planning"],
+  "minimum_primary_fits": 324,
+  "planned_coverage_fractions": [0.25, 0.5, 1.0],
+  "planned_model_queries_per_decision": [0, 32, 128],
+  "final_artifact_inventory_frozen": false,
+  "training_configuration_frozen": false,
+  "primary_fits_completed": 0,
+  "ci_qualified": false,
+  "project_license_resolved": false,
+  "gates": {
+    "A_protocol_population_and_freeze": "in_progress",
+    "B_standalone_learning_pipeline": "not_complete",
+    "C_formal_baseline_matrix": "not_started",
+    "D_scientific_comparisons": "not_started",
+    "E_final_engineering_qualification": "pending_final_snapshot",
+    "F_public_release_materials": "not_complete"
+  },
+  "next_deliverable": "train-only baseline adapter with CPU update, checkpoint resume and frozen evaluation tests",
+  "decisions_required_before_formal_runs": [
+    "audit all prespecified seed populations and fix C/G cardinality semantics",
+    "verify learning losses and goal sampling without true masks or test labels",
+    "review reused implementation provenance and package boundaries",
+    "measure development runtime and memory before fixing training budgets",
+    "freeze coverage selection, method-selection policy and evaluation inventory"
+  ],
+  "completion_evidence": []
+}

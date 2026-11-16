@@ -4,6 +4,10 @@
 
 CoPuzzle is an independent package. The base installation uses NumPy and Gymnasium. The optional physical environment adds MuJoCo and packaged, licensed UR5e assets. It requires no other research checkout, training framework, or local dataset. Rules, button scenes and reference controllers are implemented here.
 
+The active [benchmark release plan](benchmark_release_plan.md) tracks protocol
+freeze, learned baselines, scientific comparisons and public distribution gates.
+Planned experiments are kept distinct from completed qualification results.
+
 ## Install and try
 
 From this checkout, using Python 3.10 or newer:

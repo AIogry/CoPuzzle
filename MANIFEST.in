@@ -8,6 +8,8 @@ include topspin_physical.md
 include manipulation_pipeline.md
 include segmented_play.md
 include research_protocol.md
+include benchmark_release_plan.md
+include release/plan.json
 include CONTRIBUTING.md
 recursive-include src/copuzzle/games/lights_out/physics/assets *.xml *.obj *.json *.md LICENSE
 recursive-include examples *.py
