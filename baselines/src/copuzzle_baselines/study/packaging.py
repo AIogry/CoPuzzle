@@ -116,18 +116,41 @@ def build_archives(files, output, *, identity, part_bytes=1024**3):
     return verified
 
 
-def stage_data(data_root, output, *, part_bytes=1024**3):
+def notice_members(files, manifest_path):
+    """Attach supplied notices beside frozen artifacts without relicensing them."""
+    if manifest_path is None:
+        return None
+    manifest_path = Path(manifest_path).resolve()
+    manifest = read_json(manifest_path)
+    if (manifest.get("schema") != "copuzzle.distribution_notices.v1"
+            or manifest.get("state") not in ("proposal", "owner_confirmed") or not manifest.get("files")):
+        raise ValueError("invalid distribution notice manifest")
+    files["notices/manifest.json"] = manifest_path
+    for name, digest in manifest["files"].items():
+        _safe_name(name)
+        if name == "manifest.json":
+            raise ValueError("notice inventory cannot replace its own manifest")
+        path = inside(manifest_path.parent, name)
+        if file_hash(path) != digest:
+            raise ValueError("distribution notice checksum differs")
+        files[f"notices/{name}"] = path
+    return {"manifest_sha256": file_hash(manifest_path), "state": manifest["state"],
+            "scope": "supplied notices; copying them does not confirm ownership or authorize publication"}
+
+
+def stage_data(data_root, output, *, notices=None, part_bytes=1024**3):
     from copuzzle.benchmark.collection import validate_inventory
     data_root = Path(data_root).resolve()
     verified = validate_inventory(data_root)
     inventory = read_json(data_root / "inventory.json")
     files = {f"data/{name}": inside(data_root, name) for name in inventory["files"]}
     files["data/inventory.json"] = data_root / "inventory.json"
+    legal = notice_members(files, notices)
     return build_archives(files, output, identity={"kind": "frozen benchmark data", "protocol": inventory["protocol"],
-        "inventory_sha256": verified["inventory_sha256"]}, part_bytes=part_bytes)
+        "inventory_sha256": verified["inventory_sha256"], "notices": legal}, part_bytes=part_bytes)
 
 
-def stage_physical(manifest, inputs, qualification, script, output, *, part_bytes=1024**3):
+def stage_physical(manifest, inputs, qualification, script, output, *, notices=None, part_bytes=1024**3):
     manifest, inputs, qualification, script = Path(manifest), Path(inputs), Path(qualification), Path(script)
     inventory, report = read_json(manifest), read_json(qualification)
     if (inventory.get("schema") != "copuzzle.physical_history_inputs.v1"
@@ -148,11 +171,12 @@ def stage_physical(manifest, inputs, qualification, script, output, *, part_byte
             if file_hash(path) != case[hash_key]:
                 raise ValueError("physical input or sidecar changed")
             files[f"physical-history/{case[path_key]}"] = path
+    legal = notice_members(files, notices)
     return build_archives(files, output, identity={"kind": "historical native physical action archives",
-        "manifest_sha256": file_hash(manifest), "qualification_sha256": file_hash(qualification)}, part_bytes=part_bytes)
+        "manifest_sha256": file_hash(manifest), "qualification_sha256": file_hash(qualification), "notices": legal}, part_bytes=part_bytes)
 
 
-def stage_study(root, predictions, analysis, output, *, report=None, part_bytes=1024**3):
+def stage_study(root, predictions, analysis, output, *, report=None, notices=None, part_bytes=1024**3):
     """Stage selected checkpoints, all attempt evidence and reproducible case outputs."""
     from .prediction_archive import verify_export
     root, predictions, analysis = Path(root).resolve(), Path(predictions).resolve(), Path(analysis).resolve()
@@ -235,11 +259,13 @@ def stage_study(root, predictions, analysis, output, *, report=None, part_bytes=
     for name in readable["files"]:
         add("report", report, name)
     add("report", report, "manifest.json")
+    legal = notice_members(files, notices)
     return build_archives(files, output, identity={"kind": "formal study evidence and selected checkpoints",
         "study_sha256": checksum, "data_inventory_sha256": study["data_inventory_sha256"],
         "analysis_manifest_sha256": file_hash(analysis / "manifest.json"),
         "prediction_index_sha256": prediction_evidence["index_sha256"],
         "readable_report_manifest_sha256": file_hash(report / "manifest.json"),
+        "notices": legal,
         "omissions": "unselected intermediate checkpoints and identical per-fit source copies; current machine data path and lock files",
         "relocation": "run study.runner relocate --study <study> --data <data> after extraction"}, part_bytes=part_bytes)
 
@@ -252,6 +278,7 @@ def main(argv=None):
         p.add_argument("--output", type=Path, required=True)
         if name != "verify":
             p.add_argument("--part-bytes", type=int, default=1024**3)
+            p.add_argument("--notices", type=Path)
         if name == "data":
             p.add_argument("--data", type=Path, required=True)
         if name == "study":
@@ -266,11 +293,11 @@ def main(argv=None):
     if args.command == "verify":
         result = verify_archives(args.output)
     elif args.command == "data":
-        result = stage_data(args.data, args.output, part_bytes=args.part_bytes)
+        result = stage_data(args.data, args.output, notices=args.notices, part_bytes=args.part_bytes)
     elif args.command == "physical":
-        result = stage_physical(args.manifest, args.inputs, args.qualification, args.script, args.output, part_bytes=args.part_bytes)
+        result = stage_physical(args.manifest, args.inputs, args.qualification, args.script, args.output, notices=args.notices, part_bytes=args.part_bytes)
     else:
-        result = stage_study(args.study, args.predictions, args.analysis, args.output, report=args.report, part_bytes=args.part_bytes)
+        result = stage_study(args.study, args.predictions, args.analysis, args.output, report=args.report, notices=args.notices, part_bytes=args.part_bytes)
     print(json.dumps(result, indent=2))
 
 

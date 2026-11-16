@@ -3,7 +3,7 @@ import tarfile
 
 import pytest
 
-from copuzzle_baselines.study.packaging import build_archives, verify_archives
+from copuzzle_baselines.study.packaging import build_archives, notice_members, verify_archives
 from copuzzle_baselines.study.storage import file_hash
 
 
@@ -56,3 +56,20 @@ def test_archive_links_are_rejected_even_with_updated_outer_checksum(tmp_path):
     (output / "manifest.json").write_text(json.dumps(manifest))
     with pytest.raises(ValueError, match="nonregular"):
         verify_archives(output)
+
+
+def test_notices_are_bound_outside_the_frozen_artifact_tree(tmp_path):
+    notice = tmp_path / "CODE_LICENSE.proposed.txt"
+    notice.write_text('Test proposal, not an adopted license.\n')
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({"schema": "copuzzle.distribution_notices.v1", "state": "proposal",
+                                    "files": {notice.name: file_hash(notice)}}))
+    files = {"data/inventory.json": manifest}
+    before = dict(files)
+    result = notice_members(files, manifest)
+    assert result["state"] == "proposal"
+    assert all(files[k] == v for k, v in before.items())
+    assert set(files)-set(before) == {"notices/manifest.json", "notices/CODE_LICENSE.proposed.txt"}
+    notice.write_text('changed')
+    with pytest.raises(ValueError, match="checksum"):
+        notice_members({}, manifest)

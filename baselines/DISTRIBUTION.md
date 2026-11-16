@@ -21,6 +21,16 @@ of uncompressed input. Verification checks regular-file types, paths, duplicates
 member hashes and completeness without extracting files or following links.
 The exact builder source is retained alongside each draft archive manifest.
 
+Each staging command accepts optional `--notices /path/to/manifest.json`.
+The notice manifest uses schema `copuzzle.distribution_notices.v1`, a `state`
+of `proposal` or `owner_confirmed`, and a `files` mapping from relative paths to
+SHA-256 digests. Notices are copied to a sibling `notices/` directory, outside
+the immutable `data/` and `study/` trees. This preserves frozen inventories.
+The state is supplied decision metadata; the packager does not establish rights
+or obtain approval. A proposal remains a proposal. Confirm ownership, the chosen
+code/data/checkpoint terms and citation names before an actual public release,
+and retain all applicable third-party notices with the distributions.
+
 After all registered fits and evaluations finish, the cohort is sealed, R/C case
 archives are verified, and the [analysis](ANALYSIS.md) is complete:
 
