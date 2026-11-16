@@ -69,6 +69,25 @@ worker. It does not modify the experiment, checkpoint or selection identities.
 Recorded numerical sources and runtime versions remain mandatory; bitwise
 cross-platform learning equivalence is not promised.
 
+An independent installed-package check reruns a fixed subset of the complete
+final study. It selects data seed 101 and learned fit seed 0 at full coverage,
+all twelve task/condition combinations and both learned model budgets: 48
+learned evaluations. It also checks 56 reference evaluations with reference seed
+0 and 32-query planning where applicable. Selection uses no performance values.
+
+```sh
+JAX_PLATFORMS=cpu python -m copuzzle_baselines.study.reproduce \
+  --study /new/root/study --output /new/root/independent-reproduction \
+  --forbid-source /path/to/source/checkout
+```
+
+Both imported packages must be outside the forbidden checkout. Sibling research
+and optional physics imports are blocked. The checker restores the fixed
+checkpoints and compares all metrics, cases, budgets and provenance with the
+retained reports; only measured timing fields are excluded. Fresh reports and
+any differences are retained. It refuses an active/incomplete study and makes
+no claim of retraining or identical execution on another platform.
+
 ## Physical compatibility evidence
 
 Historical physical inputs have separate NPZ and JSON-sidecar checksums in
