@@ -72,13 +72,14 @@ def _group_hash(state, successor, action, legal, seed):
 
 def load_training(learner_directory, *, coverage=1.0, coverage_seed=0):
     """Read only metadata.json and train.npz, even when probes exist nearby."""
-    from copuzzle.research.data import load_training as load_core, metadata
+    from .protocols import public_api
 
     path = Path(learner_directory)
     coverage = number(coverage, "coverage", 0, 1, open_low=True)
     coverage_seed = integer(coverage_seed, "coverage_seed")
-    meta = metadata(path)
-    arrays = load_core(path)
+    api = public_api(path)
+    meta = api.metadata(path)
+    arrays = api.load_training(path)
     observations = arrays["observations"]
     bounds = np.iinfo(np.int32)
     if np.any(observations < bounds.min) or np.any(observations > bounds.max):
@@ -104,7 +105,8 @@ def load_training(learner_directory, *, coverage=1.0, coverage_seed=0):
     source_ids = np.asarray([lookup[tuple(s.tolist())] for s in encoded], dtype=np.int32)
     progress = np.flatnonzero(np.any(encoded != following, axis=1)).astype(np.int32)
     identity = {
-        "schema": "copuzzle.baseline_training.v1", "protocol": meta["protocol"],
+        "schema": "copuzzle.baseline_training.v2", "protocol": meta["protocol"],
+        "purpose": meta.get("purpose", "development"),
         "task": meta["task"], "regime": meta["regime"], "n_actions": meta["n_actions"],
         "state_width": states.shape[1], "symbols": symbols.tolist(),
         "train_sha256": hashlib.sha256((path / "train.npz").read_bytes()).hexdigest(),

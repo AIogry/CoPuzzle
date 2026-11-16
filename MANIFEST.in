@@ -9,7 +9,10 @@ include manipulation_pipeline.md
 include segmented_play.md
 include research_protocol.md
 include benchmark_release_plan.md
+include benchmark_protocol.md
 include release/plan.json
+include release/data_freeze.json
+include release/method_selection_plan.json
 include baselines/pyproject.toml
 include baselines/MANIFEST.in
 include baselines/README.md

@@ -29,12 +29,14 @@ def main(argv=None):
     pred.add_argument("--probe", choices=("R", "C"), required=True)
     pred.add_argument("--split", choices=("dev", "test"), default="dev")
     pred.add_argument("--output", type=Path, required=True)
+    pred.add_argument("--test-lock", type=Path)
     test = commands.add_parser("evaluate")
     test.add_argument("--checkpoint", type=Path, required=True)
     test.add_argument("--bundle", type=Path, required=True)
     test.add_argument("--split", choices=("dev", "test"), default="dev")
     test.add_argument("--model-query-limit", type=int)
     test.add_argument("--output", type=Path, required=True)
+    test.add_argument("--test-lock", type=Path)
     args = parser.parse_args(argv)
     try:
         if args.output.exists():
@@ -56,14 +58,14 @@ def main(argv=None):
             print(json.dumps({key: result[key] for key in ("status", "completed_step", "train_seconds", "checkpoints")}, indent=2))
         elif args.command == "predict":
             from .runtime import predict
-            result = predict(args.checkpoint, args.learner, args.probe, split=args.split)
+            result = predict(args.checkpoint, args.learner, args.probe, split=args.split, test_lock=args.test_lock)
             args.output.parent.mkdir(parents=True, exist_ok=True)
             with args.output.open("xb") as stream:
                 np.savez_compressed(stream, **result)
             print(json.dumps({"output": str(args.output), "probe": args.probe, "split": args.split}))
         else:
             from .runtime import evaluate
-            result = evaluate(args.checkpoint, args.bundle, split=args.split, model_query_limit=args.model_query_limit)
+            result = evaluate(args.checkpoint, args.bundle, split=args.split, model_query_limit=args.model_query_limit, test_lock=args.test_lock)
             args.output.parent.mkdir(parents=True, exist_ok=True)
             with args.output.open("x", encoding="utf-8") as stream:
                 json.dump(result, stream, indent=2, allow_nan=False)

@@ -1,0 +1,17 @@
+{
+  "method": "dynamics",
+  "hidden_dims": [
+    128,
+    128
+  ],
+  "learning_rate": 0.0003,
+  "discount": 0.99,
+  "expectile": 0.7,
+  "temperature": 3.0,
+  "target_rate": 0.005,
+  "value_future_probability": 0.5,
+  "actor_future_probability": 1.0,
+  "batch_size": 256,
+  "coverage": 1.0,
+  "coverage_seed": 0
+}

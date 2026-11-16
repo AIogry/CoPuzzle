@@ -10,7 +10,8 @@ composition prediction and goal control. The benchmark identity `v1` is separate
 from the software package version. The current package remains an unreleased
 development snapshot; this plan is not a release announcement.
 
-The current executable candidate is described in [research_protocol.md](research_protocol.md).
+The current protocol is described in [benchmark_protocol.md](benchmark_protocol.md);
+[research_protocol.md](research_protocol.md) preserves the earlier RC1 development contract.
 The machine-readable work ledger is [release/plan.json](release/plan.json).
 Mark acceptance gates complete only with inspectable evidence. A successful
 smoke run, a large dataset, or a planned experiment does not complete a gate.
@@ -32,8 +33,8 @@ results are acceptable; favorable performance is not a release gate.
 
 | Gate | Current state | Required completion evidence |
 |---|---|---|
-| A: protocol and population audit | In progress | Reviewed information contract, exact difficulty, coverage, sampling populations, metrics, budgets and final data inventory; test artifacts frozen before method selection |
-| B: standalone learning pipeline | Development pipeline qualified; final-protocol integration pending | Train-only adapters, GCBC, offline goal-conditioned RL and learned dynamics with planning; checkpoint resume, frozen evaluation, input/provenance tests and a clean-install workflow |
+| A: protocol and population audit | V1 data/metrics frozen; method selection and registered execution pending | Reviewed information contract, exact difficulty, coverage, sampling populations, metrics, budgets and final data inventory; test artifacts frozen before method selection |
+| B: standalone learning pipeline | V1 development integration qualified | Train-only adapters, GCBC, offline goal-conditioned RL and learned dynamics with planning; checkpoint resume, frozen evaluation, input/provenance tests and a clean-install workflow |
 | C: formal baseline matrix | Not started | All six instances and both splits, three prespecified data seeds and three fitting seeds, fixed method-selection rules, checkpoints and all per-case outcomes |
 | D: scientific comparisons | Not started | Coverage and planning-budget comparisons, paired uncertainty, per-instance/tier results, family macro averages, measured computational cost and explicit limitations |
 | E: engineering qualification | Prior candidate qualified; final run pending | Appropriate CI, full final regression, independent package installation, deterministic data checks and three-family historical physical replay |
@@ -174,11 +175,38 @@ Local evidence is indexed in `artifacts/baseline-pipeline-v1/` and
 `artifacts/baseline-pipeline-v1-validation/`. Reproduction scripts and tests are
 tracked in the standalone component; generated data and logs stay outside Git.
 
-The next deliverable is the prespecified-seed population audit and final data
-protocol/freeze. Before formal fitting, calibrate goal-sampling choices on
+V1 has now frozen 36 datasets for the original seeds 101/202/303, with 703,076
+training episodes and 220,434 evaluation cases. The label-free inventory binding
+is [release/data_freeze.json](release/data_freeze.json). Every required population
+cell is nonempty; the smallest composition population has six distinct pairs.
+Small cells are evaluated exhaustively, larger ones use at most 32 cases, with
+equal-length/tier primary metrics. C/G share dev/test pair assignments, and
+TopSpin's explicitly bounded reference-state populations are recorded.
+
+The inventory SHA-256 is
+`c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35`.
+All 207,152 R queries, 6,370 C cases and 6,912 G cases were cross-checked against
+native transitions and the pre-existing independent exact oracles. No learned
+final-test evaluation was performed in that integrity audit. Core regression is
+now 1,361 passing tests; learner integration has 42 passing tests, plus two pilot
+selection tests. Legacy source/data identities remain separate.
+
+The next deliverable is the development-only selection run and immutable study
+executor, following [release/method_selection_plan.json](release/method_selection_plan.json).
+Four candidate configurations give 48 development fits at 10,000 updates each;
+only the GCIQL actor-goal mixture is selected by dev performance. Final-test data
+and formal fit counts remain untouched by this tuning plan. Before formal fitting,
+calibrate goal-sampling choices on
 development data: an actor trained only on one-step successor goals may give
 GCIQL little advantage over GCBC on long goals. The implementation supports an
 independent actor-goal mixture; the current development defaults are not the
 selected final method settings. Also audit report aggregation, coverage-conditioned
 composition support, planning cost and immutable final-test access before
 launching the 324-fit matrix.
+
+The registered pilot uses two CPU worker subprocesses and source snapshots copied
+from the frozen core and current learner package. Startup and fit/evaluation
+errors are recorded, and incomplete/duplicated pilot matrices cannot select a
+configuration. Its output is `artifacts/benchmark-v1-pilot/`. This pilot controller
+does not yet implement the full formal study's retry, selection-seal and
+failure-inclusive aggregation workflow; those remain the next executor work.

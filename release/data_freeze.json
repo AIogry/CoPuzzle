@@ -1,0 +1,2964 @@
+{
+  "schema": "copuzzle.public_data_freeze.v1",
+  "valid": true,
+  "protocol": "copuzzle.rule-composition.v1",
+  "bundles": 36,
+  "inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
+  "training_episodes": 703076,
+  "evaluation_cases": 220434,
+  "semantic": false,
+  "purpose": "benchmark data frozen before method selection",
+  "test_policy": "method/configuration/checkpoint selection must be locked before learned test evaluation",
+  "data_seeds": [
+    101,
+    202,
+    303
+  ],
+  "generation_versions": {
+    "python": "3.12.9",
+    "numpy": "2.5.3",
+    "gymnasium": "1.3.0"
+  },
+  "specification_sha256": "f6b58102d98b89c26d39720ebde3bd1785d6334e63c1cc1fafd4359d0a9d60fe",
+  "generator_sources": {
+    "__init__.py": "1d7c814e17422c8c5bb2c53f468fb469b4ad75f8e3c17664b449bde4cc1cec4a",
+    "benchmark/__init__.py": "dd9e83f40ebae7330402c770e9be7f2891efcb56ac6a56e449b9a1d0864f52d1",
+    "benchmark/spec.py": "7b11b83215140373f56daa5e7e8dc07a9259b2ccf585164959769d9c1dec8c99",
+    "benchmark/graph.py": "1a59485d79e0c118f58710b4e1ec70d75f36eba1a0556e74a83026f591627917",
+    "benchmark/population.py": "91573416e8b44aa409ff37ae4ee4969359bab71fc917aee87bf16158238c9c75",
+    "benchmark/generation.py": "bfc1a0d21c99917b6b08481cebf6e06cb126ccb4c4c48115c029b98b24324c10",
+    "benchmark/collection.py": "7fea378ede7bbc10b4df7530864484d76eea258b97fa840653263f759fd3c24d",
+    "research/spec.py": "91277c81c836619c73588b4723ab2c0dc2a3520a868d01bcf0e398f0ec5646fa",
+    "research/graph.py": "ede8e81bf5c52ca55c19c22e10c4441f3cacf6b9b5e9c1b2ea555af5a33ed89c",
+    "research/bundle.py": "d2452c09f3d1bf3750a4e6d18d1d2acd64919e864770c7cc6d167b7b7ab8b990",
+    "games/lights_out/rules.py": "ee1ab9e82aa41596ff87ff99547ae2b21da71d8b7a72b68c6fac4a42ac617b89",
+    "games/permutation/rules.py": "dd01a799a6eb2e42fb157d55d6be74cc55c9fc6225ed020d3260cdb505e71c32",
+    "games/classic/rules.py": "d1f8f340527cc545b3cd0e7158edef0aa4b9a8172ffe18bfec51a671938e7fe7"
+  },
+  "metric_sources": {
+    "benchmark/evaluation.py": "2e03b430b4cbb41b3eaccf828e4e17f1a4a07723dc3205ec993472b5751ba41e",
+    "benchmark/data.py": "dc2eefd25680c27d0b97904b02440ed4af36a77e0be9078cc3c9a861b5022f42",
+    "benchmark/spec.py": "7b11b83215140373f56daa5e7e8dc07a9259b2ccf585164959769d9c1dec8c99",
+    "benchmark/graph.py": "1a59485d79e0c118f58710b4e1ec70d75f36eba1a0556e74a83026f591627917",
+    "research/data.py": "8d4b6553097ef9a9cd3c905aaf3554163ea64d84d287c73cdbae09ff6edc0207",
+    "research/bundle.py": "d2452c09f3d1bf3750a4e6d18d1d2acd64919e864770c7cc6d167b7b7ab8b990"
+  },
+  "datasets": [
+    {
+      "id": "grid-3x3-transition_holdout-s101",
+      "task": "grid-3x3",
+      "regime": "transition_holdout",
+      "seed": 101,
+      "path": "data/grid-3x3-transition_holdout-s101",
+      "manifest_sha256": "3b81f72627504fd4be6231f4e1c4fd93806eae3fd1398cb6df10884db94ba407",
+      "train_sha256": "99e9e782731dcba51604600fb001dc9c0c11d77a39247854b58ae161b1222d0b",
+      "metadata_sha256": "a02f6a8918bf5c0b1b86a2e805da3c4105872b0dad9f1c6d8efdc47a38d289e0",
+      "training_episodes": 3210,
+      "evaluation_cases": {
+        "R_dev": 696,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 702,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 3358,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 15560,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 1177,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 3419,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 15504,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 1126,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 16472,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 43185,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 5914,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 16552,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 42831,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 5862,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-3x3-state_holdout-s101",
+      "task": "grid-3x3",
+      "regime": "state_holdout",
+      "seed": 101,
+      "path": "data/grid-3x3-state_holdout-s101",
+      "manifest_sha256": "429a2fb42c3a03401b0193c2d68001af749f6e1d77673b6878de8036cd4df561",
+      "train_sha256": "527331f885c01571a7628ae7d365e76c1b4c4b3a18eac714fafef4f87508a899",
+      "metadata_sha256": "9c46390ebc2b9815b9a3d2b796d3cc1452397e7108971513b454566e71d2cadb",
+      "training_episodes": 2486,
+      "evaluation_cases": {
+        "R_dev": 86,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 94,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 171,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 616,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 42,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 151,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 552,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 34,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 579,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 1621,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 215,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 524,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 1489,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 198,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-4x4-transition_holdout-s101",
+      "task": "grid-4x4",
+      "regime": "transition_holdout",
+      "seed": 101,
+      "path": "data/grid-4x4-transition_holdout-s101",
+      "manifest_sha256": "ed6c9ea152cff7e942477561c187ed9d3df638e5d68b124676c9d86d460557f5",
+      "train_sha256": "1d1a6091da346f9551c3f3cb2177b0dbad4e0fe0eaad3130b63a92818d04146f",
+      "metadata_sha256": "2f512f3244a22b6804f26237c5a6fadede89eef26396b7d3a21be610f7d84607",
+      "training_episodes": 45766,
+      "evaluation_cases": {
+        "R_dev": 9958,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 9812,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 90501,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 1381639,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 552570,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 90863,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 1380655,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 553350,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 139089,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 3467185,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 585254,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 139439,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 3469391,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 586202,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-4x4-state_holdout-s101",
+      "task": "grid-4x4",
+      "regime": "state_holdout",
+      "seed": 101,
+      "path": "data/grid-4x4-state_holdout-s101",
+      "manifest_sha256": "00b3362f65615ab18bd9c0b865d4328dadf4055f993c356f27935a1442820d2d",
+      "train_sha256": "4a74d6c4a90b5d817cdee0cf247274f082f883e1c2d864a5173ef20cc50793e6",
+      "metadata_sha256": "40cf174bdee35d842ac33b59b15ab0887b03c494706ab776e4d9ded147a9d423",
+      "training_episodes": 31526,
+      "evaluation_cases": {
+        "R_dev": 1452,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 1748,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 5427,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 62547,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 24442,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 6146,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 71895,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 27694,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 6153,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 153109,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 25874,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 7020,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 175148,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 29407,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "pancake-6-transition_holdout-s101",
+      "task": "pancake-6",
+      "regime": "transition_holdout",
+      "seed": 101,
+      "path": "data/pancake-6-transition_holdout-s101",
+      "manifest_sha256": "270fd253d18162b2384a7ced427f7053ef44865a6b31df2f487ae40942dcb539",
+      "train_sha256": "6f377ee2128bbe7477ded7f2f278698c3992387b5f67c5eac19ae97759c95eb1",
+      "metadata_sha256": "c1aaef7fcc3f650b808b2e539549e5449f8cca9056bd1d6cd569b29baa9522b3",
+      "training_episodes": 2546,
+      "evaluation_cases": {
+        "R_dev": 562,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 492,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 1802,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 11630,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 8625,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 1824,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 11475,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 8685,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 4433,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 50310,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 75143,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 4567,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 49770,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 74617,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "pancake-6-state_holdout-s101",
+      "task": "pancake-6",
+      "regime": "state_holdout",
+      "seed": 101,
+      "path": "data/pancake-6-state_holdout-s101",
+      "manifest_sha256": "b7646ea06e91a05bbcb24531437884b465154114c4a86a2e0ffac37f5f1a9f05",
+      "train_sha256": "785fdd163be8376df730345f2cc39a686a0c683b14b5eb427392a5b89ae92454",
+      "metadata_sha256": "fda6c1bd8507ffc983ee41fe728fb3e7f13a007b9b68779af0885e5760886b63",
+      "training_episodes": 1854,
+      "evaluation_cases": {
+        "R_dev": 90,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 64,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 151,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 1601,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 1098,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 124,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 1180,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 749,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 196,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 2228,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 3462,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 156,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 1635,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 2487,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "topspin-8-4-transition_holdout-s101",
+      "task": "topspin-8-4",
+      "regime": "transition_holdout",
+      "seed": 101,
+      "path": "data/topspin-8-4-transition_holdout-s101",
+      "manifest_sha256": "cae96fe85856a9c1031792e591b90220a5a992e7914f2d9af051d52c86998a97",
+      "train_sha256": "2e356cb6c2226fdff9c56fcee635b63ade5121db8780c34343cfd5552f197cd8",
+      "metadata_sha256": "5861abfe61e87b19c35d6aab877d3d88e17b8e644d286e8156d9a39352cd86ef",
+      "training_episodes": 84498,
+      "evaluation_cases": {
+        "R_dev": 18314,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 18148,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 361,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 693,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 1899,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 344,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 674,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 1995,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 41063,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 1286279,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 3818637,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 40829,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 1286512,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 3815704,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "topspin-8-4-state_holdout-s101",
+      "task": "topspin-8-4",
+      "regime": "state_holdout",
+      "seed": 101,
+      "path": "data/topspin-8-4-state_holdout-s101",
+      "manifest_sha256": "832c13af8bf3093df4b4f5a36b126ec382e63cf81120c2a28028ec1bf2c9dcb6",
+      "train_sha256": "c90b5bd3dcdbf014568f8034f36f071f7972c4f626307df9e40902bac3afdfae",
+      "metadata_sha256": "d77b220de8cdfd9b3f5adbf22253bafac0b12b434d372f00c0f752ea343ad780",
+      "training_episodes": 58594,
+      "evaluation_cases": {
+        "R_dev": 2792,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 2792,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 218,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 880,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 9016,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 216,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 876,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 9470,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 12078,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 379229,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 1127669,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 12334,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 390181,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 1157421,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "sliding-2x3-transition_holdout-s101",
+      "task": "sliding-2x3",
+      "regime": "transition_holdout",
+      "seed": 101,
+      "path": "data/sliding-2x3-transition_holdout-s101",
+      "manifest_sha256": "d9b7a2344c389907fe21d26cc0a3d3429cedf411607f6eafe9e9c856510c0a74",
+      "train_sha256": "0dd99fd6365382b117b4c0954bb68079059b311dc0d445b1f2a3de8746ae4b2c",
+      "metadata_sha256": "5bde2a7f83ebe9a6b66696beeb461c93a4414c8db904556503694e5709be52af",
+      "training_episodes": 1007,
+      "evaluation_cases": {
+        "R_dev": 209,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 224,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 141,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 114,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 74,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 138,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 128,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 68,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 4162,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 17047,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 11042,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 4058,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 17273,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 11038,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "sliding-2x3-state_holdout-s101",
+      "task": "sliding-2x3",
+      "regime": "state_holdout",
+      "seed": 101,
+      "path": "data/sliding-2x3-state_holdout-s101",
+      "manifest_sha256": "023357af172a7c81ab12b0e5c1358cbb261f1d79faa31e6c88751a3abc0fb65d",
+      "train_sha256": "7dd27c9993dbec89de6144c1ca7bcb5ffb887c537aa5550e8425517ab5857a19",
+      "metadata_sha256": "398b1d939b4cf339996f3270f3e6ed06cf16d1d4574130f6308545de1268374b",
+      "training_episodes": 860,
+      "evaluation_cases": {
+        "R_dev": 97,
+        "C_dev": 64,
+        "G_dev": 96,
+        "R_test": 105,
+        "C_test": 67,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 13,
+          "selected_cases": 13,
+          "exhaustive": true
+        },
+        "C_dev_4": {
+          "eligible_pairs": 19,
+          "selected_cases": 19,
+          "exhaustive": true
+        },
+        "C_dev_8": {
+          "eligible_pairs": 50,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 17,
+          "selected_cases": 17,
+          "exhaustive": true
+        },
+        "C_test_4": {
+          "eligible_pairs": 18,
+          "selected_cases": 18,
+          "exhaustive": true
+        },
+        "C_test_8": {
+          "eligible_pairs": 57,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 150,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 640,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 435,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 185,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 688,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 453,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "hanoi-5-transition_holdout-s101",
+      "task": "hanoi-5",
+      "regime": "transition_holdout",
+      "seed": 101,
+      "path": "data/hanoi-5-transition_holdout-s101",
+      "manifest_sha256": "814630882d79c8f99250ca0adab71b189216872c634015226e8fb2c77e30f1bc",
+      "train_sha256": "04f51e7fa408c6cb08e53b2657226c2dedbf740966135eda229d6f0447e5b7ad",
+      "metadata_sha256": "7e4335c8a08f70eebe10e819e3758fa1f21ccad986768d4c1226d399f7f42156",
+      "training_episodes": 1010,
+      "evaluation_cases": {
+        "R_dev": 221,
+        "C_dev": 75,
+        "G_dev": 96,
+        "R_test": 227,
+        "C_test": 70,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 94,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 50,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 11,
+          "selected_cases": 11,
+          "exhaustive": true
+        },
+        "C_test_2": {
+          "eligible_pairs": 111,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 52,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 6,
+          "selected_cases": 6,
+          "exhaustive": true
+        },
+        "G_dev_0": {
+          "eligible_pairs": 3761,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 5464,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 5291,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 3835,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 5534,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 5518,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "hanoi-5-state_holdout-s101",
+      "task": "hanoi-5",
+      "regime": "state_holdout",
+      "seed": 101,
+      "path": "data/hanoi-5-state_holdout-s101",
+      "manifest_sha256": "2063a36dddf52cdee12a24b9d1f46d55bbd275b271ae3c8682b6e144f8bd2398",
+      "train_sha256": "9cb66f15d7f4380d6572b509801d588b4e14e49f9dacafc79b545b35b693f8a4",
+      "metadata_sha256": "d842aa48e30fd4e32bc4938a3639bb4de99ba3df341aecd206c13daca7a0ee6b",
+      "training_episodes": 871,
+      "evaluation_cases": {
+        "R_dev": 145,
+        "C_dev": 42,
+        "G_dev": 96,
+        "R_test": 106,
+        "C_test": 39,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 12,
+          "selected_cases": 12,
+          "exhaustive": true
+        },
+        "C_dev_4": {
+          "eligible_pairs": 11,
+          "selected_cases": 11,
+          "exhaustive": true
+        },
+        "C_dev_8": {
+          "eligible_pairs": 19,
+          "selected_cases": 19,
+          "exhaustive": true
+        },
+        "C_test_2": {
+          "eligible_pairs": 11,
+          "selected_cases": 11,
+          "exhaustive": true
+        },
+        "C_test_4": {
+          "eligible_pairs": 13,
+          "selected_cases": 13,
+          "exhaustive": true
+        },
+        "C_test_8": {
+          "eligible_pairs": 15,
+          "selected_cases": 15,
+          "exhaustive": true
+        },
+        "G_dev_0": {
+          "eligible_pairs": 194,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 303,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 244,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 141,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 187,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 233,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-3x3-transition_holdout-s202",
+      "task": "grid-3x3",
+      "regime": "transition_holdout",
+      "seed": 202,
+      "path": "data/grid-3x3-transition_holdout-s202",
+      "manifest_sha256": "d5323592651130811f811dcf7a0ae1b915563a8292791f8a314ae37dd311cb85",
+      "train_sha256": "b1be27faa72f61d00ac8fa87b06f046bad9f92258aadabad9d6e4455dec94229",
+      "metadata_sha256": "a02f6a8918bf5c0b1b86a2e805da3c4105872b0dad9f1c6d8efdc47a38d289e0",
+      "training_episodes": 3178,
+      "evaluation_cases": {
+        "R_dev": 742,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 688,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 3332,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 15464,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 1140,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 3365,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 15442,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 1164,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 16414,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 43029,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 5926,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 16610,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 42987,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 5850,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-3x3-state_holdout-s202",
+      "task": "grid-3x3",
+      "regime": "state_holdout",
+      "seed": 202,
+      "path": "data/grid-3x3-state_holdout-s202",
+      "manifest_sha256": "f1124e8078073502984c72227b2cdf19bb713a7c96f8e0a89107a5ba3f2ac7ce",
+      "train_sha256": "d198cc366ecc9cf569ce41605c386752c236c8527e234f8b2bcce14e83c2c935",
+      "metadata_sha256": "9c46390ebc2b9815b9a3d2b796d3cc1452397e7108971513b454566e71d2cadb",
+      "training_episodes": 2182,
+      "evaluation_cases": {
+        "R_dev": 78,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 128,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 165,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 562,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 48,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 281,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 995,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 64,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 578,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 1494,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 206,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 1017,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 2627,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 361,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-4x4-transition_holdout-s202",
+      "task": "grid-4x4",
+      "regime": "transition_holdout",
+      "seed": 202,
+      "path": "data/grid-4x4-transition_holdout-s202",
+      "manifest_sha256": "55d7b4f1d322c875976c13da2ebcd1c6d5485d234fbd9b11d9e7774991880b44",
+      "train_sha256": "59c95c90b0f7ccc76f678c90c9c4b5a760e1a0f7291cd3b8a8db40b238214cf9",
+      "metadata_sha256": "2f512f3244a22b6804f26237c5a6fadede89eef26396b7d3a21be610f7d84607",
+      "training_episodes": 45796,
+      "evaluation_cases": {
+        "R_dev": 9770,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 9970,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 90644,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 1380197,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 553128,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 90695,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 1380875,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 552792,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 139016,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 3466605,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 585998,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 139512,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 3469971,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 585458,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-4x4-state_holdout-s202",
+      "task": "grid-4x4",
+      "regime": "state_holdout",
+      "seed": 202,
+      "path": "data/grid-4x4-state_holdout-s202",
+      "manifest_sha256": "db920f9aa8368b362e900c08f0b2ef44f60d376a22c17e4800df813f2eda62b1",
+      "train_sha256": "ad9e4a6260217d9f00731a6e91c69b95c144e25fd21889386e10af68a70bd6ee",
+      "metadata_sha256": "40cf174bdee35d842ac33b59b15ab0887b03c494706ab776e4d9ded147a9d423",
+      "training_episodes": 30778,
+      "evaluation_cases": {
+        "R_dev": 1482,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 1840,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 5485,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 63691,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 24830,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 6721,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 76793,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 29575,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 6226,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 155677,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 26288,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 7641,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 186444,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 31371,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "pancake-6-transition_holdout-s202",
+      "task": "pancake-6",
+      "regime": "transition_holdout",
+      "seed": 202,
+      "path": "data/pancake-6-transition_holdout-s202",
+      "manifest_sha256": "e6020f56af73299cdc27487bc57362ecb287e386e083aa48d603527aaafd8e74",
+      "train_sha256": "eac47217f7f5a534fc719530d2da25b777a3f97f9680536fbcaee7470d5162db",
+      "metadata_sha256": "c1aaef7fcc3f650b808b2e539549e5449f8cca9056bd1d6cd569b29baa9522b3",
+      "training_episodes": 2500,
+      "evaluation_cases": {
+        "R_dev": 570,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 530,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 1749,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 10699,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 7774,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 1740,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 10653,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 7801,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 4532,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 50029,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 74982,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 4468,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 50051,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 74778,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "pancake-6-state_holdout-s202",
+      "task": "pancake-6",
+      "regime": "state_holdout",
+      "seed": 202,
+      "path": "data/pancake-6-state_holdout-s202",
+      "manifest_sha256": "3c4fa7ca33650d837b86b106f9e54d9b5aace81d354dee9ac9693bea6ba194eb",
+      "train_sha256": "c2abb38b9d1e0119a7b6d62a5732c41378b40025eb0399c0d3870d3979afcf05",
+      "metadata_sha256": "fda6c1bd8507ffc983ee41fe728fb3e7f13a007b9b68779af0885e5760886b63",
+      "training_episodes": 1694,
+      "evaluation_cases": {
+        "R_dev": 98,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 106,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 175,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 1903,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 1235,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 162,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 1798,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 1212,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 224,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 2638,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 3924,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 215,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 2491,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 3622,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "topspin-8-4-transition_holdout-s202",
+      "task": "topspin-8-4",
+      "regime": "transition_holdout",
+      "seed": 202,
+      "path": "data/topspin-8-4-transition_holdout-s202",
+      "manifest_sha256": "a8ce4bfdd2d6a4d62df77ac61bfbfefe27efa52008026cf02507b59b6a05b497",
+      "train_sha256": "002a9515be11893f145c917a2a6d0dd59ae98a3a8ace6ff4886fd68b3e5eae84",
+      "metadata_sha256": "5861abfe61e87b19c35d6aab877d3d88e17b8e644d286e8156d9a39352cd86ef",
+      "training_episodes": 84480,
+      "evaluation_cases": {
+        "R_dev": 18324,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 18156,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 367,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 723,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 2142,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 372,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 693,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 2096,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 40852,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 1285262,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 3816791,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 41092,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 1287572,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 3817455,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "topspin-8-4-state_holdout-s202",
+      "task": "topspin-8-4",
+      "regime": "state_holdout",
+      "seed": 202,
+      "path": "data/topspin-8-4-state_holdout-s202",
+      "manifest_sha256": "de6038d79e8de01388fa5ac74715cc7ddd6559797d99a2c95cde82af524e1a73",
+      "train_sha256": "4064f481e0277955fee811dcc12f3fdf6e92a3fc86c59b2e3256317f33616b07",
+      "metadata_sha256": "d77b220de8cdfd9b3f5adbf22253bafac0b12b434d372f00c0f752ea343ad780",
+      "training_episodes": 59730,
+      "evaluation_cases": {
+        "R_dev": 2562,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 2636,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 232,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 833,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 9022,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 218,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 850,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 9283,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 11674,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 369038,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 1096792,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 12157,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 380727,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 1127884,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "sliding-2x3-transition_holdout-s202",
+      "task": "sliding-2x3",
+      "regime": "transition_holdout",
+      "seed": 202,
+      "path": "data/sliding-2x3-transition_holdout-s202",
+      "manifest_sha256": "a9bfe8523784951b8f457a4a740f8234685b40b4ffd00899f355801b99982669",
+      "train_sha256": "648c61df4f2dd81c6d9dac8eede5b5bb9738613ac7b7b8cc0389e3c804173c7b",
+      "metadata_sha256": "5bde2a7f83ebe9a6b66696beeb461c93a4414c8db904556503694e5709be52af",
+      "training_episodes": 1017,
+      "evaluation_cases": {
+        "R_dev": 228,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 195,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 149,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 136,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 63,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 143,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 125,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 54,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 4174,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 17150,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 10971,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 4046,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 17170,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 11109,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "sliding-2x3-state_holdout-s202",
+      "task": "sliding-2x3",
+      "regime": "state_holdout",
+      "seed": 202,
+      "path": "data/sliding-2x3-state_holdout-s202",
+      "manifest_sha256": "eafbf62e613928b655943c7bc23453d3fa4d0ba09078735362fabc895ce81247",
+      "train_sha256": "38b85cc3d06b1585020be6915ab49d39503009b6a3d227db5d2bf28a4e80ea06",
+      "metadata_sha256": "398b1d939b4cf339996f3270f3e6ed06cf16d1d4574130f6308545de1268374b",
+      "training_episodes": 752,
+      "evaluation_cases": {
+        "R_dev": 147,
+        "C_dev": 78,
+        "G_dev": 96,
+        "R_test": 109,
+        "C_test": 77,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 17,
+          "selected_cases": 17,
+          "exhaustive": true
+        },
+        "C_dev_4": {
+          "eligible_pairs": 29,
+          "selected_cases": 29,
+          "exhaustive": true
+        },
+        "C_dev_8": {
+          "eligible_pairs": 82,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 13,
+          "selected_cases": 13,
+          "exhaustive": true
+        },
+        "C_test_4": {
+          "eligible_pairs": 32,
+          "selected_cases": 32,
+          "exhaustive": true
+        },
+        "C_test_8": {
+          "eligible_pairs": 74,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 266,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 1141,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 738,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 192,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 898,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 563,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "hanoi-5-transition_holdout-s202",
+      "task": "hanoi-5",
+      "regime": "transition_holdout",
+      "seed": 202,
+      "path": "data/hanoi-5-transition_holdout-s202",
+      "manifest_sha256": "c82d92c3d296058d84733dc2d1a5c1880f0a853c8e2287e6ba484b76dfeb30cc",
+      "train_sha256": "7b77dff23004e965d68154a5155e9d970e3c9fb82f822c820824bdde1d52c08d",
+      "metadata_sha256": "7e4335c8a08f70eebe10e819e3758fa1f21ccad986768d4c1226d399f7f42156",
+      "training_episodes": 1029,
+      "evaluation_cases": {
+        "R_dev": 247,
+        "C_dev": 81,
+        "G_dev": 96,
+        "R_test": 182,
+        "C_test": 81,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 114,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 67,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 17,
+          "selected_cases": 17,
+          "exhaustive": true
+        },
+        "C_test_2": {
+          "eligible_pairs": 113,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 66,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 17,
+          "selected_cases": 17,
+          "exhaustive": true
+        },
+        "G_dev_0": {
+          "eligible_pairs": 3785,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 5570,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 5453,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 3811,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 5428,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 5356,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "hanoi-5-state_holdout-s202",
+      "task": "hanoi-5",
+      "regime": "state_holdout",
+      "seed": 202,
+      "path": "data/hanoi-5-state_holdout-s202",
+      "manifest_sha256": "3030e58497cd372ac65e5df586188db44be36836bc6f4109b4ac51f12c8a0a20",
+      "train_sha256": "64a174f192278ed0f2d3fa2cfe75ba46865e2b463ef1f1cd1771d72361d70c83",
+      "metadata_sha256": "d842aa48e30fd4e32bc4938a3639bb4de99ba3df341aecd206c13daca7a0ee6b",
+      "training_episodes": 888,
+      "evaluation_cases": {
+        "R_dev": 125,
+        "C_dev": 34,
+        "G_dev": 96,
+        "R_test": 109,
+        "C_test": 40,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 13,
+          "selected_cases": 13,
+          "exhaustive": true
+        },
+        "C_dev_4": {
+          "eligible_pairs": 7,
+          "selected_cases": 7,
+          "exhaustive": true
+        },
+        "C_dev_8": {
+          "eligible_pairs": 14,
+          "selected_cases": 14,
+          "exhaustive": true
+        },
+        "C_test_2": {
+          "eligible_pairs": 9,
+          "selected_cases": 9,
+          "exhaustive": true
+        },
+        "C_test_4": {
+          "eligible_pairs": 11,
+          "selected_cases": 11,
+          "exhaustive": true
+        },
+        "C_test_8": {
+          "eligible_pairs": 20,
+          "selected_cases": 20,
+          "exhaustive": true
+        },
+        "G_dev_0": {
+          "eligible_pairs": 179,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 266,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 221,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 153,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 201,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 174,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-3x3-transition_holdout-s303",
+      "task": "grid-3x3",
+      "regime": "transition_holdout",
+      "seed": 303,
+      "path": "data/grid-3x3-transition_holdout-s303",
+      "manifest_sha256": "28d68750cb3e3f8fa5083dc0840ff3c8447aa3e10e6dc83f5d5f7f8172a3312a",
+      "train_sha256": "db9a15d0e3b6be6073a0bda4a901f722b9e2e84f145138a7a698dfd61efa6e99",
+      "metadata_sha256": "a02f6a8918bf5c0b1b86a2e805da3c4105872b0dad9f1c6d8efdc47a38d289e0",
+      "training_episodes": 3222,
+      "evaluation_cases": {
+        "R_dev": 670,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 716,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 3395,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 15480,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 1151,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 3419,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 15645,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 1153,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 16554,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 42969,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 5929,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 16470,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 43047,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 5847,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-3x3-state_holdout-s303",
+      "task": "grid-3x3",
+      "regime": "state_holdout",
+      "seed": 303,
+      "path": "data/grid-3x3-state_holdout-s303",
+      "manifest_sha256": "f22b8e921dc90a050880100cf15750035e6ae021417ca0189454cd5ae6d6a669",
+      "train_sha256": "4653ecefe7e814dfd9433b00ea59a56f9c81b3014017476185d47f5b81c1133b",
+      "metadata_sha256": "9c46390ebc2b9815b9a3d2b796d3cc1452397e7108971513b454566e71d2cadb",
+      "training_episodes": 2230,
+      "evaluation_cases": {
+        "R_dev": 86,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 90,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 209,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 779,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 49,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 186,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 677,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 41,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 809,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 2071,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 280,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 677,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 1810,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 214,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-4x4-transition_holdout-s303",
+      "task": "grid-4x4",
+      "regime": "transition_holdout",
+      "seed": 303,
+      "path": "data/grid-4x4-transition_holdout-s303",
+      "manifest_sha256": "977e8bf6c39fdb29eebe98bace5a828c0462a7d1e7aa87cd5e0a80c0f6445c6c",
+      "train_sha256": "7e02a7d49cae22f53ee5621c43873eaaea7945ea9e5da482d3a66b3916b5df75",
+      "metadata_sha256": "2f512f3244a22b6804f26237c5a6fadede89eef26396b7d3a21be610f7d84607",
+      "training_episodes": 46090,
+      "evaluation_cases": {
+        "R_dev": 9916,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 9530,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 91580,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 1382008,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 553554,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 91338,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 1383992,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 552366,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 139700,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 3468395,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 586336,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 138828,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 3468181,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 585120,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "grid-4x4-state_holdout-s303",
+      "task": "grid-4x4",
+      "regime": "state_holdout",
+      "seed": 303,
+      "path": "data/grid-4x4-state_holdout-s303",
+      "manifest_sha256": "87215cfbaf639388022d9266faed0724439698ff043086ea856255a71c99d4a8",
+      "train_sha256": "f672a2c00a67c791f84e6b945d4219ee99b6985bdfd0a09bd9835b5d240739c2",
+      "metadata_sha256": "40cf174bdee35d842ac33b59b15ab0887b03c494706ab776e4d9ded147a9d423",
+      "training_episodes": 32358,
+      "evaluation_cases": {
+        "R_dev": 1454,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 1578,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 5272,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 60856,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 23892,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 5565,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 64796,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 25465,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 5999,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 148976,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 25325,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 6354,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 158586,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 26950,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "pancake-6-transition_holdout-s303",
+      "task": "pancake-6",
+      "regime": "transition_holdout",
+      "seed": 303,
+      "path": "data/pancake-6-transition_holdout-s303",
+      "manifest_sha256": "ef4059cb6ab39aa420393647491da27ea62fe6956156b9b8a3fbd87c2e768257",
+      "train_sha256": "38348970a89f3f2e5a974eb986857a5739342ec77d921e68a08c5540de84c932",
+      "metadata_sha256": "c1aaef7fcc3f650b808b2e539549e5449f8cca9056bd1d6cd569b29baa9522b3",
+      "training_episodes": 2434,
+      "evaluation_cases": {
+        "R_dev": 594,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 572,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 1660,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 9397,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 6739,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 1628,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 9685,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 6599,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 4452,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 49742,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 74605,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 4548,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 50338,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 75155,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "pancake-6-state_holdout-s303",
+      "task": "pancake-6",
+      "regime": "state_holdout",
+      "seed": 303,
+      "path": "data/pancake-6-state_holdout-s303",
+      "manifest_sha256": "df2a9ad18aaf84246d8ef871ff88bdec8a7f5e5028dcf5bcd514830642fe12c4",
+      "train_sha256": "b4978140dfce5afc5a0b5c4ac89633dbb9004974d06a81064099f4a5c8c5c13d",
+      "metadata_sha256": "fda6c1bd8507ffc983ee41fe728fb3e7f13a007b9b68779af0885e5760886b63",
+      "training_episodes": 1682,
+      "evaluation_cases": {
+        "R_dev": 102,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 78,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 246,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 2129,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_6": {
+          "eligible_pairs": 1294,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 167,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 1443,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_6": {
+          "eligible_pairs": 905,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 297,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 2923,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 4161,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 206,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 2037,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 3010,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "topspin-8-4-transition_holdout-s303",
+      "task": "topspin-8-4",
+      "regime": "transition_holdout",
+      "seed": 303,
+      "path": "data/topspin-8-4-transition_holdout-s303",
+      "manifest_sha256": "e473a401ccf009582d7903cb3dba6bfd80261ccf20fc91f3067db55b6da5198c",
+      "train_sha256": "ab2232487f651e73dc386338b35c7d4684cbc8a0a90065e304a2ab1fafac5264",
+      "metadata_sha256": "5861abfe61e87b19c35d6aab877d3d88e17b8e644d286e8156d9a39352cd86ef",
+      "training_episodes": 84286,
+      "evaluation_cases": {
+        "R_dev": 18218,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 18456,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 354,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 710,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 1971,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 365,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 676,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 2018,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 41315,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 1285662,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 3816268,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 40616,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 1287110,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 3818053,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "topspin-8-4-state_holdout-s303",
+      "task": "topspin-8-4",
+      "regime": "state_holdout",
+      "seed": 303,
+      "path": "data/topspin-8-4-state_holdout-s303",
+      "manifest_sha256": "52707f3b2f12991706127dedef1b1d25ecc03592082cffd7233093608e962ca5",
+      "train_sha256": "4da6275df583cf82c31381fe85058e10c1d52741f2315a00017ef26513df700f",
+      "metadata_sha256": "d77b220de8cdfd9b3f5adbf22253bafac0b12b434d372f00c0f752ea343ad780",
+      "training_episodes": 58938,
+      "evaluation_cases": {
+        "R_dev": 2774,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 2782,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 248,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 892,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 9327,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 207,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 862,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 9336,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 12142,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 380540,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 1130134,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 11960,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 382546,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 1135478,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "sliding-2x3-transition_holdout-s303",
+      "task": "sliding-2x3",
+      "regime": "transition_holdout",
+      "seed": 303,
+      "path": "data/sliding-2x3-transition_holdout-s303",
+      "manifest_sha256": "f19cf9760e9d7e1531f658c3a1b9b4bf4e7dd2ae1bc8b751c8716640477d00b9",
+      "train_sha256": "0410c7dd07edd36086323b9b0983e8104f48ac15b9d5a583da9c0a5e52dcfec2",
+      "metadata_sha256": "5bde2a7f83ebe9a6b66696beeb461c93a4414c8db904556503694e5709be52af",
+      "training_episodes": 1022,
+      "evaluation_cases": {
+        "R_dev": 193,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 225,
+        "C_test": 96,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 152,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 121,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 96,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 154,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 163,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 105,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 4060,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 17096,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 11104,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 4160,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 17224,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 10976,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "sliding-2x3-state_holdout-s303",
+      "task": "sliding-2x3",
+      "regime": "state_holdout",
+      "seed": 303,
+      "path": "data/sliding-2x3-state_holdout-s303",
+      "manifest_sha256": "707727ba38fe0b7f795ee2ec79fc8f243fd20e44afb198683afdc5872ba1fa0f",
+      "train_sha256": "068d7727a4edca59989bd708bec375e5f1e6dcf1bafd5d6f40dae0db42573083",
+      "metadata_sha256": "398b1d939b4cf339996f3270f3e6ed06cf16d1d4574130f6308545de1268374b",
+      "training_episodes": 719,
+      "evaluation_cases": {
+        "R_dev": 122,
+        "C_dev": 83,
+        "G_dev": 96,
+        "R_test": 145,
+        "C_test": 84,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 19,
+          "selected_cases": 19,
+          "exhaustive": true
+        },
+        "C_dev_4": {
+          "eligible_pairs": 34,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 66,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 20,
+          "selected_cases": 20,
+          "exhaustive": true
+        },
+        "C_test_4": {
+          "eligible_pairs": 37,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 81,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_0": {
+          "eligible_pairs": 261,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 920,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 649,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 301,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 1291,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 823,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "hanoi-5-transition_holdout-s303",
+      "task": "hanoi-5",
+      "regime": "transition_holdout",
+      "seed": 303,
+      "path": "data/hanoi-5-transition_holdout-s303",
+      "manifest_sha256": "cdb2026a97e02879005e4ba70f1544da90bf3bf80caf0caee29c5eb9264ccd22",
+      "train_sha256": "3967db0d4ac0f1c601961220d63447e3b3d26046919f7e463ce995c32cbfdcdf",
+      "metadata_sha256": "7e4335c8a08f70eebe10e819e3758fa1f21ccad986768d4c1226d399f7f42156",
+      "training_episodes": 1015,
+      "evaluation_cases": {
+        "R_dev": 208,
+        "C_dev": 96,
+        "G_dev": 96,
+        "R_test": 235,
+        "C_test": 95,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 111,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_4": {
+          "eligible_pairs": 73,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_dev_8": {
+          "eligible_pairs": 33,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_2": {
+          "eligible_pairs": 112,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_4": {
+          "eligible_pairs": 61,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "C_test_8": {
+          "eligible_pairs": 31,
+          "selected_cases": 31,
+          "exhaustive": true
+        },
+        "G_dev_0": {
+          "eligible_pairs": 3795,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 5488,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 5444,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 3801,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 5510,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 5365,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    },
+    {
+      "id": "hanoi-5-state_holdout-s303",
+      "task": "hanoi-5",
+      "regime": "state_holdout",
+      "seed": 303,
+      "path": "data/hanoi-5-state_holdout-s303",
+      "manifest_sha256": "80a5535100c6a4e28235f5e26b8491fc01db83c37d72090eb3070f386c06a13f",
+      "train_sha256": "f221c1159fd81a2ef463527eb4a67726de4b454ea9cd265b51776f8f556a46a9",
+      "metadata_sha256": "d842aa48e30fd4e32bc4938a3639bb4de99ba3df341aecd206c13daca7a0ee6b",
+      "training_episodes": 828,
+      "evaluation_cases": {
+        "R_dev": 124,
+        "C_dev": 45,
+        "G_dev": 96,
+        "R_test": 126,
+        "C_test": 35,
+        "G_test": 96
+      },
+      "cell_populations": {
+        "C_dev_2": {
+          "eligible_pairs": 10,
+          "selected_cases": 10,
+          "exhaustive": true
+        },
+        "C_dev_4": {
+          "eligible_pairs": 17,
+          "selected_cases": 17,
+          "exhaustive": true
+        },
+        "C_dev_8": {
+          "eligible_pairs": 18,
+          "selected_cases": 18,
+          "exhaustive": true
+        },
+        "C_test_2": {
+          "eligible_pairs": 9,
+          "selected_cases": 9,
+          "exhaustive": true
+        },
+        "C_test_4": {
+          "eligible_pairs": 10,
+          "selected_cases": 10,
+          "exhaustive": true
+        },
+        "C_test_8": {
+          "eligible_pairs": 16,
+          "selected_cases": 16,
+          "exhaustive": true
+        },
+        "G_dev_0": {
+          "eligible_pairs": 187,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_1": {
+          "eligible_pairs": 276,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_dev_2": {
+          "eligible_pairs": 240,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_0": {
+          "eligible_pairs": 185,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_1": {
+          "eligible_pairs": 273,
+          "selected_cases": 32,
+          "exhaustive": false
+        },
+        "G_test_2": {
+          "eligible_pairs": 245,
+          "selected_cases": 32,
+          "exhaustive": false
+        }
+      }
+    }
+  ]
+}

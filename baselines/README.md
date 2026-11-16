@@ -2,9 +2,10 @@
 
 This is a separately installable JAX/Flax/Optax component in the CoPuzzle
 repository. The base environment does not depend on it. It uses the
-`copuzzle.rule-composition.rc1` learner arrays, not the sibling CoPuzzleLab
+`copuzzle.rule-composition.v1` and legacy RC1 learner arrays, not the sibling CoPuzzleLab
 checkout or its legacy masks. Current runs are **development experiments**;
-formal data and training budgets have not been frozen.
+the v1 data inventory is frozen, while method selection and formal training
+configuration are tracked separately in the release ledger.
 
 ## Installation and commands
 
@@ -13,8 +14,8 @@ From the repository root, in a dedicated Python environment:
 ```sh
 python -m pip install -e '.[dev,render]' -e './baselines[dev]'
 JAX_PLATFORMS=cpu python -m pytest -q baselines/tests
-copuzzle research build --task sliding-2x3 --regime state_holdout \
-  --seed 0 --per-cell 4 --output artifacts/baseline-development/data
+copuzzle benchmark build --task sliding-2x3 --regime state_holdout \
+  --seed 0 --max-per-cell 4 --output artifacts/baseline-development/data
 copuzzle-baselines train --learner artifacts/baseline-development/data/learner \
   --config baselines/configs/development.json --method gciql --seed 0 \
   --steps 1000 --output artifacts/baseline-development/gciql
@@ -107,8 +108,10 @@ No unattempted action receives a negative legality target.
 
 The model planner is a bounded best-first search with a slot-mismatch heuristic,
 beam width 32, and maximum depth 8 (also bounded by remaining control steps).
-Every hypothetical transition goes through `ModelBudget.predict`, including
-predicted illegal edges. It skips model-predicted illegal edges/self-loops and
+In v1, each popped node expands a batch of remaining action candidates through
+`ModelBudget.predict_batch`; every candidate is charged, including unused batch
+members if a goal is found early. RC1 retains its single-query path. The planner
+skips model-predicted illegal edges/self-loops and
 returns a first action toward a model-predicted goal or the best explored
 mismatch/depth candidate. If no candidate progresses, it falls back to an action
 ID using a deterministic within-case rotation. This heuristic is neither an
@@ -156,7 +159,47 @@ metadata hashes, which also bind opaque action identities. Full bundle semantic
 validation belongs to evaluation, never to the training process. Evaluation
 reports preserve every G case and retain the protocol's failure-inclusive costs.
 
-The current CLI deliberately labels its results development-only. Final matrix
-execution, selection rules, final test access control, statistical aggregation,
-CI and public distribution are subsequent release gates, tracked in the
+Checkpoint schema v2 records the numerical learner/runtime source identity;
+the full module tree is also saved. CLI/reporting additions alone no longer
+invalidate model weights. Historical v1 checkpoints use their saved source
+snapshots, without silent migration. Run schema v2 records checkpoint/logging
+schedules, actual backend/devices, setup/function time and an optional bound
+formal-study context. The ordinary CLI still creates development fits.
+
+For benchmark-purpose v1 data, `predict` and `evaluate --split test` require
+`--test-lock FILE` tying the exact checkpoint, configuration, source, seed and
+training-data identity to a sealed selection record. Development-purpose bundles
+remain usable for engineering validation. Lock creation from the complete
+registered study, retries/failure accounting and final aggregation are separate
+executor responsibilities; a manually labeled context is not evidence of a
+completed formal experiment.
+
+Data-only lookup, fitted XOR/position operators and privileged exact-dynamics
+controls are available in `copuzzle_baselines.controls`. They use the same
+bounded planner where applicable. `python baselines/examples/v1_controls.py
+--output artifacts/benchmark-v1-development` runs these controls on seed-0 dev
+data only. Structural assumptions and privilege are reported explicitly. V1
+model evaluation additionally reports teacher-forced C-context diagnostics and
+primitive support against the actual coverage subset; primary C stays open loop.
+
+Formal matrix execution, completed selection, statistical aggregation,
+CI and public distribution remain release gates, tracked in the
 repository's [release plan](https://github.com/AIogry/CoPuzzle/blob/main/benchmark_release_plan.md).
+
+The registered development-selection controller is launched from the repository
+root after generating the v1 development control data:
+
+```sh
+JAX_PLATFORMS=cpu python -m copuzzle_baselines.study.pilot \
+  --plan release/method_selection_plan.json \
+  --data artifacts/benchmark-v1-development/data \
+  --frozen-data artifacts/benchmark-v1-frozen \
+  --output artifacts/benchmark-v1-pilot --workers 2
+```
+
+It copies source/configuration snapshots, executes 48 registered development
+fits, records startup/fit/evaluation failures and selects the GCIQL goal mixture
+using only dev scores with the declared family weighting/tie break. An incomplete
+or duplicated matrix cannot write a successful selection. This development
+selection file is not a final-test authorization lock. The formal executor's
+resume/retry, cohort sealing and final statistical aggregation remain separate.

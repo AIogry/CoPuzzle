@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Freeze a separate v1 benchmark protocol and prespecified data inventory with
+  exact finite populations, exhaustive small cells, shared C/G pair holdouts,
+  equal-length/tier metrics, batched query accounting and retained policy errors.
+  Add data-fitted structural and matched-planner oracle controls, composition
+  support diagnostics and checkpoint-bound final-test access records.
 - Add a separately installable JAX baseline component with train-only goal
   relabeling, nested coverage subsets, GCBC, GCIQL, generic categorical dynamics,
   budgeted planning, exact checkpoint continuation and frozen R/C/G evaluation.

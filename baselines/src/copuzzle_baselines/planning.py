@@ -15,12 +15,37 @@ class ModelPlanner:
     hypothetical transition. Learned illegal edges and self-loops are skipped.
     Tie rotation is within-case memory; the model parameters never change.
     """
-    def __init__(self, predictor, n_actions, *, beam_width=32, max_depth=8):
+    def __init__(self, predictor, n_actions, *, batch_predictor=None, beam_width=32, max_depth=8):
         self.predictor = predictor
+        self.batch_predictor = batch_predictor
         self.n_actions = integer(n_actions, "n_actions", 1)
         self.beam_width = integer(beam_width, "beam_width", 1)
         self.max_depth = integer(max_depth, "max_depth", 1)
         self.decisions = 0
+
+    def _expand(self, board, order, budget):
+        if self.batch_predictor is not None and hasattr(budget, "predict_batch"):
+            actions = np.asarray(order[:min(self.n_actions, budget.limit - budget.used)], dtype=np.int32)
+            if not len(actions):
+                return
+            boards = np.repeat(np.asarray(board, dtype=np.int32)[None], len(actions), axis=0)
+            predictions, legal = budget.predict_batch(self.batch_predictor, boards, actions)
+            predictions, legal = np.asarray(predictions), np.asarray(legal)
+            if predictions.shape != boards.shape or legal.shape != actions.shape:
+                raise ValueError("model batch has the wrong shape")
+            if predictions.dtype.kind not in "iub" or legal.dtype.kind not in "iub" or np.any((legal != 0) & (legal != 1)):
+                raise ValueError("model outputs must be integer boards and binary legality")
+            for a, following, flag in zip(actions, predictions, legal):
+                yield int(a), following, bool(flag)
+        else:
+            for action in order:
+                if budget.used == budget.limit:
+                    break
+                following, flag = budget.predict(self.predictor, np.asarray(board, dtype=np.int32), action)
+                following, flag = np.asarray(following), np.asarray(flag)
+                if following.shape != (len(board),) or following.dtype.kind not in "iub" or flag.shape != () or flag.dtype.kind not in "iub" or flag not in (0, 1):
+                    raise ValueError("model outputs must be an integer board and binary legality")
+                yield action, following, bool(flag)
 
     def __call__(self, observation, budget):
         if budget.limit <= 0:
@@ -38,10 +63,7 @@ class ModelPlanner:
             _, depth, _, board, first = heapq.heappop(frontier)
             if depth >= depth_limit or visited[board] < depth:
                 continue
-            for action in order:
-                if budget.used == budget.limit:
-                    break
-                prediction, legal = budget.predict(self.predictor, np.asarray(board, dtype=np.int32), action)
+            for action, prediction, legal in self._expand(board, order, budget):
                 if not legal:
                     continue
                 following = tuple(np.asarray(prediction).tolist())

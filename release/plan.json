@@ -6,32 +6,66 @@
   "started_local_date": "2026-11-17",
   "timezone": "Asia/Shanghai",
   "starting_revision": "1332193ed53abffdc5a6144ebd347977968702e1",
-  "current_protocol": "copuzzle.rule-composition.rc1",
+  "current_protocol": "copuzzle.rule-composition.v1",
   "target": "publicly usable CoPuzzle v1 benchmark release candidate",
-  "core_instances": ["grid-3x3", "grid-4x4", "pancake-6", "topspin-8-4", "sliding-2x3", "hanoi-5"],
-  "conditions": ["transition_holdout", "state_holdout"],
-  "physical_extension": ["grid-3x3", "pancake-4", "topspin-20-4"],
+  "core_instances": [
+    "grid-3x3",
+    "grid-4x4",
+    "pancake-6",
+    "topspin-8-4",
+    "sliding-2x3",
+    "hanoi-5"
+  ],
+  "conditions": [
+    "transition_holdout",
+    "state_holdout"
+  ],
+  "physical_extension": [
+    "grid-3x3",
+    "pancake-4",
+    "topspin-20-4"
+  ],
   "framework": "jax_flax_optax",
-  "planned_data_seeds": [101, 202, 303],
-  "planned_fit_seeds": [0, 1, 2],
-  "minimum_learned_method_classes": ["goal_conditioned_bc", "offline_goal_conditioned_rl", "learned_dynamics_planning"],
+  "planned_data_seeds": [
+    101,
+    202,
+    303
+  ],
+  "planned_fit_seeds": [
+    0,
+    1,
+    2
+  ],
+  "minimum_learned_method_classes": [
+    "goal_conditioned_bc",
+    "offline_goal_conditioned_rl",
+    "learned_dynamics_planning"
+  ],
   "minimum_primary_fits": 324,
-  "planned_coverage_fractions": [0.25, 0.5, 1.0],
-  "planned_model_queries_per_decision": [0, 32, 128],
-  "final_artifact_inventory_frozen": false,
+  "planned_coverage_fractions": [
+    0.25,
+    0.5,
+    1.0
+  ],
+  "planned_model_queries_per_decision": [
+    0,
+    32,
+    128
+  ],
+  "final_artifact_inventory_frozen": true,
   "training_configuration_frozen": false,
   "primary_fits_completed": 0,
   "ci_qualified": false,
   "project_license_resolved": false,
   "gates": {
-    "A_protocol_population_and_freeze": "in_progress",
-    "B_standalone_learning_pipeline": "development_qualified_final_protocol_integration_pending",
+    "A_protocol_population_and_freeze": "data_and_metrics_frozen_method_selection_and_execution_pending",
+    "B_standalone_learning_pipeline": "v1_development_integration_qualified",
     "C_formal_baseline_matrix": "not_started",
     "D_scientific_comparisons": "not_started",
     "E_final_engineering_qualification": "pending_final_snapshot",
     "F_public_release_materials": "not_complete"
   },
-  "next_deliverable": "prespecified-seed population audit, final data protocol and immutable experiment freeze",
+  "next_deliverable": "finish registered development selection, then seal the formal experiment matrix and execute all primary/ablation fits",
   "decisions_required_before_formal_runs": [
     "audit all prespecified seed populations and fix C/G cardinality semantics",
     "freeze goal-sampling mixtures and training budgets using development evidence",
@@ -62,8 +96,45 @@
       "reproduction_script": "baselines/examples/calibrate.py",
       "initial_backend_choice": "cpu",
       "choice_scope": "measured 128x128 models, batch 256, current per-update synchronization",
-      "paired_calibration_versions": {"python": "3.11.15", "jax": "0.10.2", "flax": "0.12.7", "optax": "0.2.8"},
+      "paired_calibration_versions": {
+        "python": "3.11.15",
+        "jax": "0.10.2",
+        "flax": "0.12.7",
+        "optax": "0.2.8"
+      },
       "formal_fits_contributed": 0
+    },
+    {
+      "gate": "A_protocol_population_and_freeze",
+      "kind": "formal_data_freeze_before_method_selection",
+      "protocol": "copuzzle.rule-composition.v1",
+      "inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
+      "bundles": 36,
+      "training_episodes": 703076,
+      "evaluation_cases": 220434,
+      "data_seeds": [
+        101,
+        202,
+        303
+      ],
+      "public_descriptor": "release/data_freeze.json",
+      "native_oracle_integrity_checked": true,
+      "learned_final_test_evaluated": false,
+      "core_tests_passed": 1361,
+      "baseline_integration_tests_passed": 42,
+      "pilot_selection_tests_passed": 2
     }
-  ]
+  ],
+  "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
+  "active_development_selection": {
+    "plan": "release/method_selection_plan.json",
+    "directory": "artifacts/benchmark-v1-pilot",
+    "expected_fits": 48,
+    "steps_per_fit": 10000,
+    "workers": 2,
+    "data_seed": 0,
+    "fit_seed": 0,
+    "split": "dev",
+    "formal_fits_contributed": 0
+  }
 }

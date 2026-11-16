@@ -19,7 +19,8 @@ from .data import Sampler, Vocabulary, immutable, load_training
 
 def sources():
     root = Path(__file__).parent
-    return {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.glob("*.py"))}
+    names = ("__init__.py", "agents.py", "config.py", "data.py", "planning.py", "protocols.py", "runtime.py")
+    return {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in names}
 
 
 def versions():
@@ -44,7 +45,7 @@ def state_digest(agent):
     return hashlib.sha256(serialization.msgpack_serialize(agent.state_dict())).hexdigest()
 
 
-def save_checkpoint(path, agent, sampler, source_hashes):
+def save_checkpoint(path, agent, sampler, source_hashes, fit_context=None):
     from flax import serialization
     path = Path(path)
     if path.exists():
@@ -52,9 +53,10 @@ def save_checkpoint(path, agent, sampler, source_hashes):
     if sources() != source_hashes:
         raise RuntimeError("baseline source changed during training; checkpoint was not relabeled")
     state = serialization.msgpack_serialize(agent.state_dict())
-    header = {"schema": "copuzzle.baseline_checkpoint.v1", "agent_state_sha256": hashlib.sha256(state).hexdigest(),
+    header = {"schema": "copuzzle.baseline_checkpoint.v2", "agent_state_sha256": hashlib.sha256(state).hexdigest(),
               "config": agent.config.to_dict(), "data": sampler.data.identity, "fit_seed": agent.seed,
-              "step": agent.step, "sampler": sampler.state_dict(), "sources": source_hashes, "versions": versions()}
+              "step": agent.step, "sampler": sampler.state_dict(), "sources": source_hashes, "versions": versions(),
+              "fit_context": fit_context}
     fd, name = tempfile.mkstemp(dir=path.parent)
     os.close(fd)
     temporary = Path(name)
@@ -76,8 +78,8 @@ def load_checkpoint(path):
             raise ValueError("unexpected checkpoint members")
         header = json.loads(archive.read("header.json"))
         state = archive.read("state.msgpack")
-    keys = {"schema", "agent_state_sha256", "config", "data", "fit_seed", "step", "sampler", "sources", "versions"}
-    if set(header) != keys or header["schema"] != "copuzzle.baseline_checkpoint.v1":
+    keys = {"schema", "agent_state_sha256", "config", "data", "fit_seed", "step", "sampler", "sources", "versions", "fit_context"}
+    if set(header) != keys or header["schema"] != "copuzzle.baseline_checkpoint.v2":
         raise ValueError("unsupported checkpoint header")
     if hashlib.sha256(state).hexdigest() != header["agent_state_sha256"]:
         raise ValueError("checkpoint state checksum mismatch")
@@ -101,8 +103,9 @@ def load_checkpoint(path):
 
 
 def train(learner_directory, output, *, config: Config, seed: int, steps: int,
-          checkpoint_every=1000, log_every=100, resume=None):
+          checkpoint_every=1000, log_every=100, resume=None, fit_context=None):
     """No evaluator imports or file reads occur on the training path."""
+    entered = time.perf_counter()
     from .agents import Agent
     seed, steps = integer(seed, "fit seed"), integer(steps, "steps", 1)
     checkpoint_every, log_every = integer(checkpoint_every, "checkpoint_every", 1), integer(log_every, "log_every", 1)
@@ -117,24 +120,37 @@ def train(learner_directory, output, *, config: Config, seed: int, steps: int,
         restored, _, header = load_checkpoint(resume)
         if restored.config != config or restored.seed != seed or canonical(header["data"]) != canonical(data.identity):
             raise ValueError("resume requires identical method, fit seed, training data and sampling configuration")
+        if canonical(header["fit_context"]) != canonical(fit_context):
+            raise ValueError("resume study context differs")
         sampler.restore(header["sampler"])
         agent = restored
         parent = {"file": str(Path(resume).resolve()), "sha256": hashlib.sha256(Path(resume).read_bytes()).hexdigest()}
     if steps <= agent.step:
         raise ValueError("steps must exceed the completed checkpoint step")
     source_hashes = sources()
+    import jax
+    if fit_context is not None:
+        from .study.access import validate_fit_context
+        validate_fit_context(fit_context, config.to_dict(), data.identity, source_hashes, versions(), seed, steps, jax.default_backend())
     output.mkdir(parents=True)
     snapshot = output / "source" / "copuzzle_baselines"
     snapshot.mkdir(parents=True)
-    for name in source_hashes:
-        (snapshot / name).write_bytes((Path(__file__).parent / name).read_bytes())
+    for path in sorted(Path(__file__).parent.rglob("*.py")):
+        if "__pycache__" in path.parts:
+            continue
+        target = snapshot / path.relative_to(Path(__file__).parent)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(path.read_bytes())
     if sources() != source_hashes:
         raise RuntimeError("source changed while snapshotting")
-    run = {"schema": "copuzzle.baseline_run.v1", "purpose": "development; not a frozen paper experiment",
+    run = {"schema": "copuzzle.baseline_run.v2", "purpose": "formal study fit" if fit_context else "development; not a frozen paper experiment",
            "status": "running", "config": config.to_dict(), "fit_seed": seed, "data": data.identity,
            "sources": source_hashes, "versions": versions(), "parent_checkpoint": parent,
            "start_step": agent.step, "completed_step": agent.step, "requested_steps": steps,
-           "checkpoints": [], "train_seconds": 0.0}
+           "checkpoints": [], "train_seconds": 0.0,
+           "schedule": {"checkpoint_every": checkpoint_every, "log_every": log_every},
+           "execution": {"backend": jax.default_backend(), "devices": [str(d) for d in jax.devices()]},
+           "fit_context": fit_context, "setup_seconds": time.perf_counter() - entered}
     _json(output / "run.json", run)
     started = time.perf_counter()
     try:
@@ -146,7 +162,7 @@ def train(learner_directory, output, *, config: Config, seed: int, steps: int,
                     stream.write(json.dumps(record, sort_keys=True, allow_nan=False) + "\n")
                     stream.flush()
                 if agent.step % checkpoint_every == 0 or agent.step == steps:
-                    run["checkpoints"].append(save_checkpoint(output / f"checkpoint-{agent.step:08d}.zip", agent, sampler, source_hashes))
+                    run["checkpoints"].append(save_checkpoint(output / f"checkpoint-{agent.step:08d}.zip", agent, sampler, source_hashes, fit_context))
                     run["completed_step"] = agent.step
                     run["train_seconds"] = time.perf_counter() - started
                     _json(output / "run.json", run)
@@ -157,6 +173,7 @@ def train(learner_directory, output, *, config: Config, seed: int, steps: int,
     finally:
         run["completed_step"] = agent.step
         run["train_seconds"] = time.perf_counter() - started
+        run["total_function_seconds"] = time.perf_counter() - entered
         run["sampling_counts"] = dict(sampler.counts)
         _json(output / "run.json", run)
     return run
@@ -196,30 +213,39 @@ def _predict(agent, vocabulary, inputs, probe, batch_size):
     return {"prefix_boards": result}
 
 
-def predict(checkpoint, learner_directory, probe, *, split="dev", batch_size=512):
-    from copuzzle.research.data import load_probe
+def predict(checkpoint, learner_directory, probe, *, split="dev", batch_size=512, test_lock=None):
+    from .protocols import public_api
     batch_size = integer(batch_size, "batch_size", 1)
     agent, vocabulary, header = load_checkpoint(checkpoint)
     _check_data(learner_directory, header)
+    api = public_api(learner_directory)
+    if api.metadata(learner_directory).get("purpose") == "benchmark" and split == "test":
+        from .study.access import authorize_test
+        authorize_test(test_lock, checkpoint, Path(learner_directory).parent, header)
     before = state_digest(agent)
-    result = _predict(agent, vocabulary, load_probe(learner_directory, probe, split), probe, batch_size)
+    result = _predict(agent, vocabulary, api.load_probe(learner_directory, probe, split), probe, batch_size)
     if state_digest(agent) != before:
         raise RuntimeError("prediction changed learner state")
     return result
 
 
-def evaluate(checkpoint, bundle, *, split="dev", model_query_limit=None):
+def evaluate(checkpoint, bundle, *, split="dev", model_query_limit=None, test_lock=None):
     """Evaluator-side entry point; training never imports this privileged code."""
-    from copuzzle.research.bundle import validate_bundle
-    from copuzzle.research.data import load_probe
-    from copuzzle.research.evaluation import evaluate_policy, score_predictions
+    from .protocols import evaluator_api, public_api
     from .planning import ModelPlanner
 
     bundle = Path(bundle)
-    validate_bundle(bundle)
+    generator, evaluator = evaluator_api(bundle)
+    generator.validate_bundle(bundle)
     learner = bundle / "learner"
+    api = public_api(learner)
+    meta = api.metadata(learner)
     agent, vocabulary, header = load_checkpoint(checkpoint)
     _check_data(learner, header)
+    authorization = None
+    if meta.get("purpose") == "benchmark" and split == "test":
+        from .study.access import authorize_test
+        authorization = authorize_test(test_lock, checkpoint, bundle, header)
     before = state_digest(agent)
     learned_model = agent.config.method == "dynamics"
     limit = (32 if learned_model else 0) if model_query_limit is None else integer(model_query_limit, "model_query_limit")
@@ -232,23 +258,33 @@ def evaluate(checkpoint, bundle, *, split="dev", model_query_limit=None):
         following, legal = agent.predict(vocabulary.encode(np.asarray(board)[None]), np.asarray([action], np.int32))
         return vocabulary.decode(following)[0], bool(legal[0])
 
+    def batch_forward(boards, actions):
+        following, legal = agent.predict(vocabulary.encode(boards), actions)
+        return vocabulary.decode(following), legal
+
     def factory():
         if learned_model:
-            return ModelPlanner(forward, agent.n_actions)
+            return ModelPlanner(forward, agent.n_actions,
+                                batch_predictor=batch_forward if meta["protocol"] == "copuzzle.rule-composition.v1" else None)
         return lambda observation, budget: int(agent.actions(vocabulary.encode(observation["board"][None]), vocabulary.encode(observation["goal"][None]))[0])
 
     start = time.perf_counter()
-    report = {"schema": "copuzzle.baseline_evaluation.v1", "purpose": "development", "split": split,
+    report = {"schema": "copuzzle.baseline_evaluation.v2", "purpose": meta.get("purpose", "development"), "split": split,
               "method": agent.config.method, "fit_seed": agent.seed, "step": agent.step,
               "checkpoint_sha256": hashlib.sha256(Path(checkpoint).read_bytes()).hexdigest(),
               "bundle_manifest_sha256": hashlib.sha256((bundle / "manifest.json").read_bytes()).hexdigest(),
               "config": agent.config.to_dict(), "data": header["data"], "versions": versions(),
+              "test_authorization": authorization, "fit_context": header["fit_context"],
               "R": {"supported": False}, "C": {"supported": False}}
     if learned_model:
         for probe in ("R", "C"):
-            predictions = _predict(agent, vocabulary, load_probe(learner, probe, split), probe, 512)
-            report[probe] = {"supported": True, **score_predictions(bundle, probe, predictions, split=split)}
-    report["G"] = evaluate_policy(bundle, factory, split=split, model_query_limit=limit)
+            predictions = _predict(agent, vocabulary, api.load_probe(learner, probe, split), probe, 512)
+            report[probe] = {"supported": True, **evaluator.score_predictions(bundle, probe, predictions, split=split)}
+        if meta["protocol"] == "copuzzle.rule-composition.v1":
+            from .study.diagnostics import composition_diagnostics
+            report["C_context_diagnostic"] = composition_diagnostics(bundle, batch_forward, split=split,
+                coverage=agent.config.coverage, coverage_seed=agent.config.coverage_seed)
+    report["G"] = evaluator.evaluate_policy(bundle, factory, split=split, model_query_limit=limit)
     report["evaluation_seconds"] = time.perf_counter() - start
     report["learner_state_unchanged"] = state_digest(agent) == before
     if not report["learner_state_unchanged"]:

@@ -1,6 +1,6 @@
 # CoPuzzle
 
-**Development snapshot: `0.1.0.dev3`, with unreleased additions.** Abstract Lights Out, Pancake, TopSpin, Sliding Puzzle and Hanoi, plus optional MuJoCo Lights Out button boards and direct-contact TopSpin/Pancake tabletop models. Earlier indexed fixtures remain archived separately. A [research protocol release candidate](research_protocol.md) now specifies six core instances, exact difficulty tiers, held-out data and R/C/G evaluation. Final publication data and learned baseline results are not yet frozen.
+**Development snapshot: `0.1.0.dev3`, with unreleased additions.** Abstract Lights Out, Pancake, TopSpin, Sliding Puzzle and Hanoi, plus optional MuJoCo Lights Out button boards and direct-contact TopSpin/Pancake tabletop models. Earlier indexed fixtures remain archived separately. The [v1 benchmark protocol](benchmark_protocol.md) specifies six core instances, exact populations/difficulty, held-out data and R/C/G evaluation. Formal learned comparisons and public release acceptance remain in progress; [RC1 development data](research_protocol.md) retain their earlier identity.
 
 CoPuzzle is an independent package. The base installation uses NumPy and Gymnasium. The optional physical environment adds MuJoCo and packaged, licensed UR5e assets. It requires no other research checkout, training framework, or local dataset. Rules, button scenes and reference controllers are implemented here.
 
@@ -655,6 +655,7 @@ These identifiers version different contracts:
 | Task/result JSON formats | Legacy `copuzzle.goal_tasks.v0` / `copuzzle.evaluation.v0`; structured `copuzzle.goal_tasks.v1` / `copuzzle.evaluation.v1` | Their respective serialization contracts change |
 | Prediction reports | `copuzzle.prediction.v1` | Predictor inputs or metric serialization change |
 | Research protocol candidate | `copuzzle.rule-composition.rc1` | Core scope, information, splits, difficulty, sampling or metrics change |
+| Benchmark protocol | `copuzzle.rule-composition.v1` | Frozen population/information/metric semantics change; concrete data identified by inventory hash |
 | Frozen benchmark suite | Not released | Task/data splits, difficulty, metrics, and evaluation budgets are formally fixed or revised |
 
 Moving implementation files does not change game behavior, data schemas, generator versions, rule identities, or Gym IDs. Source filenames need no version suffix. Changing the generator/schema identifiers currently changes seed derivation, so they must not be mechanically synchronized with the package version.
@@ -677,4 +678,4 @@ The dependency declaration is `pyproject.toml`. Recreate `.venv` on another mach
 
 ## Release status
 
-Environment IDs, schema versions, seeds, artifact hashes, and dependency versions are recorded so experiments can identify their protocol. Compatibility changes will require corresponding version changes. The research candidate now implements scope, difficulty and generalization splits. Before a public benchmark release, the project still needs a final frozen data inventory, learned baseline results and ablations, and a license/distribution decision. The package has not been published or assigned a public leaderboard.
+Environment IDs, schema versions, seeds, artifact hashes, and dependency versions are recorded so experiments can identify their protocol. Compatibility changes require corresponding version changes. The v1 protocol and prespecified data inventory are frozen; learned method selection, formal baseline/ablation results, final qualification and license/distribution decisions remain in progress. The package has not been published or assigned a public leaderboard.

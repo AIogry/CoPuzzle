@@ -1,0 +1,72 @@
+{
+  "schema": "copuzzle.method_selection_plan.v1",
+  "status": "registered_not_run",
+  "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
+  "purpose": "development-only method selection after final data freeze",
+  "development_data_seed": 0,
+  "development_fit_seed": 0,
+  "split": "dev",
+  "max_per_cell": 8,
+  "instances": [
+    "grid-3x3",
+    "grid-4x4",
+    "pancake-6",
+    "topspin-8-4",
+    "sliding-2x3",
+    "hanoi-5"
+  ],
+  "conditions": [
+    "transition_holdout",
+    "state_holdout"
+  ],
+  "candidate_configs": {
+    "gcbc": {
+      "path": "baselines/configs/v1_candidates/gcbc.json",
+      "sha256": "5d0d600f0ee34a23dc597ba950654d22f6d4b07e03392bc7ed04f8649349a3e5",
+      "method": "gcbc"
+    },
+    "gciql_future": {
+      "path": "baselines/configs/v1_candidates/gciql_future.json",
+      "sha256": "53afdf9919ed8f5a4bad5396d3c6069a69a6e50ac5a8e7332796e071e34a93cf",
+      "method": "gciql"
+    },
+    "gciql_mixed": {
+      "path": "baselines/configs/v1_candidates/gciql_mixed.json",
+      "sha256": "a68e81321f96eeb67a2540df4a606241ac9330212e3d49107d436456f8f5cd29",
+      "method": "gciql"
+    },
+    "dynamics": {
+      "path": "baselines/configs/v1_candidates/dynamics.json",
+      "sha256": "22837c633c2c2628a2dfe391679295c502e652ad675649f9c7bb05929c8e238a",
+      "method": "dynamics"
+    }
+  },
+  "training_steps": 10000,
+  "checkpoint_selection": "last update only",
+  "backend": "cpu",
+  "model_query_budgets": [
+    32,
+    128
+  ],
+  "expected_pilot_fits": 48,
+  "formal_fits_contributed": 0,
+  "fixed_candidates": [
+    "gcbc",
+    "dynamics"
+  ],
+  "choice": {
+    "method": "gciql",
+    "candidates": [
+      "gciql_future",
+      "gciql_mixed"
+    ],
+    "metric": "dev G tier-macro success; average Lights Out sizes, then equal families and conditions",
+    "tie_break": "gciql_mixed",
+    "all_cases_and_failures_retained": true
+  },
+  "notes": [
+    "Final benchmark train/test seeds remain 101/202/303; no final test is consulted.",
+    "A development implementation failure requires diagnosis and recorded reruns, never seed substitution.",
+    "This plan is not the final study selection lock."
+  ]
+}
