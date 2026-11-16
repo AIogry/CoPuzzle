@@ -13,6 +13,7 @@ include benchmark_protocol.md
 include release/plan.json
 include release/data_freeze.json
 include release/method_selection_plan.json
+include release/selected_methods.json
 include baselines/pyproject.toml
 include baselines/MANIFEST.in
 include baselines/README.md

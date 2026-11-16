@@ -210,3 +210,18 @@ errors are recorded, and incomplete/duplicated pilot matrices cannot select a
 configuration. Its output is `artifacts/benchmark-v1-pilot/`. This pilot controller
 does not yet implement the full formal study's retry, selection-seal and
 failure-inclusive aggregation workflow; those remain the next executor work.
+
+All 48 registered development fits have completed at 10,000 updates with zero
+fit/evaluation failures. Re-aggregation of the raw reports verified the selection:
+GCIQL actor-goal mixture 0.5 scored 0.11875 versus 0.09375 for future-only sampling
+on the declared dev G macro. This is one development seed, not a formal method
+comparison or significance claim. The selected configurations, schedules,
+dependencies and numerical learner sources are now locked in
+[release/selected_methods.json](release/selected_methods.json).
+
+The full registered learning matrix will cover all three methods at 25%, 50%
+and 100% coverage: 324 primary fits plus 648 coverage-ablation fits (972 total).
+Dynamics checkpoints receive both 32- and 128-query evaluations without counting
+those evaluations as extra fits. Formal fits completed remain zero; the next
+deliverable is the resumable executor, complete-cohort test seal and then this
+matrix. No learned model has been evaluated on the final test inventory.

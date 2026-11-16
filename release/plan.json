@@ -53,19 +53,19 @@
     128
   ],
   "final_artifact_inventory_frozen": true,
-  "training_configuration_frozen": false,
+  "training_configuration_frozen": true,
   "primary_fits_completed": 0,
   "ci_qualified": false,
   "project_license_resolved": false,
   "gates": {
-    "A_protocol_population_and_freeze": "data_and_metrics_frozen_method_selection_and_execution_pending",
+    "A_protocol_population_and_freeze": "data_metrics_and_method_configuration_frozen_executor_pending",
     "B_standalone_learning_pipeline": "v1_development_integration_qualified",
     "C_formal_baseline_matrix": "not_started",
     "D_scientific_comparisons": "not_started",
     "E_final_engineering_qualification": "pending_final_snapshot",
     "F_public_release_materials": "not_complete"
   },
-  "next_deliverable": "finish registered development selection, then seal the formal experiment matrix and execute all primary/ablation fits",
+  "next_deliverable": "registered resumable formal executor, cohort-bound test seal and execution of 324 primary plus 648 coverage-ablation fits",
   "decisions_required_before_formal_runs": [
     "audit all prespecified seed populations and fix C/G cardinality semantics",
     "freeze goal-sampling mixtures and training budgets using development evidence",
@@ -123,6 +123,18 @@
       "core_tests_passed": 1361,
       "baseline_integration_tests_passed": 42,
       "pilot_selection_tests_passed": 2
+    },
+    {
+      "gate": "A_protocol_population_and_freeze",
+      "kind": "registered_development_selection",
+      "completed_fits": 48,
+      "updates_per_fit": 10000,
+      "failed_fits": 0,
+      "selected_gciql_actor_future_probability": 0.5,
+      "selected_methods": "release/selected_methods.json",
+      "raw_report_reaggregation_verified": true,
+      "formal_fits_contributed": 0,
+      "learned_final_test_evaluated": false
     }
   ],
   "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
@@ -135,6 +147,13 @@
     "data_seed": 0,
     "fit_seed": 0,
     "split": "dev",
-    "formal_fits_contributed": 0
-  }
+    "formal_fits_contributed": 0,
+    "status": "completed",
+    "completed_fits": 48,
+    "failed_fits": 0,
+    "selection": "artifacts/benchmark-v1-pilot/selection.json"
+  },
+  "selected_methods": "release/selected_methods.json",
+  "planned_total_learning_fits": 972,
+  "planned_coverage_ablation_fits": 648
 }

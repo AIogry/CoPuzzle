@@ -1,0 +1,122 @@
+{
+  "schema": "copuzzle.selected_methods.v1",
+  "purpose": "configuration freeze after registered development selection; not final-test authorization",
+  "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
+  "selection_plan_sha256": "c819680014ea88e1f72f19559b8934cee43392f4a52b98706464d9a1c0393ea5",
+  "development_selection_sha256": "1e55b603b0308be50597052904b2c00c8625f67a89d6f277e188489f045efce8",
+  "completed_development_fits": 48,
+  "selected_candidates": {
+    "gcbc": "gcbc",
+    "gciql": "gciql_mixed",
+    "dynamics": "dynamics"
+  },
+  "method_configs": {
+    "gcbc": {
+      "method": "gcbc",
+      "hidden_dims": [
+        128,
+        128
+      ],
+      "learning_rate": 0.0003,
+      "discount": 0.99,
+      "expectile": 0.7,
+      "temperature": 3.0,
+      "target_rate": 0.005,
+      "value_future_probability": 0.5,
+      "actor_future_probability": 1.0,
+      "batch_size": 256,
+      "coverage": 1.0,
+      "coverage_seed": 0
+    },
+    "gciql": {
+      "method": "gciql",
+      "hidden_dims": [
+        128,
+        128
+      ],
+      "learning_rate": 0.0003,
+      "discount": 0.99,
+      "expectile": 0.7,
+      "temperature": 3.0,
+      "target_rate": 0.005,
+      "value_future_probability": 0.5,
+      "actor_future_probability": 0.5,
+      "batch_size": 256,
+      "coverage": 1.0,
+      "coverage_seed": 0
+    },
+    "dynamics": {
+      "method": "dynamics",
+      "hidden_dims": [
+        128,
+        128
+      ],
+      "learning_rate": 0.0003,
+      "discount": 0.99,
+      "expectile": 0.7,
+      "temperature": 3.0,
+      "target_rate": 0.005,
+      "value_future_probability": 0.5,
+      "actor_future_probability": 1.0,
+      "batch_size": 256,
+      "coverage": 1.0,
+      "coverage_seed": 0
+    }
+  },
+  "training_steps": 10000,
+  "checkpoint_every": 1000,
+  "log_every": 100,
+  "checkpoint_selection": "last update only",
+  "backend": "cpu",
+  "max_workers": 2,
+  "data_seeds": [
+    101,
+    202,
+    303
+  ],
+  "fit_seeds": [
+    0,
+    1,
+    2
+  ],
+  "coverage_fractions": [
+    0.25,
+    0.5,
+    1.0
+  ],
+  "coverage_seed": 0,
+  "primary_fits": 324,
+  "coverage_ablation_fits": 648,
+  "total_learning_fits": 972,
+  "model_query_budgets": {
+    "gcbc": [
+      0
+    ],
+    "gciql": [
+      0
+    ],
+    "dynamics": [
+      32,
+      128
+    ]
+  },
+  "learner_sources": {
+    "__init__.py": "ecf94c662dd66fea33d03f3635a6e533bc561d4c7a8aa6d40d2ef41ac6834876",
+    "agents.py": "30f4e7eb1989061cbf0022cd0b6f2d4fb8d5e0d484c56acbe199c4468814cf46",
+    "config.py": "61edb4306e3676dcd2d18d67cbc6830a083723216d608b8c90146d081edbaa38",
+    "data.py": "4cd2f73d5f920657ebb9f22c99d64a2bad20263bb3142aa1fcf9dfd7541a2aab",
+    "planning.py": "d3e0aa71f06f510ae7450852220a03399653ee7e34e7d775d44ee00fb9e6b664",
+    "protocols.py": "5b0ce1871efc0c51721b3d8fc9fe135d543b85fd7a35e752dcaed1d7ee911175",
+    "runtime.py": "4525f7f859a7dee7c5180184f8427406d290599f4c5aed36c72a17ea2df8bffe"
+  },
+  "dependency_versions": {
+    "python": "3.12.9",
+    "numpy": "2.5.3",
+    "jax": "0.11.2",
+    "jaxlib": "0.11.2",
+    "flax": "0.12.10",
+    "optax": "0.2.8"
+  },
+  "formal_fits_completed": 0,
+  "final_test_authorized": false
+}
