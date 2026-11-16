@@ -1,7 +1,8 @@
 # CoPuzzle v1 baseline method card
 
-Status: method selection is complete and the registered formal fits are running.
-No final comparative result is claimed here. The authoritative settings are
+Status: the registered formal fits, final evaluations and technical qualification
+are complete; public release approval remains pending. This card describes the
+methods; artifact evidence is indexed in the release ledger. The authoritative settings are
 [`release/selected_methods.json`](../release/selected_methods.json), and the
 matrix binding is [`release/study_registration.json`](../release/study_registration.json).
 

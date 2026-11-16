@@ -35,10 +35,10 @@ results are acceptable; favorable performance is not a release gate.
 |---|---|---|
 | A: protocol and population audit | V1 data, metrics, methods and formal matrix frozen | Reviewed information contract, exact difficulty, coverage, sampling populations, metrics, budgets and final data inventory; test artifacts frozen before method selection |
 | B: standalone learning pipeline | V1 development integration qualified | Train-only adapters, GCBC, offline goal-conditioned RL and learned dynamics with planning; checkpoint resume, frozen evaluation, input/provenance tests and a clean-install workflow |
-| C: formal baseline matrix | All 972 fits complete and sealed; final evaluations running | All six instances and both splits, three prespecified data seeds and three fitting seeds, fixed method-selection rules, checkpoints and all per-case outcomes |
-| D: scientific comparisons | Not started | Coverage and planning-budget comparisons, paired uncertainty, per-instance/tier results, family macro averages, measured computational cost and explicit limitations |
-| E: engineering qualification | Prior candidate qualified; final run pending | Appropriate CI, full final regression, independent package installation, deterministic data checks and three-family historical physical replay |
-| F: public release materials | Not complete | Installation/reproduction guide, dataset and method cards, citation metadata, licenses and third-party attribution, downloadable release artifacts with checksums, independent acceptance report |
+| C: formal baseline matrix | Complete: 972 fits and 1,872 final evaluations | All six instances and both splits, three prespecified data seeds and three fitting seeds, fixed method-selection rules, checkpoints and all per-case outcomes |
+| D: scientific comparisons | Complete: verified case evidence, paired analysis and interpretation | Coverage and planning-budget comparisons, paired uncertainty, per-instance/tier results, family macro averages, measured computational cost and explicit limitations |
+| E: engineering qualification | Complete: CI, installation/replay, archive relocation and 104 independent reproductions | Appropriate CI, full final regression, independent package installation, deterministic data checks and three-family historical physical replay |
+| F: public release materials | Reviewable local candidates ready; rights, citation and publication approval pending | Installation/reproduction guide, dataset and method cards, citation metadata, licenses and third-party attribution, downloadable release artifacts with checksums, independent acceptance report |
 
 Progress through these gates is recorded independently. All are required before
 the goal is declared complete. Any unresolved rights, access or publication

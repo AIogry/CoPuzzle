@@ -1,6 +1,6 @@
 # CoPuzzle
 
-**Development snapshot: `0.1.0.dev3`, with unreleased additions.** Abstract Lights Out, Pancake, TopSpin, Sliding Puzzle and Hanoi, plus optional MuJoCo Lights Out button boards and direct-contact TopSpin/Pancake tabletop models. Earlier indexed fixtures remain archived separately. The [v1 benchmark protocol](benchmark_protocol.md) specifies six core instances, exact populations/difficulty, held-out data and R/C/G evaluation. Formal learned comparisons and public release acceptance remain in progress; [RC1 development data](research_protocol.md) retain their earlier identity.
+**Development snapshot: `0.1.0.dev3`, with unreleased additions.** Abstract Lights Out, Pancake, TopSpin, Sliding Puzzle and Hanoi, plus optional MuJoCo Lights Out button boards and direct-contact TopSpin/Pancake tabletop models. Earlier indexed fixtures remain archived separately. The [v1 benchmark protocol](benchmark_protocol.md) specifies six core instances, exact populations/difficulty, held-out data and R/C/G evaluation. Formal comparisons and technical qualification are complete; public licensing, citation and distribution decisions remain pending. [RC1 development data](research_protocol.md) retain their earlier identity.
 
 CoPuzzle is an independent package. The base installation uses NumPy and Gymnasium. The optional physical environment adds MuJoCo and packaged, licensed UR5e assets. It requires no other research checkout, training framework, or local dataset. Rules, button scenes and reference controllers are implemented here.
 
@@ -11,7 +11,8 @@ Planned experiments are kept distinct from completed qualification results.
 The optional [learning baselines](baselines/README.md) provide train-only data
 adaptation, GCBC, goal-conditioned IQL and learned categorical dynamics with
 budgeted planning. They install separately with `pip install -e ./baselines`;
-the registered formal matrix is running, and final results remain pending.
+the registered 972-fit matrix and 1,872 final evaluations are complete, with
+verified case evidence and 104 independent installed-package reproductions.
 See the [dataset card](DATASET_CARD.md), [method card](baselines/METHOD_CARD.md),
 and [execution/analysis workflow](baselines/STUDY.md) for scope and reproducibility.
 

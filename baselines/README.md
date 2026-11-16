@@ -4,8 +4,10 @@ This is a separately installable JAX/Flax/Optax component in the CoPuzzle
 repository. The base environment does not depend on it. It uses the
 `copuzzle.rule-composition.v1` and legacy RC1 learner arrays, not the sibling CoPuzzleLab
 checkout or its legacy masks. The v1 data inventory, method configurations and
-formal matrix are frozen. The registered 972-fit experiment is running; final
-comparative results remain pending. See the [method card](METHOD_CARD.md).
+formal matrix are frozen. All 972 fits and 1,872 final evaluations are complete,
+with verified case evidence and 104 independent installed-package reproductions.
+Public licensing, citation and distribution approval remain pending.
+See the [method card](METHOD_CARD.md).
 
 ## Installation and commands
 
@@ -182,8 +184,8 @@ data only. Structural assumptions and privilege are reported explicitly. V1
 model evaluation additionally reports teacher-forced C-context diagnostics and
 primitive support against the actual coverage subset; primary C stays open loop.
 
-Formal matrix execution, completed selection, statistical aggregation,
-CI and public distribution remain release gates, tracked in the
+Formal matrix execution, selection, statistical aggregation and technical
+qualification are complete. Public release approval remains tracked in the
 repository's [release plan](https://github.com/AIogry/CoPuzzle/blob/main/benchmark_release_plan.md).
 
 The registered development-selection controller is launched from the repository

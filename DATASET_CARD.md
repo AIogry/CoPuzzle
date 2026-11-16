@@ -1,7 +1,8 @@
 # CoPuzzle v1 dataset card
 
-Status: the v1 data inventory is frozen; learned comparisons and public release
-acceptance are in progress. This card describes `copuzzle.rule-composition.v1`,
+Status: the v1 data inventory is frozen and formal learned comparisons are
+complete; public licensing, citation and distribution approval remain pending.
+This card describes `copuzzle.rule-composition.v1`,
 not the earlier game-specific trajectory collections or RC1 qualification data.
 The exact contract is [benchmark_protocol.md](benchmark_protocol.md).
 
