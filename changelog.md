@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add a separate segmented physical-play protocol with one reset, safe behavior
+  goal changes, native action replay and first-hit goal relabeling. Keep physical
+  episode endings distinct from local goal completion and retain failed prefixes.
 - Add direct-contact multi-operation development suites with disjoint task pairs,
   native physical collection/replay and failure-inclusive evaluation reports.
 - Add checked continuous transition batches with explicit episode boundaries,

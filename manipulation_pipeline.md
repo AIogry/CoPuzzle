@@ -121,9 +121,10 @@ unresolved collection/replay error is rejected rather than silently filtered.
 
 ## Scope
 
-This is the continuous data and evaluation boundary. CoPuzzleLab's existing
-learners still use discrete actions and are not compatible with these batches.
-Continuous behavior cloning or reinforcement learning requires a separate
-learner implementation and a declared training protocol. A script's success
+This is the continuous data and evaluation boundary. CoPuzzleLab's abstract-game
+learners use discrete actions and are not compatible with these batches. Its
+separate OGBench Puzzle research path does not establish native CoPuzzle batch
+compatibility. Learning from these batches requires an explicit adapter/learner
+contract and a declared training protocol. A script's success
 rate and a batch-loading check are not learned-policy results. The public
 benchmark distribution and scientific training protocol remain unfrozen.

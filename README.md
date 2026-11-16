@@ -83,8 +83,13 @@ permutation. See
 Use `copuzzle manipulation suite`, `collect` and `inspect` for reproducible
 multi-operation physical tasks, native action replay and continuous training
 batches. See the [physical data pipeline](manipulation_pipeline.md) for split,
-failure, cost and bootstrap conventions. The existing CoPuzzleLab learners
-still require discrete actions; this reader does not change their algorithms.
+failure, cost and bootstrap conventions. CoPuzzleLab's abstract-game adapters
+do not directly accept these native continuous-action batches.
+
+`copuzzle manipulation play` adds [segmented physical play](segmented_play.md):
+one physical reset, explicit safe behavior-goal boundaries, preserved failures,
+and goal views ending at their first measured success. Fixed-goal evaluations
+remain separate. See [contribution and validation conventions](CONTRIBUTING.md).
 
 The earlier three-rack models under `make_physics_env("pancake-4")` and
 `make_physics_env("topspin-8-4")` are archived rule-equivalent experiments,

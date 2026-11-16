@@ -31,8 +31,34 @@ def main(argv=None):
     inspect.add_argument('--task', choices=TASK_IDS, required=True)
     inspect.add_argument('--split', choices=SPLITS, default='train')
     inspect.add_argument('--bootstrap-mode', choices=['terminated_only', 'finite_horizon'], default='terminated_only')
+    play = commands.add_parser('play', help='Collect one continuous, explicitly segmented physical play trace')
+    play.add_argument('--task', choices=TASK_IDS, required=True)
+    play.add_argument('--output', type=Path, required=True, help='New .npz path; writes a checked JSON sidecar')
+    play.add_argument('--seed', type=int, default=0)
+    play.add_argument('--segments', type=int)
+    play.add_argument('--horizon', type=int, default=12000)
+    play.add_argument('--max-steps', type=int)
+    play.add_argument('--operations', nargs='+', help='Optional explicit local operations for diagnostics')
     args = parser.parse_args(argv)
-    if args.command == 'suite':
+    if args.command == 'play':
+        from .play import collect_play, replay_play, load_play_trace
+        if (args.output.suffix != '.npz' or args.output.exists()
+                or args.output.is_symlink() or args.output.with_suffix('.json').exists()
+                or args.output.with_suffix('.json').is_symlink()):
+            parser.error('play output must be a new .npz path with no existing sidecar')
+        try:
+            operations = (args.operations if args.task == 'topspin-20-4' else
+                          [int(value) for value in args.operations]) if args.operations else None
+        except ValueError:
+            parser.error('Button/prefix operations must be integers')
+        count = args.segments if args.segments is not None else len(operations) if operations else 3
+        trace = collect_play(args.task, seed=args.seed, num_segments=count,
+            max_episode_steps=args.horizon, max_steps=args.max_steps, operations=operations)
+        path = trace.save(args.output)
+        checked = load_play_trace(path)
+        result = {'trace': str(path), 'stop_reason': checked.metadata['stop_reason'],
+                  'segments': len(checked.segments), 'replay': replay_play(checked)}
+    elif args.command == 'suite':
         value = generate_suite(seed=args.seed, cases_per_depth=args.cases_per_depth,
                                depths=tuple(args.depths), task_ids=tuple(args.tasks))
         path = save_suite(value, args.output)

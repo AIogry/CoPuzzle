@@ -6,6 +6,8 @@ include physical_permutation_benchmark.md
 include direct_manipulation.md
 include topspin_physical.md
 include manipulation_pipeline.md
+include segmented_play.md
+include CONTRIBUTING.md
 recursive-include src/copuzzle/games/lights_out/physics/assets *.xml *.obj *.json *.md LICENSE
 recursive-include examples *.py
 recursive-include tests *.py
