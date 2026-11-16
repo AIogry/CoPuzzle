@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add checksum-bound readable result tables and optional scientific PNG/SVG
+  figures. Label synthetic rendering fixtures, preserve renderer/source versions,
+  and require interpretation of the actual formal analysis in the study package.
 - Add checked artifact relocation, deterministic distribution staging and
   installed-wheel physical history qualification with NPZ/sidecar bindings.
   Preserve selected checkpoints, recovery evidence and all attempt costs in the

@@ -13,6 +13,7 @@ dependencies = ["copuzzle==0.1.0.dev3", "jax>=0.4.35,<1", "flax>=0.10,<1", "opta
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "build>=1,<2"]
+report = ["matplotlib>=3.8,<4"]
 
 [project.scripts]
 copuzzle-baselines = "copuzzle_baselines.cli:main"

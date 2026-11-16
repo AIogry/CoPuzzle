@@ -54,7 +54,7 @@
   ],
   "final_artifact_inventory_frozen": true,
   "training_configuration_frozen": true,
-  "primary_fits_completed": 285,
+  "primary_fits_completed": 324,
   "ci_qualified": false,
   "project_license_resolved": false,
   "gates": {
@@ -164,6 +164,15 @@
       "all_replay_max_absolute_errors": 0.0,
       "baseline_local_tests_passed": 75,
       "final_release_acceptance": false
+    },
+    {
+      "gate": "D_scientific_comparisons",
+      "kind": "readable_report_qualification_only",
+      "local_baseline_tests_passed": 78,
+      "optional_matplotlib_pytest_skipped": 1,
+      "real_renderer_checks": "three PNG/SVG pairs generated and visually checked using Matplotlib 3.11.0; installed renderer runs without learner/simulator imports",
+      "fixture_data": "explicitly synthetic",
+      "formal_results_contributed": 0
     }
   ],
   "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
@@ -200,11 +209,12 @@
     "registered_learned_evaluations_per_split": 1296,
     "registered_control_evaluations_per_split": 576,
     "status": "running",
-    "completed_fits_at_last_observation": 285,
+    "completed_fits_at_last_observation": 495,
     "counts_note": "Snapshot only; study runner status is authoritative.",
     "failed_fits_at_last_observation": 0,
     "test_sealed": false,
-    "learned_final_test_evaluated": false
+    "learned_final_test_evaluated": false,
+    "primary_fits_status": "324 complete; final-test evaluation pending full coverage cohort"
   },
   "analysis_plan": "release/analysis_plan.json",
   "ci_runs": [
@@ -213,6 +223,13 @@
       "url": "https://github.com/AIogry/CoPuzzle/actions/runs/43950479514",
       "learning": "passed",
       "core": "passed_1353_plus_8_local_history_checks",
+      "final_release_qualified": false
+    },
+    {
+      "commit": "0c8e6b51cdd533aaaf0a9aa4ee38740b7a768cdc",
+      "url": "https://github.com/AIogry/CoPuzzle/actions/runs/43952560333",
+      "learning": "passed",
+      "core": "passed",
       "final_release_qualified": false
     }
   ],

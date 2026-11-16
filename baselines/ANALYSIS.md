@@ -69,6 +69,30 @@ evaluation described by [Agarwal et al.](https://arxiv.org/abs/2108.13264); the
 specific hierarchy and weights here are CoPuzzle's declared design, not a claim
 that this exact procedure was prescribed by that paper.
 
+## Readable results and figures
+
+Once the formal analysis is complete, produce tables and optional PNG/SVG
+scientific figures. Rendering only reads the saved analysis and does not import
+or initialize a learner. Matplotlib is an optional `./baselines[report]` extra;
+CI pins version 3.11.0. A separate rendering environment may be used without
+changing the recorded training environment.
+
+```sh
+python -m copuzzle_baselines.study.report --analysis artifacts/benchmark-v1-analysis \
+  --output artifacts/benchmark-v1-report --figures --discussion /path/to/DISCUSSION.md
+```
+
+Write the interpretation from the complete actual results. It must distinguish
+observations from explanations/hypotheses and discuss negative or inconclusive
+comparisons. The distribution stager requires this interpretation and binds all
+report/figure files to the verified analysis. Development/fixture renders are
+visibly labeled and cannot be staged as formal results.
+
+`baselines/examples/qualify_report.py` exercises table/figure rendering using
+explicitly synthetic test values. It contributes no experimental results.
+The plotting library's publication citation is documented by
+[Matplotlib](https://matplotlib.org/stable/project/citing.html).
+
 Coverage comparisons hold gradient updates fixed, not epochs or the number of
 distinct samples seen. Subsampling can remove primitive-query support from C;
 report its support diagnostics with the composition score. Comparing learned

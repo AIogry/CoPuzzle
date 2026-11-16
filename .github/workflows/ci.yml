@@ -68,7 +68,7 @@ jobs:
             baselines/pyproject.toml
             ci/constraints.txt
       - name: Install the independent learning component
-        run: python -m pip install -c ci/constraints.txt -e '.[dev]' -e './baselines[dev]'
+        run: python -m pip install -c ci/constraints.txt -e '.[dev]' -e './baselines[dev,report]'
       - name: Learning and executor regression
         run: python -m pytest -q baselines/tests
       - name: Build both wheels

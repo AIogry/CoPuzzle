@@ -119,5 +119,20 @@
     "data_reextraction_matches_frozen_inventory": true,
     "published": false
   },
-  "remaining": "final formal outcomes, final learning/distribution CI snapshot, accepted rights/authorship and public release acceptance"
+  "remaining": "final formal outcomes, final learning/distribution CI snapshot, accepted rights/authorship and public release acceptance",
+  "readable_reporting": {
+    "unit_tests_passed": 78,
+    "optional_plot_test_skipped_in_learning_runtime": 1,
+    "render_versions": {
+      "python": "3.11.15",
+      "matplotlib": "3.11.0"
+    },
+    "independent_installed_render_passed": true,
+    "learner_and_simulator_imports_blocked": true,
+    "figure_pairs_visually_checked": 3,
+    "synthetic": true,
+    "formal_results_contributed": 0,
+    "render_manifest_sha256": "96a5975b590bfb6806300a54ef01af84c554349a903b46c313cae184ed40da77",
+    "report_source_sha256": "0af08fc37a147ecb31128f78e40aeaf869de2416fba6340da3a4e715a359c0c1"
+  }
 }

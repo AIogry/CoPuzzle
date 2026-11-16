@@ -29,6 +29,7 @@ python -m copuzzle_baselines.study.packaging study \
   --study artifacts/benchmark-v1-study \
   --predictions artifacts/benchmark-v1-predictions \
   --analysis artifacts/benchmark-v1-analysis \
+  --report artifacts/benchmark-v1-report \
   --output artifacts/distribution-draft-v1/study
 ```
 
@@ -36,7 +37,8 @@ This rejects an active study, incomplete or changed outcomes, mismatched case
 archives, changed attempt costs, or statistics that fail recomputation. It stages
 the selected final checkpoints, recovery checkpoints referenced by attempt
 records, full registered source snapshots, every original/retry attempt record,
-logs, training manifests, metrics, evaluation reports, case evidence and analysis.
+logs, training manifests, metrics, evaluation reports, case evidence, analysis,
+readable tables, optional figures and the evidence-based interpretation.
 Unselected intermediate checkpoints and duplicate per-fit source copies are
 omitted explicitly. This is sufficient to restore and evaluate the selected
 models; it is not an archive of every intermediate training state.

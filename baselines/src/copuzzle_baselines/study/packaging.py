@@ -152,13 +152,18 @@ def stage_physical(manifest, inputs, qualification, script, output, *, part_byte
         "manifest_sha256": file_hash(manifest), "qualification_sha256": file_hash(qualification)}, part_bytes=part_bytes)
 
 
-def stage_study(root, predictions, analysis, output, *, part_bytes=1024**3):
+def stage_study(root, predictions, analysis, output, *, report=None, part_bytes=1024**3):
     """Stage selected checkpoints, all attempt evidence and reproducible case outputs."""
     from .prediction_archive import verify_export
     root, predictions, analysis = Path(root).resolve(), Path(predictions).resolve(), Path(analysis).resolve()
     study, checksum = load_study(root)
     if study["role"] != "formal":
         raise ValueError("formal distribution requires a formal study")
+    if report is None:
+        raise ValueError("formal distribution requires a readable report and evidence-based interpretation")
+    from .report import verify_report
+    report = Path(report).resolve()
+    readable = verify_report(report, analysis_sha256=file_hash(analysis / "manifest.json"), study_sha256=checksum)
     if active(root / ".controller.lock") or any(active(p) for p in (root / "jobs").glob("*/*/.lease")):
         raise ValueError("cannot stage an active study")
     seal = verify_seal(root / "selection/test-lock.json", verify_receipts=True)
@@ -227,10 +232,14 @@ def stage_study(root, predictions, analysis, output, *, part_bytes=1024**3):
             raise ValueError("analysis output changed")
         add("analysis", analysis, name)
     add("analysis", analysis, "manifest.json")
+    for name in readable["files"]:
+        add("report", report, name)
+    add("report", report, "manifest.json")
     return build_archives(files, output, identity={"kind": "formal study evidence and selected checkpoints",
         "study_sha256": checksum, "data_inventory_sha256": study["data_inventory_sha256"],
         "analysis_manifest_sha256": file_hash(analysis / "manifest.json"),
         "prediction_index_sha256": prediction_evidence["index_sha256"],
+        "readable_report_manifest_sha256": file_hash(report / "manifest.json"),
         "omissions": "unselected intermediate checkpoints and identical per-fit source copies; current machine data path and lock files",
         "relocation": "run study.runner relocate --study <study> --data <data> after extraction"}, part_bytes=part_bytes)
 
@@ -249,6 +258,7 @@ def main(argv=None):
             p.add_argument("--study", type=Path, required=True)
             p.add_argument("--predictions", type=Path, required=True)
             p.add_argument("--analysis", type=Path, required=True)
+            p.add_argument("--report", type=Path, required=True)
         if name == "physical":
             for flag in ("manifest", "inputs", "qualification", "script"):
                 p.add_argument(f"--{flag}", type=Path, required=True)
@@ -260,7 +270,7 @@ def main(argv=None):
     elif args.command == "physical":
         result = stage_physical(args.manifest, args.inputs, args.qualification, args.script, args.output, part_bytes=args.part_bytes)
     else:
-        result = stage_study(args.study, args.predictions, args.analysis, args.output, part_bytes=args.part_bytes)
+        result = stage_study(args.study, args.predictions, args.analysis, args.output, report=args.report, part_bytes=args.part_bytes)
     print(json.dumps(result, indent=2))
 
 
