@@ -21,6 +21,14 @@ per affected physical family. Check a wheel from outside the source checkout.
 Tests requiring optional local archives must explicitly skip when those archives
 are absent; the functional API must still work in a clean installation.
 
+Learning implementations live in the separately installable `baselines/`
+component. For changes there, install `./baselines[dev]` alongside the core package
+and run `JAX_PLATFORMS=cpu python -m pytest -q baselines/tests`. Verify checkpoint
+continuation, train-only inputs and frozen evaluation; install its wheel outside
+the source tree as well. The core package must remain usable without JAX or the
+sibling CoPuzzleLab workspace. Keep pipeline qualification and hardware timing
+separate from the formal experiment inventory.
+
 ## Data and compatibility
 
 Do not overwrite validated artifacts, relabel a historical facility as the

@@ -1,0 +1,8 @@
+include README.md
+include THIRD_PARTY_NOTICES.md
+recursive-include tests *.py
+recursive-include configs *.json
+recursive-include examples *.py
+prune .venv
+prune artifacts
+global-exclude __pycache__ *.py[cod]

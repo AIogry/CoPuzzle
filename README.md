@@ -8,6 +8,11 @@ The active [benchmark release plan](benchmark_release_plan.md) tracks protocol
 freeze, learned baselines, scientific comparisons and public distribution gates.
 Planned experiments are kept distinct from completed qualification results.
 
+The optional [learning baselines](baselines/README.md) provide train-only data
+adaptation, GCBC, goal-conditioned IQL and learned categorical dynamics with
+budgeted planning. They install separately with `pip install -e ./baselines`;
+current training runs are development qualification, not formal benchmark results.
+
 ## Install and try
 
 From this checkout, using Python 3.10 or newer:

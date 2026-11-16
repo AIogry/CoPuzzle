@@ -25,19 +25,45 @@
   "project_license_resolved": false,
   "gates": {
     "A_protocol_population_and_freeze": "in_progress",
-    "B_standalone_learning_pipeline": "not_complete",
+    "B_standalone_learning_pipeline": "development_qualified_final_protocol_integration_pending",
     "C_formal_baseline_matrix": "not_started",
     "D_scientific_comparisons": "not_started",
     "E_final_engineering_qualification": "pending_final_snapshot",
     "F_public_release_materials": "not_complete"
   },
-  "next_deliverable": "train-only baseline adapter with CPU update, checkpoint resume and frozen evaluation tests",
+  "next_deliverable": "prespecified-seed population audit, final data protocol and immutable experiment freeze",
   "decisions_required_before_formal_runs": [
     "audit all prespecified seed populations and fix C/G cardinality semantics",
-    "verify learning losses and goal sampling without true masks or test labels",
-    "review reused implementation provenance and package boundaries",
-    "measure development runtime and memory before fixing training budgets",
-    "freeze coverage selection, method-selection policy and evaluation inventory"
+    "freeze goal-sampling mixtures and training budgets using development evidence",
+    "bind source/dependency locks, full trainer schedules and process costs to the formal run manifest",
+    "freeze coverage selection, method-selection policy and evaluation inventory",
+    "complete project-wide license, attribution and public-distribution decisions"
   ],
-  "completion_evidence": []
+  "completion_evidence": [
+    {
+      "gate": "B_standalone_learning_pipeline",
+      "kind": "development_qualification_not_formal_results",
+      "component": "baselines/",
+      "unit_tests_passed": 32,
+      "core_regression_tests_passed": 1340,
+      "qualification_fits": 36,
+      "updates_per_qualification_fit": 64,
+      "qualification_data_seed": 0,
+      "qualification_fit_seed": 0,
+      "all_evaluations_frozen": true,
+      "independent_wheel_smoke_passed": true,
+      "formal_fits_contributed": 0,
+      "reproduction_script": "baselines/examples/qualify.py",
+      "qualification_inventory": "artifacts/baseline-pipeline-v1/inventory.json"
+    },
+    {
+      "gate": "A_protocol_population_and_freeze",
+      "kind": "development_resource_calibration",
+      "reproduction_script": "baselines/examples/calibrate.py",
+      "initial_backend_choice": "cpu",
+      "choice_scope": "measured 128x128 models, batch 256, current per-update synchronization",
+      "paired_calibration_versions": {"python": "3.11.15", "jax": "0.10.2", "flax": "0.12.7", "optax": "0.2.8"},
+      "formal_fits_contributed": 0
+    }
+  ]
 }

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add a separately installable JAX baseline component with train-only goal
+  relabeling, nested coverage subsets, GCBC, GCIQL, generic categorical dynamics,
+  budgeted planning, exact checkpoint continuation and frozen R/C/G evaluation.
+  Keep unattempted-action legality unknown and preserve failure/cutoff semantics.
 - Define `copuzzle.rule-composition.rc1`: five families, six exact finite-state
   instances, distance tiers, separate inverse-edge/state holdouts, and rule,
   open-loop composition and budgeted goal-control probes. Add deterministic

@@ -33,7 +33,7 @@ results are acceptable; favorable performance is not a release gate.
 | Gate | Current state | Required completion evidence |
 |---|---|---|
 | A: protocol and population audit | In progress | Reviewed information contract, exact difficulty, coverage, sampling populations, metrics, budgets and final data inventory; test artifacts frozen before method selection |
-| B: standalone learning pipeline | Not complete | Train-only adapters, GCBC, offline goal-conditioned RL and learned dynamics with planning; checkpoint resume, frozen evaluation, input/provenance tests and a clean-install workflow |
+| B: standalone learning pipeline | Development pipeline qualified; final-protocol integration pending | Train-only adapters, GCBC, offline goal-conditioned RL and learned dynamics with planning; checkpoint resume, frozen evaluation, input/provenance tests and a clean-install workflow |
 | C: formal baseline matrix | Not started | All six instances and both splits, three prespecified data seeds and three fitting seeds, fixed method-selection rules, checkpoints and all per-case outcomes |
 | D: scientific comparisons | Not started | Coverage and planning-budget comparisons, paired uncertainty, per-instance/tier results, family macro averages, measured computational cost and explicit limitations |
 | E: engineering qualification | Prior candidate qualified; final run pending | Appropriate CI, full final regression, independent package installation, deterministic data checks and three-family historical physical replay |
@@ -146,6 +146,39 @@ Review code/data ownership, adaptation notices, dependency requirements and
 artifact contents before preparing final release files. Keep necessary owner
 decisions separate from completed engineering work.
 
-The next deliverable is the train-only baseline adapter and a tested CPU
-training/evaluation/checkpoint path on development data, followed by measured
-host GPU calibration and the final protocol/data freeze.
+## Standalone pipeline milestone
+
+The [`baselines/`](baselines/README.md) component now implements the train-only
+adapter, GCBC, goal-conditioned IQL, generic categorical dynamics and budgeted
+model planning. It has 32 passing tests, including exact CPU checkpoint
+continuation, loss/gradient checks, absence of true masks, training-file access
+guards and frozen evaluation. Thirty-six 64-update fits cover all six core
+instances, both conditions and all three methods; their checkpoints and dev
+evaluations passed. Those are engineering runs and contribute **zero** formal fits.
+The unchanged core passed all 1,340 regression tests. Project-external wheels
+passed training and evaluation with sibling-research and physics imports blocked.
+
+A paired CPU/CUDA calibration used TopSpin state-holdout development data,
+two 128-unit hidden layers, batch size 256 and 512 updates per method. With the
+same Python 3.11 / JAX 0.10.2 environment, observed post-warmup milliseconds per
+update were approximately 0.607 / 8.380 for GCBC, 1.948 / 17.296 for GCIQL, and
+0.602 / 8.573 for dynamics (CPU / GPU). These are measurements of this small-model,
+per-update-synchronization implementation under concurrent host work, not an
+intrinsic CPU/GPU performance claim. CPU is the initial scheduling choice for
+these configurations. An earlier CUDA attempt with a CPU-only JAX interpreter
+failed before training; the existing CUDA-capable environment resolved it without
+modifying other environments or jobs.
+
+Local evidence is indexed in `artifacts/baseline-pipeline-v1/` and
+`artifacts/baseline-calibration-v1/`, with validation records in
+`artifacts/baseline-pipeline-v1-validation/`. Reproduction scripts and tests are
+tracked in the standalone component; generated data and logs stay outside Git.
+
+The next deliverable is the prespecified-seed population audit and final data
+protocol/freeze. Before formal fitting, calibrate goal-sampling choices on
+development data: an actor trained only on one-step successor goals may give
+GCIQL little advantage over GCBC on long goals. The implementation supports an
+independent actor-goal mixture; the current development defaults are not the
+selected final method settings. Also audit report aggregation, coverage-conditioned
+composition support, planning cost and immutable final-test access before
+launching the 324-fit matrix.

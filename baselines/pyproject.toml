@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "copuzzle-baselines"
+version = "0.1.0.dev0"
+description = "Reproducible experience-only baselines for CoPuzzle"
+readme = "README.md"
+license-files = ["THIRD_PARTY_NOTICES.md"]
+requires-python = ">=3.10"
+dependencies = ["copuzzle==0.1.0.dev3", "jax>=0.4.35,<1", "flax>=0.10,<1", "optax>=0.2.3,<1"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "build>=1,<2"]
+
+[project.scripts]
+copuzzle-baselines = "copuzzle_baselines.cli:main"
+
+[project.urls]
+Repository = "https://github.com/AIogry/CoPuzzle"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --import-mode=importlib"
