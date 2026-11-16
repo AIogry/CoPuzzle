@@ -1,0 +1,28 @@
+{
+  "schema": "copuzzle.study_registration.v1",
+  "study_sha256": "cae60d60d38af8532dafe5b4d277d69c92a704505b19eac290f4fdded42bfaa1",
+  "selected_methods_sha256": "7d9b64cecae1ef7e04e1577b5e0038e8065aa93d480d3eab078dadd996ddc0a8",
+  "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
+  "source_snapshot_sha256": "949c0fb7b237e5c67ea644618fe99fe1f1061b054f6afc3adeae68ee21ffe0fc",
+  "document_kind": "label_free_formal_study_descriptor",
+  "protocol": "copuzzle.rule-composition.v1",
+  "study_path": "artifacts/benchmark-v1-study",
+  "registered_role": "formal",
+  "fit_count": 972,
+  "primary_fit_count": 324,
+  "learned_evaluation_count_per_split": 1296,
+  "control_evaluation_count_per_split": 576,
+  "backend": "cpu",
+  "max_workers": 2,
+  "checkpoint_selection": "last registered update only",
+  "dependency_versions": {
+    "python": "3.12.9",
+    "numpy": "2.5.3",
+    "jax": "0.11.2",
+    "jaxlib": "0.11.2",
+    "flax": "0.12.10",
+    "optax": "0.2.8"
+  },
+  "learned_final_test_evaluated": false,
+  "source_snapshot_note": "Registered workers use immutable source snapshots. Controller-only fixes have separately retained invocation source and logs."
+}

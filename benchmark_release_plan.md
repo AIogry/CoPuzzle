@@ -33,9 +33,9 @@ results are acceptable; favorable performance is not a release gate.
 
 | Gate | Current state | Required completion evidence |
 |---|---|---|
-| A: protocol and population audit | V1 data/metrics frozen; method selection and registered execution pending | Reviewed information contract, exact difficulty, coverage, sampling populations, metrics, budgets and final data inventory; test artifacts frozen before method selection |
+| A: protocol and population audit | V1 data, metrics, methods and formal matrix frozen | Reviewed information contract, exact difficulty, coverage, sampling populations, metrics, budgets and final data inventory; test artifacts frozen before method selection |
 | B: standalone learning pipeline | V1 development integration qualified | Train-only adapters, GCBC, offline goal-conditioned RL and learned dynamics with planning; checkpoint resume, frozen evaluation, input/provenance tests and a clean-install workflow |
-| C: formal baseline matrix | Not started | All six instances and both splits, three prespecified data seeds and three fitting seeds, fixed method-selection rules, checkpoints and all per-case outcomes |
+| C: formal baseline matrix | Registered 972-fit matrix running | All six instances and both splits, three prespecified data seeds and three fitting seeds, fixed method-selection rules, checkpoints and all per-case outcomes |
 | D: scientific comparisons | Not started | Coverage and planning-budget comparisons, paired uncertainty, per-instance/tier results, family macro averages, measured computational cost and explicit limitations |
 | E: engineering qualification | Prior candidate qualified; final run pending | Appropriate CI, full final regression, independent package installation, deterministic data checks and three-family historical physical replay |
 | F: public release materials | Not complete | Installation/reproduction guide, dataset and method cards, citation metadata, licenses and third-party attribution, downloadable release artifacts with checksums, independent acceptance report |
@@ -54,9 +54,9 @@ their inspected test files, remain development resources.
 
 The minimum primary matrix is six instances × two conditions × three data seeds
 × three fitting seeds × three learned method classes: **324 fitted runs**.
-Budgets and training hyperparameters remain unset until correctness and runtime
-calibration on development data; they must be resolved and hashed before formal
-fitting. Do not advertise this matrix as completed merely because all jobs were
+Budgets and training hyperparameters were resolved after correctness and runtime
+calibration and the registered 48-fit development selection. They are frozen in
+[release/selected_methods.json](release/selected_methods.json). Do not advertise this matrix as completed merely because all jobs were
 submitted. Failed runs remain in the inventory with reasons and retry history.
 
 The initial method classes are:
@@ -76,7 +76,7 @@ representation readouts require their own declarations and controls.
 The planned coverage levels are **25%, 50%, 100%** of retained training queries,
 with nested, deterministic selection using training records only. The planned
 search budgets are **0, 32, 128** predicted state-action transitions per decision.
-The exact comparison matrix, coverage unit and method-selection policy are to be
+The exact comparison matrix, coverage unit and method-selection policy are now
 frozen in gate A. Recompute training support after subsampling: C examples whose
 primitive transitions were present in the full corpus may lose that property in
 a coverage ablation. Batched model calls must charge for every predicted candidate.

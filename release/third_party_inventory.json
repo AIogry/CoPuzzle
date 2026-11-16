@@ -1,0 +1,28 @@
+{
+  "schema": "copuzzle.third_party_inventory.v1",
+  "project_license_status": "owner_decision_pending",
+  "entries": [
+    {
+      "component": "UR5e assets",
+      "path": "src/copuzzle/games/lights_out/physics/assets/ur5e",
+      "license": "BSD-3-Clause",
+      "copyright": "2018 ROS Industrial Consortium",
+      "source_repository": "https://github.com/google-deepmind/mujoco_menagerie",
+      "source_commit": "c6c202003c72e87d079db69160e499fb0d83c535",
+      "files_verified": 23,
+      "provenance_sha256": "185b18768e606f97f9c42de661fc00c56a13182d6d2f978209e3d2f2759b66c4",
+      "license_sha256": "5ec71ccf66c8d03261448f2441a586765b97f2248c860a1ae19689fb1c45cee6",
+      "upstream_bytes_preserved": true
+    },
+    {
+      "component": "OGBench reference loss definitions",
+      "license": "MIT",
+      "copyright": "2024 OGBench Authors",
+      "source_repository": "https://github.com/seohongpark/ogbench",
+      "source_commit": "1d4140997f60c52c6fb0702ec100dc988b18c548",
+      "notice_path": "baselines/THIRD_PARTY_NOTICES.md",
+      "notice_sha256": "cdea5c980823bc06592d9b49d324177a2d879dde31c5b1e1f826dbd7f4f2b1c8",
+      "runtime_dependency": false
+    }
+  ]
+}

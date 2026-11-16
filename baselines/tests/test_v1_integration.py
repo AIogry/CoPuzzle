@@ -86,7 +86,7 @@ def test_data_only_controls_do_not_query_rules(v1_bundle, monkeypatch):
         assert model.predict(raw, data.actions[:2])[0].shape == raw.shape
 
 
-def test_test_access_binds_checkpoint_data_config_source_and_step(tmp_path):
+def test_test_access_binds_checkpoint_data_config_source_and_step(tmp_path, monkeypatch):
     # Synthetic bytes/metadata only; no model is evaluated on final test data.
     checkpoint, bundle = tmp_path / "checkpoint.zip", tmp_path / "bundle"
     checkpoint.write_bytes(b"synthetic-checkpoint")
@@ -100,7 +100,13 @@ def test_test_access_binds_checkpoint_data_config_source_and_step(tmp_path):
            "config_sha256": fingerprint(header["config"]), "sources_sha256": fingerprint(header["sources"]),
            "data_sha256": fingerprint(header["data"]), "fit_seed": 0, "step": 10}
     lock = tmp_path / "selection.json"
-    lock.write_text(json.dumps({"schema": "copuzzle.test_selection.v1", "selection_complete": True, "checkpoints": [row]}))
+    content = {"schema": "copuzzle.test_selection.v2", "selection_complete": True, "checkpoints": [row]}
+    lock.write_text(json.dumps(content))
+    # A handwritten completion flag is no longer sufficient to open test data.
+    with pytest.raises(ValueError):
+        authorize_test(lock, checkpoint, bundle, header)
+    import copuzzle_baselines.study.evidence as evidence
+    monkeypatch.setattr(evidence, "verify_seal", lambda path: content)
     assert authorize_test(lock, checkpoint, bundle, header)["job_id"] == "synthetic-job"
     with pytest.raises(ValueError, match="binding"):
         authorize_test(lock, checkpoint, bundle, {**header, "step": 11})

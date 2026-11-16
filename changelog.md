@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Register the formal 972-fit study with immutable source/data/config bindings,
+  resumable attempts, kernel-backed leases and complete-cohort final-test sealing.
+  Preserve failure histories and controller revisions. Add CI and installed-wheel
+  validation; license proposals remain pending owner confirmation.
 - Freeze a separate v1 benchmark protocol and prespecified data inventory with
   exact finite populations, exhaustive small cells, shared C/G pair holdouts,
   equal-length/tier metrics, batched query accounting and retained policy errors.

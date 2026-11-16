@@ -54,25 +54,19 @@
   ],
   "final_artifact_inventory_frozen": true,
   "training_configuration_frozen": true,
-  "primary_fits_completed": 0,
+  "primary_fits_completed": 19,
   "ci_qualified": false,
   "project_license_resolved": false,
   "gates": {
-    "A_protocol_population_and_freeze": "data_metrics_and_method_configuration_frozen_executor_pending",
+    "A_protocol_population_and_freeze": "data_metrics_methods_and_formal_matrix_frozen",
     "B_standalone_learning_pipeline": "v1_development_integration_qualified",
-    "C_formal_baseline_matrix": "not_started",
+    "C_formal_baseline_matrix": "running_registered_972_fit_matrix",
     "D_scientific_comparisons": "not_started",
     "E_final_engineering_qualification": "pending_final_snapshot",
     "F_public_release_materials": "not_complete"
   },
-  "next_deliverable": "registered resumable formal executor, cohort-bound test seal and execution of 324 primary plus 648 coverage-ablation fits",
-  "decisions_required_before_formal_runs": [
-    "audit all prespecified seed populations and fix C/G cardinality semantics",
-    "freeze goal-sampling mixtures and training budgets using development evidence",
-    "bind source/dependency locks, full trainer schedules and process costs to the formal run manifest",
-    "freeze coverage selection, method-selection policy and evaluation inventory",
-    "complete project-wide license, attribution and public-distribution decisions"
-  ],
+  "next_deliverable": "complete registered fits, full-cohort test seal, failure-inclusive paired aggregation, CI and installation qualification",
+  "decisions_required_before_formal_runs": [],
   "completion_evidence": [
     {
       "gate": "B_standalone_learning_pipeline",
@@ -135,6 +129,14 @@
       "raw_report_reaggregation_verified": true,
       "formal_fits_contributed": 0,
       "learned_final_test_evaluated": false
+    },
+    {
+      "gate": "E_final_engineering_qualification",
+      "kind": "formal_executor_regression",
+      "baseline_tests_passed": 54,
+      "independently_restored_formal_checkpoints": 6,
+      "early_controller_exit": "Fixed simultaneous worker completion; preserved original source/log, same registry resumed without refitting completed jobs.",
+      "ci_qualified": false
     }
   ],
   "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
@@ -155,5 +157,26 @@
   },
   "selected_methods": "release/selected_methods.json",
   "planned_total_learning_fits": 972,
-  "planned_coverage_ablation_fits": 648
+  "planned_coverage_ablation_fits": 648,
+  "owner_decisions_pending": [
+    "project-wide original-code/data licensing and public authorship; concrete proposal in release/license_proposal.md"
+  ],
+  "formal_study": {
+    "schema": "copuzzle.study_registration.v1",
+    "study_sha256": "cae60d60d38af8532dafe5b4d277d69c92a704505b19eac290f4fdded42bfaa1",
+    "selected_methods_sha256": "7d9b64cecae1ef7e04e1577b5e0038e8065aa93d480d3eab078dadd996ddc0a8",
+    "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
+    "source_snapshot_sha256": "949c0fb7b237e5c67ea644618fe99fe1f1061b054f6afc3adeae68ee21ffe0fc",
+    "directory": "artifacts/benchmark-v1-study",
+    "registered_fits": 972,
+    "registered_primary_fits": 324,
+    "registered_learned_evaluations_per_split": 1296,
+    "registered_control_evaluations_per_split": 576,
+    "status": "running",
+    "completed_fits_at_last_observation": 19,
+    "counts_note": "Snapshot only; study runner status is authoritative.",
+    "failed_fits_at_last_observation": 0,
+    "test_sealed": false,
+    "learned_final_test_evaluated": false
+  }
 }

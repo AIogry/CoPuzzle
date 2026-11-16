@@ -25,9 +25,11 @@ def validate_fit_context(context, config, data, sources, versions, seed, steps, 
 def authorize_test(lock_path, checkpoint, bundle, header):
     if lock_path is None:
         raise ValueError("benchmark test evaluation requires a sealed study selection lock")
-    lock = json.loads(Path(lock_path).read_text())
-    if lock.get("schema") != "copuzzle.test_selection.v1" or lock.get("selection_complete") is not True:
-        raise ValueError("test selection is not sealed")
+    from .evidence import verify_seal
+    try:
+        lock = verify_seal(lock_path)
+    except (OSError, KeyError, TypeError) as error:
+        raise ValueError("test lock lacks a verified registered cohort") from error
     checksum = hashlib.sha256(Path(checkpoint).read_bytes()).hexdigest()
     matches = [row for row in lock.get("checkpoints", []) if row.get("checkpoint_sha256") == checksum]
     if len(matches) != 1:
@@ -46,9 +48,11 @@ def authorize_test(lock_path, checkpoint, bundle, header):
 def authorize_control_test(lock_path, bundle, settings, source_sha256):
     if lock_path is None:
         raise ValueError("benchmark test controls require a sealed study selection lock")
-    lock = json.loads(Path(lock_path).read_text())
-    if lock.get("schema") != "copuzzle.test_selection.v1" or lock.get("selection_complete") is not True:
-        raise ValueError("test selection is not sealed")
+    from .evidence import verify_seal
+    try:
+        lock = verify_seal(lock_path)
+    except (OSError, KeyError, TypeError) as error:
+        raise ValueError("test lock lacks a verified registered cohort") from error
     expected = {"bundle_manifest_sha256": hashlib.sha256((Path(bundle) / "manifest.json").read_bytes()).hexdigest(),
                 "settings": settings, "sources_sha256": source_sha256}
     matches = [row for row in lock.get("controls", []) if all(row.get(key) == value for key, value in expected.items())]

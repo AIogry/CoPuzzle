@@ -1,0 +1,81 @@
+name: CoPuzzle validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      MUJOCO_GL: egl
+      PYOPENGL_PLATFORM: egl
+      EGL_PLATFORM: surfaceless
+      LIBGL_ALWAYS_SOFTWARE: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.9"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            ci/constraints.txt
+      - name: Install headless rendering libraries
+        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri libosmesa6
+      - name: Install core and test dependencies
+        run: python -m pip install -c ci/constraints.txt -e '.[dev,render]'
+      - name: Full core regression
+        run: python -m pytest -q
+      - name: Build distributions
+        run: python -m build --wheel --sdist --outdir dist/core
+      - name: Install the wheel independently
+        run: |
+          python -m pip install --force-reinstall --no-deps dist/core/*.whl
+          cd "$RUNNER_TEMP"
+          python "$GITHUB_WORKSPACE/scripts/verify_install.py" --forbid-source "$GITHUB_WORKSPACE"
+
+  learning:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      JAX_PLATFORMS: cpu
+      OMP_NUM_THREADS: "2"
+      OPENBLAS_NUM_THREADS: "2"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12.9"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            baselines/pyproject.toml
+            ci/constraints.txt
+      - name: Install the independent learning component
+        run: python -m pip install -c ci/constraints.txt -e '.[dev]' -e './baselines[dev]'
+      - name: Learning and executor regression
+        run: python -m pytest -q baselines/tests
+      - name: Build both wheels
+        run: |
+          python -m build --wheel --outdir dist/core
+          python -m build baselines --wheel --sdist --outdir dist/baselines
+      - name: Validate installed learners outside the checkout
+        run: |
+          python -m pip install --force-reinstall --no-deps dist/core/*.whl dist/baselines/*.whl
+          cd "$RUNNER_TEMP"
+          python "$GITHUB_WORKSPACE/scripts/verify_install.py" --forbid-source "$GITHUB_WORKSPACE" --with-baselines

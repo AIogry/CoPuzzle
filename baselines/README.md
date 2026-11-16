@@ -201,5 +201,7 @@ It copies source/configuration snapshots, executes 48 registered development
 fits, records startup/fit/evaluation failures and selects the GCIQL goal mixture
 using only dev scores with the declared family weighting/tie break. An incomplete
 or duplicated matrix cannot write a successful selection. This development
-selection file is not a final-test authorization lock. The formal executor's
-resume/retry, cohort sealing and final statistical aggregation remain separate.
+selection file is not a final-test authorization lock. The [formal executor](STUDY.md)
+adds registration, kernel-backed job leases, immutable attempts, checkpoint
+recovery and complete-cohort test sealing. Statistical aggregation and public
+acceptance remain separate gates.
