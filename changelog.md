@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Define `copuzzle.rule-composition.rc1`: five families, six exact finite-state
+  instances, distance tiers, separate inverse-edge/state holdouts, and rule,
+  open-loop composition and budgeted goal-control probes. Add deterministic
+  data generation, strict semantic audits, learner-only loaders and calibration
+  controls. Keep qualification data distinct from a final publication test.
 - Add a separate segmented physical-play protocol with one reset, safe behavior
   goal changes, native action replay and first-hit goal relabeling. Keep physical
   episode endings distinct from local goal completion and retain failed prefixes.

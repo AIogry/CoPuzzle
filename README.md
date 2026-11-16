@@ -1,6 +1,6 @@
 # CoPuzzle
 
-**Development snapshot: `0.1.0.dev3`, with unreleased additions.** Abstract Lights Out, Pancake, TopSpin, Sliding Puzzle and Hanoi, plus optional MuJoCo Lights Out button boards and direct-contact TopSpin/Pancake tabletop models. Earlier indexed fixtures remain archived separately. The public benchmark task distribution and release protocol are not yet frozen.
+**Development snapshot: `0.1.0.dev3`, with unreleased additions.** Abstract Lights Out, Pancake, TopSpin, Sliding Puzzle and Hanoi, plus optional MuJoCo Lights Out button boards and direct-contact TopSpin/Pancake tabletop models. Earlier indexed fixtures remain archived separately. A [research protocol release candidate](research_protocol.md) now specifies six core instances, exact difficulty tiers, held-out data and R/C/G evaluation. Final publication data and learned baseline results are not yet frozen.
 
 CoPuzzle is an independent package. The base installation uses NumPy and Gymnasium. The optional physical environment adds MuJoCo and packaged, licensed UR5e assets. It requires no other research checkout, training framework, or local dataset. Rules, button scenes and reference controllers are implemented here.
 
@@ -132,7 +132,10 @@ policy or a complete offline training distribution. See
 
 ## Public structure protocol
 
-New research runs should explicitly select `observation_profile="structure_v1"`.
+For the existing structure-conditioned experiments, explicitly select
+`observation_profile="structure_v1"`. The separate
+[experience-based rule/composition protocol](research_protocol.md) uses
+`copuzzle research` and does not supply geometry, adjacency or true legal masks.
 The existing Python default and `CoPuzzle/*-v0` Gym IDs retain their original
 hidden observations. The package version does not change the old trajectory
 schema, RNG stream or environment defaults.
@@ -478,7 +481,7 @@ The sampler takes an independent snapshot and caches eligible future goals. A fu
 
 For explicit goals use `relabel_transitions(dataset, episode_indices, step_indices, goals)`. It does not assert arbitrary supplied goals are reachable. One-shot `sample_goal_transitions(..., seed=...)` remains available; repeatedly supplying the same seed deliberately reproduces the same batch.
 
-Independent split seeds produce **independent trajectories**, not necessarily unseen states. In particular, 3×3 has only 512 boards. Train/validation state overlap is expected. The current generator does not implement a state-disjoint generalization split.
+Independent split seeds in this legacy trajectory generator produce **independent trajectories**, not necessarily unseen states. In particular, 3×3 has only 512 boards. Train/validation state overlap is expected. For a checked state-disjoint condition, use the separate [`copuzzle research` protocol](research_protocol.md); existing archives are not retroactively relabeled as held-out data.
 
 ## Evaluation and diagnostics
 
@@ -510,8 +513,9 @@ accepts different node counts and rule identities across suites; variable-size
 model inputs, action outputs, checkpoint restoration and parameter freezing are
 the external algorithm's responsibility. A fixed-width model must report an
 unsupported size instead of being silently expanded or retrained. A frozen
-train/dev/test benchmark distribution and dedicated representation probes remain
-future work.
+cross-size train/dev/test distribution remains future work. The separate
+[research candidate](research_protocol.md) supplies within-instance R/C/G probes
+and held-out splits; it does not certify cross-size generalization.
 
 ### Model prediction callback
 
@@ -641,6 +645,7 @@ These identifiers version different contracts:
 | Offline bundle | `copuzzle.offline_bundle.v1` | Structure-to-trajectory binding changes |
 | Task/result JSON formats | Legacy `copuzzle.goal_tasks.v0` / `copuzzle.evaluation.v0`; structured `copuzzle.goal_tasks.v1` / `copuzzle.evaluation.v1` | Their respective serialization contracts change |
 | Prediction reports | `copuzzle.prediction.v1` | Predictor inputs or metric serialization change |
+| Research protocol candidate | `copuzzle.rule-composition.rc1` | Core scope, information, splits, difficulty, sampling or metrics change |
 | Frozen benchmark suite | Not released | Task/data splits, difficulty, metrics, and evaluation budgets are formally fixed or revised |
 
 Moving implementation files does not change game behavior, data schemas, generator versions, rule identities, or Gym IDs. Source filenames need no version suffix. Changing the generator/schema identifiers currently changes seed derivation, so they must not be mechanically synchronized with the package version.
@@ -663,4 +668,4 @@ The dependency declaration is `pyproject.toml`. Recreate `.venv` on another mach
 
 ## Release status
 
-Environment IDs, schema versions, seeds, artifact hashes, and dependency versions are recorded so experiments can identify their protocol. Compatibility changes will require corresponding version changes. Before a public benchmark release, the project still needs a frozen task/data distribution, generalization splits, learned baseline results, and a license/distribution decision. The package has not been published or assigned a public leaderboard.
+Environment IDs, schema versions, seeds, artifact hashes, and dependency versions are recorded so experiments can identify their protocol. Compatibility changes will require corresponding version changes. The research candidate now implements scope, difficulty and generalization splits. Before a public benchmark release, the project still needs a final frozen data inventory, learned baseline results and ablations, and a license/distribution decision. The package has not been published or assigned a public leaderboard.

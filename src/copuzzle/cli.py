@@ -63,6 +63,9 @@ def _resolve_rule(args, fallback="grid-3x3"):
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == "research":
+        from copuzzle.research.cli import main as research_main
+        return research_main(argv[1:])
     if argv and argv[0] == "manipulation":
         from copuzzle.manipulation.cli import main as manipulation_main
         return manipulation_main(argv[1:])
@@ -74,6 +77,7 @@ def main(argv=None):
         return permutation_main(argv[1:])
     parser = argparse.ArgumentParser(prog="copuzzle", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    commands.add_parser("research", help="Rule induction, composition and exact-difficulty research protocol")
     commands.add_parser("permutation", help="Pancake/TopSpin data, goals, evaluation and collections")
     commands.add_parser("classic", help="Sliding Puzzle/Hanoi legal-operation datasets and evaluation")
     commands.add_parser("manipulation", help="Direct-contact physical task suites, collection and continuous batches")
