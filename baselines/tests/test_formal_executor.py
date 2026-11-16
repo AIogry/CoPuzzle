@@ -20,6 +20,94 @@ from copuzzle_baselines.study.runner import run, snapshot
 from copuzzle_baselines.study.storage import BusyStudy, active, file_hash, lease, verified_record, write_new
 
 
+def test_study_analysis_requires_terminal_evaluations_and_valid_reports(qualification):
+    from copuzzle_baselines.study.analysis import collect_rows, attempt_costs
+    root, _, _ = qualification
+    with pytest.raises(ValueError, match="nonterminal"):
+        collect_rows(root, "dev", include_controls=False)
+    run_job(root, "fit", "tiny-gcbc")
+    run_job(root, "dev", "tiny-gcbc-b0")
+    rows, reports = collect_rows(root, "dev", include_controls=False)
+    assert len(rows) == 1 and len(reports) == 1
+    assert rows[0]["metrics"]["R"] is None
+    assert rows[0]["metrics"]["C"] is None
+    costs = attempt_costs(root)
+    assert len(costs["attempts"]) == 2 and costs["known_process_work_seconds"] > 0
+    report = root / rows[0]["report"]
+    report.write_text('{}\n')
+    with pytest.raises(ValueError, match="changed"):
+        collect_rows(root, "dev", include_controls=False)
+
+
+def test_study_analysis_keeps_failed_fits_and_evaluations(qualification):
+    from copuzzle_baselines.study.analysis import collect_rows
+    root, _, _ = qualification
+    record_startup_failure(root, "fit", "tiny-gcbc", RuntimeError("fit failed before startup"))
+    record_startup_failure(root, "dev", "tiny-gcbc-b0", RuntimeError("fitted model unavailable"))
+    rows, reports = collect_rows(root, "dev", include_controls=False)
+    assert len(rows) == 1 and not reports
+    assert rows[0]["fit_status"] == rows[0]["status"] == "failed"
+    assert rows[0]["metrics"] == {"R": None, "C": None, "G": 0.0, "G_normalized_cost": 1.0}
+    assert rows[0]["expected_goal_cases"] == 3
+
+
+def test_cost_history_counts_retries_once_and_rejects_history_changes(qualification, monkeypatch):
+    from copuzzle_baselines.study.analysis import attempt_costs
+    root, _, _ = qualification
+    first = record_startup_failure(root, "fit", "tiny-gcbc", RuntimeError("startup failure"))
+    assert run_job(root, "fit", "tiny-gcbc", retry_failed=True)["status"] == "completed"
+    monkeypatch.chdir(root.parent)
+    costs = attempt_costs(Path(root.name))
+    assert len(costs["attempts"]) == 2
+    assert {r["attempt"] for r in costs["attempts"]} == {1, 2}
+    assert costs["known_process_work_seconds"] > 0
+    assert not costs["unlinked_attempt_directories"]
+    path = root / "jobs/fit/tiny-gcbc/attempts/0001/record.json"
+    first["process_work_seconds"] = 9999
+    path.write_text(json.dumps(first))
+    with pytest.raises(ValueError, match="historical"):
+        attempt_costs(root)
+
+
+def test_prediction_archive_reproduces_selected_learners_and_controls(qualification, tmp_path):
+    from copuzzle.benchmark.data import load_probe
+    from copuzzle_baselines.study.prediction_archive import export, verify_export
+    from copuzzle_baselines.study.analysis import analyze
+    root, bundle, _ = qualification
+    study, _ = load_study(root)
+    fit = study["fit_jobs"][0]
+    fit["method"] = "dynamics"
+    fit["config"]["method"] = "dynamics"
+    fit["budgets"] = [8, 16]
+    study["evaluation_jobs"] = [{"id": f"tiny-b{budget}", "fit_id": fit["id"], "dataset_id": "tiny", "kind": "learned", "budget": budget}
+                                for budget in (8, 16)]
+    study["control_jobs"] = [{"id": kind, "dataset_id": "tiny", "kind": "control",
+                              "settings": {"kind": kind, "model_query_limit": None if kind == "optimal_oracle" else 8,
+                                           "coverage": 1.0, "coverage_seed": 0, "seed": 0}}
+                             for kind in ("lookup", "fitted_xor", "oracle_dynamics", "optimal_oracle")]
+    for probe in ("R", "C"):
+        study["datasets"][0]["evaluation_cases"][f"{probe}_dev"] = len(load_probe(bundle / "learner", probe, "dev")["board"])
+    (root / "study.json").write_text(json.dumps(study))
+    (root / "registration.json").write_text(json.dumps({"schema": "copuzzle.study_registration.v1", "study_sha256": file_hash(root / "study.json")}))
+    assert run_job(root, "fit", fit["id"])["status"] == "completed"
+    for phase, jobs in (("dev", study["evaluation_jobs"]), ("control-dev", study["control_jobs"])):
+        for job in jobs:
+            assert run_job(root, phase, job["id"])["status"] == "completed"
+    output = tmp_path / "predictions"
+    index = export(root, output, split="dev")
+    assert len(index["entries"]) == 6 and index["unique_archives"] == 5
+    assert index["entries"][0]["archive"] == index["entries"][1]["archive"]
+    assert verify_export(root, output, split="dev")["valid"]
+    result = analyze(root, tmp_path / "analysis", split="dev", repetitions=20, predictions=output)
+    assert result["per_case_evidence_complete"] and result["evaluation_jobs"] == 6
+    with pytest.raises(FileExistsError):
+        export(root, output, split="dev")
+    path = output / index["entries"][0]["archive"]
+    path.write_bytes(b"corrupt")
+    with pytest.raises(ValueError, match="changed"):
+        verify_export(root, output, split="dev")
+
+
 @pytest.fixture
 def qualification(tmp_path):
     data_root = tmp_path / "data"

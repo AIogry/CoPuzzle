@@ -15,6 +15,7 @@ include release/data_freeze.json
 include release/method_selection_plan.json
 include release/selected_methods.json
 include release/study_registration.json
+include release/analysis_plan.json
 include release/license_proposal.md
 include release/third_party_inventory.json
 recursive-include release/proposals *.txt *.md
@@ -25,11 +26,14 @@ include baselines/MANIFEST.in
 include baselines/README.md
 include baselines/THIRD_PARTY_NOTICES.md
 include baselines/STUDY.md
+include baselines/ANALYSIS.md
 recursive-include baselines/src *.py
 recursive-include baselines/tests *.py
 recursive-include baselines/configs *.json
 recursive-include baselines/examples *.py
 include CONTRIBUTING.md
+include DATASET_CARD.md
+include baselines/METHOD_CARD.md
 recursive-include src/copuzzle/games/lights_out/physics/assets *.xml *.obj *.json *.md LICENSE
 recursive-include examples *.py
 recursive-include tests *.py

@@ -11,7 +11,9 @@ Planned experiments are kept distinct from completed qualification results.
 The optional [learning baselines](baselines/README.md) provide train-only data
 adaptation, GCBC, goal-conditioned IQL and learned categorical dynamics with
 budgeted planning. They install separately with `pip install -e ./baselines`;
-current training runs are development qualification, not formal benchmark results.
+the registered formal matrix is running, and final results remain pending.
+See the [dataset card](DATASET_CARD.md), [method card](baselines/METHOD_CARD.md),
+and [execution/analysis workflow](baselines/STUDY.md) for scope and reproducibility.
 
 ## Install and try
 

@@ -3,9 +3,9 @@
 This is a separately installable JAX/Flax/Optax component in the CoPuzzle
 repository. The base environment does not depend on it. It uses the
 `copuzzle.rule-composition.v1` and legacy RC1 learner arrays, not the sibling CoPuzzleLab
-checkout or its legacy masks. Current runs are **development experiments**;
-the v1 data inventory is frozen, while method selection and formal training
-configuration are tracked separately in the release ledger.
+checkout or its legacy masks. The v1 data inventory, method configurations and
+formal matrix are frozen. The registered 972-fit experiment is running; final
+comparative results remain pending. See the [method card](METHOD_CARD.md).
 
 ## Installation and commands
 
@@ -203,5 +203,6 @@ using only dev scores with the declared family weighting/tie break. An incomplet
 or duplicated matrix cannot write a successful selection. This development
 selection file is not a final-test authorization lock. The [formal executor](STUDY.md)
 adds registration, kernel-backed job leases, immutable attempts, checkpoint
-recovery and complete-cohort test sealing. Statistical aggregation and public
-acceptance remain separate gates.
+recovery and complete-cohort test sealing. The [analysis workflow](ANALYSIS.md)
+adds verified per-case evidence and paired statistics. Executed formal analysis
+and public acceptance remain separate gates.

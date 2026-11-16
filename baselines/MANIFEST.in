@@ -1,6 +1,8 @@
 include README.md
 include THIRD_PARTY_NOTICES.md
 include STUDY.md
+include ANALYSIS.md
+include METHOD_CARD.md
 recursive-include tests *.py
 recursive-include configs *.json
 recursive-include examples *.py

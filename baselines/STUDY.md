@@ -98,7 +98,9 @@ manifests. Structural assumptions and privileged references remain labeled; the
 optimal oracle has no comparable query budget. Qualification studies used in
 tests cannot authorize final benchmark tests.
 
-Raw outcomes and all attempt costs must feed paired uncertainty and family-macro
-analysis. Terminal counts alone do not establish scientific conclusions or
-release readiness. Aggregation, CI, final installation/replay, licensing,
-attribution and distribution remain separate acceptance gates.
+Raw outcomes and all attempt costs feed the
+[complete-cohort analysis workflow](ANALYSIS.md), including verified R/C
+prediction archives, paired uncertainty and family-macro estimates. Terminal
+counts alone do not establish scientific conclusions or release readiness.
+Executed analysis, CI, final installation/replay, licensing, attribution and
+distribution remain separate acceptance gates.

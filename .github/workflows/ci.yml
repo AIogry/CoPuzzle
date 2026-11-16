@@ -11,7 +11,8 @@ permissions:
 
 concurrency:
   group: validation-${{ github.ref }}
-  cancel-in-progress: true
+  # Let main's long physical regression finish while newer commits queue.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   core:

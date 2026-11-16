@@ -54,14 +54,14 @@
   ],
   "final_artifact_inventory_frozen": true,
   "training_configuration_frozen": true,
-  "primary_fits_completed": 19,
+  "primary_fits_completed": 146,
   "ci_qualified": false,
   "project_license_resolved": false,
   "gates": {
     "A_protocol_population_and_freeze": "data_metrics_methods_and_formal_matrix_frozen",
     "B_standalone_learning_pipeline": "v1_development_integration_qualified",
     "C_formal_baseline_matrix": "running_registered_972_fit_matrix",
-    "D_scientific_comparisons": "not_started",
+    "D_scientific_comparisons": "analysis_and_per_case_evidence_pipeline_qualified_formal_results_pending",
     "E_final_engineering_qualification": "pending_final_snapshot",
     "F_public_release_materials": "not_complete"
   },
@@ -137,6 +137,21 @@
       "independently_restored_formal_checkpoints": 6,
       "early_controller_exit": "Fixed simultaneous worker completion; preserved original source/log, same registry resumed without refitting completed jobs.",
       "ci_qualified": false
+    },
+    {
+      "gate": "D_scientific_comparisons",
+      "kind": "analysis_implementation_development_qualification_not_formal_results",
+      "baseline_tests_passed": 64,
+      "coverage": [
+        "paired_seed_uncertainty",
+        "family_weights",
+        "failure_inclusive_scores",
+        "unsupported_probe_nulls",
+        "complete_job_inventory",
+        "historical_attempt_costs",
+        "exact_R_C_prediction_archive_score_reproduction"
+      ],
+      "formal_test_evaluated": false
     }
   ],
   "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
@@ -173,10 +188,20 @@
     "registered_learned_evaluations_per_split": 1296,
     "registered_control_evaluations_per_split": 576,
     "status": "running",
-    "completed_fits_at_last_observation": 19,
+    "completed_fits_at_last_observation": 146,
     "counts_note": "Snapshot only; study runner status is authoritative.",
     "failed_fits_at_last_observation": 0,
     "test_sealed": false,
     "learned_final_test_evaluated": false
-  }
+  },
+  "analysis_plan": "release/analysis_plan.json",
+  "ci_runs": [
+    {
+      "commit": "642d666343dd03ccc2dc60e36d9fe399eafb41c0",
+      "url": "https://github.com/AIogry/CoPuzzle/actions/runs/43950479514",
+      "learning": "passed",
+      "core": "running_at_last_observation",
+      "final_release_qualified": false
+    }
+  ]
 }

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add complete-cohort analysis with paired data/fit-seed intervals, equal-family
+  weighting, retained failed runs, checked attempt costs and per-case R/C archives
+  that reproduce saved scores. Register the analysis plan before final testing,
+  and document the frozen dataset and baseline scope in public-facing cards.
 - Register the formal 972-fit study with immutable source/data/config bindings,
   resumable attempts, kernel-backed leases and complete-cohort final-test sealing.
   Preserve failure histories and controller revisions. Add CI and installed-wheel

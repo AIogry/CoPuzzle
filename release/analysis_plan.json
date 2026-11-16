@@ -1,0 +1,37 @@
+{
+  "schema": "copuzzle.analysis_plan.v1",
+  "status": "registered_before_learned_final_test",
+  "study_sha256": "cae60d60d38af8532dafe5b4d277d69c92a704505b19eac290f4fdded42bfaa1",
+  "primary_metrics": {
+    "R": "equal-present-legality-class joint next-state/legality exact accuracy",
+    "C": "equal-length whole-prefix exact accuracy",
+    "G": "equal-tier goal success",
+    "G_normalized_cost": "equal-tier failure-inclusive attempts divided by the fixed instance horizon"
+  },
+  "scopes": "per instance and condition; average Lights Out instances within family, then five families equally; keep conditions separate",
+  "unsupported": "null, not zero; no all-core summary for controls declared on only a subset of families",
+  "failed_runs": "retain every registered fit/evaluation; supported scores zero, normalized goal cost one; never impute unobserved actions or latency",
+  "uncertainty": {
+    "kind": "paired hierarchical percentile bootstrap",
+    "repetitions": 10000,
+    "seed": 0,
+    "confidence": 0.95,
+    "outer": "resample the three registered data-seed IDs with replacement as shared clusters across fixed tasks",
+    "inner": "within each sampled outer cluster independently resample three fit-seed IDs with replacement",
+    "pairing": "identical draws for every method, coverage, query budget and fixed task",
+    "deterministic_controls": "broadcast over fit-seed axis for paired contrasts; no fictitious additional runs",
+    "conditioning": "fixed task families, instances, cases, partitions, selected configurations and training budget",
+    "limitations": "three outer seeds; intervals are descriptive, not calibrated evidence of significance or unseen-family generalization"
+  },
+  "prespecified_contrasts": [
+    "all pairwise primary learned series at full coverage: GCBC/0, GCIQL/0, dynamics/32, dynamics/128",
+    "full minus 25 percent and full minus 50 percent coverage within each matching method/budget",
+    "128 minus 32 queries within each matching model-based method/coverage",
+    "matched bounded oracle dynamics minus learned dynamics at full coverage and equal query budget",
+    "optimal oracle minus bounded oracle at each registered budget"
+  ],
+  "costs": "all original/retry attempts once; worker elapsed work separate from experiment wall time; unknown crash cost marked missing; archive reproduction cost separate",
+  "case_evidence": "all G case records plus R/C prediction archives checked against saved metrics; unavailable evaluations retain expected case denominator",
+  "selection": "no additional hyperparameter/checkpoint/seed choice from these statistics",
+  "interpretation": "no pooled R/C/G scalar, no significance threshold, no selective best-budget or best-seed headline"
+}
