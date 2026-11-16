@@ -207,6 +207,9 @@ def validate_study(root, *, verify_data=False, verify_snapshot=False):
     if file_hash(root / "data_inventory.json") != study["data_inventory_sha256"]:
         raise ValueError("frozen data inventory copy changed")
     if verify_snapshot:
+        actual_sources = {p.relative_to(root / "source").as_posix() for p in (root / "source").rglob("*.py")}
+        if actual_sources != set(study["source_snapshot"]):
+            raise ValueError("worker Python source inventory changed")
         for name, digest in study["source_snapshot"].items():
             if file_hash(inside(root / "source", name)) != digest:
                 raise ValueError("worker source snapshot changed")

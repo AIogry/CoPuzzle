@@ -268,6 +268,25 @@ def test_qualification_cannot_open_test_and_flags_alone_are_insufficient(qualifi
         verify_seal(selection / "test-lock.json")
 
 
+def test_registered_snapshot_rejects_added_python_modules(qualification):
+    root, _, _ = qualification
+    (root / "source/unregistered.py").write_text('unexpected = True\n')
+    with pytest.raises(ValueError, match="inventory"):
+        validate_study(root, verify_snapshot=True)
+
+
+def test_completed_fit_requires_the_registered_execution_source_map(qualification):
+    from copuzzle_baselines.study.storage import publish_receipt
+    root, _, _ = qualification
+    record = run_job(root, "fit", "tiny-gcbc")
+    del record["executing_baseline_sources"]["study/jobs.py"]
+    record["executing_baseline_sources_sha256"] = fingerprint(record["executing_baseline_sources"])
+    # A self-consistent receipt must not authorize an incomplete source claim.
+    publish_receipt(root, "fit", "tiny-gcbc", root / "incomplete-source-record.json", record)
+    with pytest.raises(ValueError, match="source inventory"):
+        run_job(root, "fit", "tiny-gcbc")
+
+
 def test_subprocess_controller_uses_snapshots_and_retains_all_goal_cases(qualification):
     root, _, _ = qualification
     fitted = run(root, "fit", workers=1)

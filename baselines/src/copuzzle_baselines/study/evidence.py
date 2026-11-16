@@ -49,6 +49,11 @@ def verify_fit(root, study, study_sha256, job, *, restore=False):
         if not record.get("error"):
             raise ValueError("failed fit has no error evidence")
         return record
+    expected_execution = {name.removeprefix("copuzzle_baselines/"): digest for name, digest in study["source_snapshot"].items()
+                          if name.startswith("copuzzle_baselines/")}
+    if (record.get("executing_baseline_sources") != expected_execution
+            or record.get("executing_baseline_sources_sha256") != fingerprint(expected_execution)):
+        raise ValueError("completed fit executed a different baseline source inventory")
     info = checkpoint_evidence(inside(root, record["checkpoint"]), study, study_sha256, job, final=True, restore=restore)
     if record["checkpoint_evidence"] != info:
         raise ValueError("completed fit checkpoint changed")
