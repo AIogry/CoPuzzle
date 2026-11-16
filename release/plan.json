@@ -219,7 +219,7 @@
   "planned_total_learning_fits": 972,
   "planned_coverage_ablation_fits": 648,
   "owner_decisions_pending": [
-    "project-wide original-code/data licensing and public authorship; concrete proposal in release/license_proposal.md"
+    "owner authority and final licenses for original code, generated data, trained checkpoints and result materials; public authorship and distribution approval; full proposal in release/license_proposal.md"
   ],
   "formal_study": {
     "schema": "copuzzle.study_registration.v1",
@@ -238,7 +238,7 @@
     "failed_fits_at_last_observation": 0,
     "test_sealed": true,
     "learned_final_test_evaluated": true,
-    "primary_fits_status": "324 complete; 648 coverage fits complete; final-test evaluation pending seal verification",
+    "primary_fits_status": "324 primary and 648 coverage fits complete and sealed; all 1872 final evaluations complete and independently verified",
     "test_lock_sha256": "1d7a24ce27a59ec0cdd5efa2ae208824f1dd3b59ebc456dfa1fbf3c9215ebd05",
     "learned_final_test_evaluation_started": true,
     "learned_final_test_complete": true,
