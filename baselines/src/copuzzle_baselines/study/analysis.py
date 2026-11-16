@@ -196,6 +196,11 @@ def collect_rows(root, split, *, include_controls=True):
         truth = _read_npz(bundle / "evaluator/answers.npz")
         return {"distance": truth[f"G_{split}_distance"], "tier": truth[f"G_{split}_tier"],
                 "empirically_reachable": truth[f"G_{split}_empirical_distance"] >= 0}
+    @lru_cache(maxsize=None)
+    def support(dataset_id, coverage, coverage_seed):
+        from .goal_support import goal_support
+        bundle = data_directory(root) / dataset(study, dataset_id)["path"]
+        return goal_support(bundle / "learner", split=split, coverage=coverage, coverage_seed=coverage_seed)
     rows, reports = [], {}
     phases = [(split, study["evaluation_jobs"])]
     if include_controls:
@@ -241,6 +246,14 @@ def collect_rows(root, split, *, include_controls=True):
                 row["composition_context"] = report.get("C_context_diagnostic")
             elif not record.get("error"):
                 raise ValueError("failed evaluation has no error record")
+            from .goal_support import goal_support_scores
+            context = support(data["id"], settings["coverage"], settings["coverage_seed"])
+            if fit and context["training_view_sha256"] != fit["data_sha256"]:
+                raise ValueError("goal support uses a different selected training view")
+            if settings["coverage"] == 1 and context["case_observed_path_exists"] != labels(data["id"])["empirically_reachable"].tolist():
+                raise ValueError("full-view observed reachability differs from the frozen evaluator labels")
+            row["goal_context"] = context
+            row["goal_by_selected_training_support"] = goal_support_scores(context, reports[job["id"]]["G"]["cases"] if job["id"] in reports else None)
             rows.append(row)
     return rows, reports
 
@@ -323,17 +336,19 @@ def analyze(root, output, *, split="test", repetitions=10000, seed=0, prediction
             report = reports.get(row["job_id"])
             if report:
                 for case in report["G"]["cases"]:
-                    stream.write(json.dumps({"job_id": row["job_id"], **case}, allow_nan=False)+"\n")
+                    stream.write(json.dumps({"job_id": row["job_id"], **case,
+                        "empirically_reachable_in_selected_training": row["goal_context"]["case_observed_path_exists"][case["case_index"]]}, allow_nan=False)+"\n")
             else:
                 # Preserve every missing deployment outcome without inventing an
                 # attempted action, exception timing, or achieved trajectory.
                 for i in range(row["expected_goal_cases"]):
                     stream.write(json.dumps({"job_id": row["job_id"], "case_index": i, "success": False,
                                              "outcome": "evaluation_unavailable", "normalized_penalized_cost": 1.0,
+                                             "empirically_reachable_in_selected_training": row["goal_context"]["case_observed_path_exists"][i],
                                              "error": row["error"]}, allow_nan=False)+"\n")
     snapshot = output / "source"
     snapshot.mkdir()
-    for name in ("analysis.py", "statistics.py", "prediction_archive.py"):
+    for name in ("analysis.py", "statistics.py", "prediction_archive.py", "goal_support.py"):
         shutil.copyfile(Path(__file__).with_name(name), snapshot / name)
     result = {"schema": "copuzzle.study_analysis.v1", "study_sha256": checksum, "role": study["role"], "split": split,
               "outcomes": dict(Counter(r["status"] for r in rows)), "evaluation_jobs": len(rows),

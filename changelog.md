@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Report observed-graph connectivity and goal reachability for each actual
+  coverage subset, separately from frozen full-corpus G labels. Preserve primary
+  scores and verify full-view agreement and nested-subset reachability.
 - Add checksum-bound readable result tables and optional scientific PNG/SVG
   figures. Label synthetic rendering fixtures, preserve renderer/source versions,
   and require interpretation of the actual formal analysis in the study package.

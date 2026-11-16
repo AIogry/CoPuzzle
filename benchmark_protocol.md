@@ -173,6 +173,11 @@ inputs. This matters when C paths cross state partitions or 25/50 percent
 coverage removes previously observed primitives. Training-graph connectivity
 and empirical G reachability are reported; disconnected coverage is not an
 implementation failure by itself.
+The frozen G reachability labels describe the original full retained corpus.
+Coverage analysis additionally reports observed-graph reachability in each actual
+selected subset, retaining both definitions explicitly. These support-stratum
+diagnostics do not replace the primary equal-tier goal score or establish that
+an unobserved path is impossible in the underlying game.
 
 ## Freezing, selection and reproduction
 

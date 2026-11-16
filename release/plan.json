@@ -173,6 +173,18 @@
       "real_renderer_checks": "three PNG/SVG pairs generated and visually checked using Matplotlib 3.11.0; installed renderer runs without learner/simulator imports",
       "fixture_data": "explicitly synthetic",
       "formal_results_contributed": 0
+    },
+    {
+      "gate": "D_scientific_comparisons",
+      "kind": "selected_training_graph_context_qualification",
+      "primary_metrics_changed": false,
+      "learned_final_test_evaluated": false,
+      "development_datasets": 12,
+      "coverage_views": 36,
+      "full_corpus_reachability_reproduced": true,
+      "nested_subset_reachability_verified": true,
+      "local_tests_passed": 84,
+      "optional_plot_test_skipped": 1
     }
   ],
   "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
@@ -209,7 +221,7 @@
     "registered_learned_evaluations_per_split": 1296,
     "registered_control_evaluations_per_split": 576,
     "status": "running",
-    "completed_fits_at_last_observation": 495,
+    "completed_fits_at_last_observation": 889,
     "counts_note": "Snapshot only; study runner status is authoritative.",
     "failed_fits_at_last_observation": 0,
     "test_sealed": false,

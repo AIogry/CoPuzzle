@@ -42,6 +42,23 @@ estimates and paired contrasts. `costs.json` counts original and retry attempts
 once, so evaluating a checkpoint under two budgets does not double-count its
 training. The manifest binds these outputs and the analysis source snapshot.
 
+The frozen G report's `empirically_reachable` field and reachability groups refer
+to the original full retained corpus. They are not silently relabeled during a
+coverage ablation. The analyzer separately constructs the graph of legal edges
+in each actual selected training view, reports connectivity and per-case path
+existence in `goal_context`, and adds `empirically_reachable_in_selected_training`
+to the exported G records. Full-coverage values must reproduce the original
+labels. Inverse closure is checked before using connected components; otherwise
+directed reachability is computed. No puzzle rules or privileged shortest paths
+are needed for this selected-view diagnostic.
+
+Support-stratum success rates are case-pooled secondary diagnostics, not the
+primary equal-tier score. A missing observed path is not proof that a task is
+impossible or that a policy cannot solve it. For privileged/random references,
+the nominal full training view is context, not a claim that those references
+were learned from it. This clarification changes neither original reports nor
+the prespecified primary estimands and comparisons.
+
 ## Estimands and uncertainty
 
 R balances present legality classes; C balances sequence lengths; G balances

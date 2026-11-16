@@ -136,8 +136,10 @@ def markdown(manifest, statistics, rows, costs, *, figures=False, discussion=Fal
                      for metric, budget in (("R", 32), ("C", 32), ("G", 32), ("G", 128))]
             lines.append(f"| {REGIME_NAMES[regime]} | {label} | {' | '.join(cells)} |")
     lines.extend(["", "## Coverage and prespecified comparisons", "",
-                  "Updates are held fixed across 25/50/100% coverage, not epochs or unique samples seen. "
-                  "Primitive-query support can change; `rows.json` preserves its available C diagnostics.", "",
+                  "Updates are held fixed across nominal 25/50/100% coverage, not epochs or unique samples seen. "
+                  "Primitive-query support and observed graph connectivity can change; `rows.json` preserves the "
+                  "C diagnostics and G support for each actual selected view. Original G reachability labels "
+                  "refer to the full corpus and remain separate.", "",
                   "| Condition | Contrast | Left − right | Interval |", "|---|---|---:|---:|"])
     for row in statistics["paired_contrasts"]:
         if row["scope"] == "core_family_macro" and row["metric"] == "G":
@@ -216,7 +218,7 @@ def render_figures(statistics, output, *, final, synthetic=False):
             for c, row in points:
                 point(axis, c, row, palette[i])
         axis.set_xticks([.25, .5, 1], ["25%", "50%", "100%"])
-        axis.set_xlabel("Retained training-query coverage"); axis.set_title(REGIME_NAMES[regime]); configure(axis)
+        axis.set_xlabel("Nominal training-query coverage"); axis.set_title(REGIME_NAMES[regime]); configure(axis)
     fig.legend(handles=handles, loc="outside lower center", ncols=2, frameon=False)
     save(fig, "G_coverage", prefix+"CoPuzzle v1: coverage at fixed update count")
     return matplotlib.__version__
