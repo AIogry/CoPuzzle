@@ -7,6 +7,7 @@ import importlib.metadata
 import json
 from pathlib import Path
 import platform
+import sys
 
 import numpy as np
 
@@ -61,8 +62,21 @@ def _resolve_rule(args, fallback="grid-3x3"):
 
 
 def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == "manipulation":
+        from copuzzle.manipulation.cli import main as manipulation_main
+        return manipulation_main(argv[1:])
+    if argv and argv[0] == "classic":
+        from copuzzle.games.classic.cli import main as classic_main
+        return classic_main(argv[1:])
+    if argv and argv[0] == "permutation":
+        from copuzzle.games.permutation.cli import main as permutation_main
+        return permutation_main(argv[1:])
     parser = argparse.ArgumentParser(prog="copuzzle", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    commands.add_parser("permutation", help="Pancake/TopSpin data, goals, evaluation and collections")
+    commands.add_parser("classic", help="Sliding Puzzle/Hanoi legal-operation datasets and evaluation")
+    commands.add_parser("manipulation", help="Direct-contact physical task suites, collection and continuous batches")
     commands.add_parser("list", help="List standard task sizes and suggested evaluation depths")
     generate = commands.add_parser("generate", help="Create fixed offline train/validation trajectories")
     _rule_arguments(generate)

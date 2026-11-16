@@ -1,5 +1,11 @@
 include changelog.md
 include physical_benchmark.md
+include permutation_benchmark.md
+include classic_benchmark.md
+include physical_permutation_benchmark.md
+include direct_manipulation.md
+include topspin_physical.md
+include manipulation_pipeline.md
 recursive-include src/copuzzle/games/lights_out/physics/assets *.xml *.obj *.json *.md LICENSE
 recursive-include examples *.py
 recursive-include tests *.py

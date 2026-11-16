@@ -40,6 +40,25 @@ def _numbers(values):
     return " ".join(f"{float(value):.12g}" for value in values)
 
 
+def _label_number(body, number, *, z, prefix):
+    """Small seven-segment face markings; visual-only, zero-mass ink geometry."""
+    digits = {"0":"abcdef", "1":"bc", "2":"abdeg", "3":"abcdg", "4":"bcfg",
+              "5":"acdfg", "6":"acdefg", "7":"abc", "8":"abcdefg", "9":"abcdfg"}
+    w, h, t = .0023, .0038, .00045
+    segments = {
+        "a":(0,h,w,t), "b":(w,h/2,t,h/2), "c":(w,-h/2,t,h/2),
+        "d":(0,-h,w,t), "e":(-w,-h/2,t,h/2), "f":(-w,h/2,t,h/2), "g":(0,0,w,t),
+    }
+    label=str(number)
+    for digit_index, digit in enumerate(label):
+        offset=(digit_index-(len(label)-1)/2)*.007
+        for segment in digits[digit]:
+            x,y,sx,sy=segments[segment]
+            ET.SubElement(body,"geom",name=f"{prefix}_{digit_index}_{segment}",type="box",
+                          pos=_numbers([offset+x,y,z]),size=_numbers([sx,sy,.00004]),
+                          mass="0",contype="0",conaffinity="0",rgba="0.94 0.96 0.98 1")
+
+
 @dataclass(frozen=True)
 class SceneDescription:
     """Named simulation indices and configuration, never a learned input schema.
@@ -104,7 +123,7 @@ def _layout(rule):
     return positions, (rows, cols)
 
 
-def build_scene(rule: PuzzleRule, *, physics_dt=0.002):
+def build_scene(rule: PuzzleRule, *, physics_dt=0.002, facility_profile="button_board_v2"):
     """Compile one fixed rule's physical layout and the packaged UR5e robot.
 
     Grid row/column order is preserved in a plane. Graph buttons use an
@@ -113,6 +132,8 @@ def build_scene(rule: PuzzleRule, *, physics_dt=0.002):
     """
     if not isinstance(rule, PuzzleRule):
         raise TypeError("rule must be a PuzzleRule")
+    if facility_profile not in ("legacy_v1", "button_board_v2"):
+        raise ValueError("facility_profile must be legacy_v1 or button_board_v2")
     time_value = np.asarray(physics_dt)
     if (time_value.ndim != 0 or time_value.dtype.kind not in "iuf"
             or not np.isfinite(time_value) or not 0 < float(time_value) <= 0.005):
@@ -163,8 +184,22 @@ def build_scene(rule: PuzzleRule, *, physics_dt=0.002):
     for index, position in enumerate(positions):
         x, y, top_z = position
         ET.SubElement(world, "geom", name=f"button_base_{index}", type="cylinder",
-                      size="0.025 0.010", pos=_numbers([x, y, 0.040]),
+                      size="0.025 0.010" if facility_profile == "legacy_v1" else "0.025 0.001",
+                      pos=_numbers([x, y, 0.040 if facility_profile == "legacy_v1" else 0.031]),
                       rgba="0.32 0.35 0.39 1")
+        if facility_profile == "button_board_v2":
+            # The housing is an actual hollow collision guide. A single annular
+            # mesh would be convex-hulled by MuJoCo and wrongly close its bore.
+            # Overlapping convex wall sectors preserve a real 20 mm bore.
+            for segment in range(32):
+                angle = 2 * np.pi * segment / 32
+                center = [x + .0175 * np.cos(angle), y + .0175 * np.sin(angle), .043]
+                ET.SubElement(world, "geom", name=f"button_sleeve_{index}_{segment}",
+                              type="box", pos=_numbers(center),
+                              quat=_numbers([np.cos(angle/2), 0, 0, np.sin(angle/2)]),
+                              size=_numbers([.0075, .025*np.tan(np.pi/32), .011]),
+                              rgba="0.23 0.27 0.31 1", contype="1", conaffinity="1",
+                              friction="0.4 0.005 0.0001", solref="0.008 1")
         button = ET.SubElement(world, "body", name=f"button_{index}",
                                pos=_numbers([x, y, top_z - 0.006]))
         ET.SubElement(button, "joint", name=f"button_slide_{index}", type="slide",
@@ -172,9 +207,18 @@ def build_scene(rule: PuzzleRule, *, physics_dt=0.002):
                       stiffness="200", springref="0", damping="2", armature="0.001",
                       solreflimit="0.004 1", solimplimit="0.99 0.999 0.0001")
         ET.SubElement(button, "geom", name=f"button_cap_{index}", type="cylinder",
-                      size="0.021 0.006", mass="0.02", rgba="0.22 0.27 0.35 1",
+                      size="0.021 0.006", mass="0.02" if facility_profile == "legacy_v1" else "0.017",
+                      rgba="0.22 0.27 0.35 1",
                       contype="1", conaffinity="1", friction="0.8 0.01 0.001",
                       solref="0.008 1", solimp="0.95 0.99 0.001")
+        if facility_profile == "button_board_v2":
+            # At rest the stem spans z=46..68 mm; at the full 12 mm stroke it
+            # spans 34..56 mm, clearing the floor at 32 and the sleeve at 54.
+            ET.SubElement(button, "geom", name=f"button_stem_{index}", type="cylinder",
+                          pos="0 0 -0.017", size="0.0075 0.011", mass="0.003",
+                          rgba="0.70 0.74 0.78 1", contype="1", conaffinity="1",
+                          friction="0.4 0.005 0.0001", solref="0.008 1")
+            _label_number(button, index + 1, z=.00612, prefix=f"button_label_{index}")
         ET.SubElement(button, "site", name=f"button_top_{index}", pos="0 0 0.006",
                       size="0.001", rgba="1 1 0 0")
 
@@ -185,7 +229,7 @@ def build_scene(rule: PuzzleRule, *, physics_dt=0.002):
     bounds = np.array([[0.27, -0.25, 0.050], [0.71, 0.25, 0.42]])
     home = np.array([-np.pi, -np.pi / 2, np.pi / 2, -np.pi / 2, -np.pi / 2, 0.0])
     metadata = {
-        "scene_version": "copuzzle.ur5e_buttons.v1", "robot": "UR5e",
+        "scene_version": "copuzzle.ur5e_buttons.v1" if facility_profile == "legacy_v1" else "copuzzle.ur5e_buttons.v2", "robot": "UR5e",
         "upstream_repository": provenance["source_repository"],
         "upstream_commit": provenance["source_commit"], "asset_license": provenance["license"],
         "asset_sha256": {name: row["sha256"] for name, row in provenance["files"].items()},
@@ -200,6 +244,15 @@ def build_scene(rule: PuzzleRule, *, physics_dt=0.002):
         "tool_site": "bottom of probe sphere in the fixed downward orientation",
         "control": "Cartesian translation targets, fixed downward orientation, joint-position PD",
     }
+    if facility_profile == "button_board_v2":
+        metadata.update(facility_profile=facility_profile,
+                        button_assembly={"solid_cap_radius": .021, "stem_radius": .0075,
+                                         "stem_length": .022, "guide_bore_radius": .010,
+                                         "guide_height_range": [.032, .054], "base_top": .032,
+                                         "full_stroke_floor_clearance": .002,
+                                         "full_stroke_cap_guide_clearance": .002,
+                                         "total_moving_mass": .020,
+                                         "guidance": "slide joint with explicit solid stem and hollow collision housing"})
     fingerprint = hashlib.sha256(xml.encode())
     fingerprint.update(json.dumps(metadata, sort_keys=True, separators=(",", ":")).encode())
     scene = SceneDescription(

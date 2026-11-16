@@ -1,6 +1,6 @@
 # CoPuzzle
 
-**Development snapshot: `0.1.0.dev3`.** Abstract and optional MuJoCo Lights Out / Graph Lights Out, with trajectories for offline goal-conditioned reinforcement learning. The public benchmark task distribution and release protocol are not yet frozen.
+**Development snapshot: `0.1.0.dev3`, with unreleased additions.** Abstract Lights Out, Pancake, TopSpin, Sliding Puzzle and Hanoi, plus optional MuJoCo Lights Out button boards and direct-contact TopSpin/Pancake tabletop models. Earlier indexed fixtures remain archived separately. The public benchmark task distribution and release protocol are not yet frozen.
 
 CoPuzzle is an independent package. The base installation uses NumPy and Gymnasium. The optional physical environment adds MuJoCo and packaged, licensed UR5e assets. It requires no other research checkout, training framework, or local dataset. Rules, button scenes and reference controllers are implemented here.
 
@@ -28,7 +28,69 @@ copuzzle diagnose --train artifacts/0.1.0.dev3/grid3/train.npz --test artifacts/
 
 Output files are not overwritten. For another run, select a new output directory. Use `copuzzle list` to discover standard task sizes and suggested goal distances. Parameterized `grid-RxC`, `graph-pathN` (N >= 1), and `graph-cycleN` (N >= 3) are supported. These fixed graph instances are development tasks; the cross-size and cross-graph generalization protocol is not yet frozen.
 
+## Pancake and TopSpin
+
+The new permutation games add ordered, noncommuting operations. Pancake reverses
+a prefix; TopSpin rotates left/right or reverses a fixed window. Their integer
+token states and action/event dimensions have a separate checked data schema.
+
+```python
+env = copuzzle.make_env("pancake-6")       # Six tokens, five prefix-flip actions
+env = copuzzle.make_env("topspin-8-4")     # Eight tokens, three atomic actions
+```
+
+```bash
+copuzzle permutation list
+copuzzle permutation collection --output artifacts/permutation-v1
+copuzzle permutation validate artifacts/permutation-v1/pancake-6/train.npz --check-rule
+```
+
+The collection contains Pancake 4/6/8 and TopSpin 8-4: per task, 1,000 training
+and 100 validation trajectories of 30 operations, exact-distance dev/test goal
+suites with disjoint directed pairs, random/oracle references, offline position-map
+diagnostics, overlap audits and a final checksum manifest. These are development
+data; train/validation states may overlap. Exact search is intentionally bounded
+to 2–8 tokens. See [permutation contracts and workflow](permutation_benchmark.md).
+
+## Sliding Puzzle and Hanoi
+
+These families add state-dependent legal operations. Sliding Puzzle moves a
+blank up/down/left/right; Hanoi moves the top disk between pegs subject to size
+constraints. Both expose `action_mask`, retain masks for all recorded states,
+and support arbitrary reachable goals with bounded exact distances.
+
+```bash
+copuzzle classic list
+copuzzle classic collection --output artifacts/classic-v1
+```
+
+Defaults generate Sliding-2x3 and Hanoi-3/4/5 data. Sliding-3x3 and Hanoi-2..6
+are also supported. The default development goal pool is explicitly restricted;
+independent trajectories do not imply unseen states. See
+[classic game contracts](classic_benchmark.md) for masks, difficulty and usage.
+
 ## Optional physical environment
+
+The rebuilt facilities use direct robot contact:
+`copuzzle.make_manipulation_env("topspin-20-4")` creates a planar track and
+horizontal four-token turntable with physical pin/socket engagement;
+`copuzzle.make_manipulation_env("pancake-4")` creates a supported disc stack and
+contact-only fork clamp with selectable grasp counts 1–4. Single-disc flipping
+has a separate execution diagnostic because it does not change the unsigned
+permutation. See
+[direct manipulation contracts](direct_manipulation.md).
+
+Use `copuzzle manipulation suite`, `collect` and `inspect` for reproducible
+multi-operation physical tasks, native action replay and continuous training
+batches. See the [physical data pipeline](manipulation_pipeline.md) for split,
+failure, cost and bootstrap conventions. The existing CoPuzzleLab learners
+still require discrete actions; this reader does not change their algorithms.
+
+The earlier three-rack models under `make_physics_env("pancake-4")` and
+`make_physics_env("topspin-8-4")` are archived rule-equivalent experiments,
+not models of the actual apparatus. Their [old contracts and data](physical_permutation_benchmark.md)
+remain available for reproducibility. Lights Out now defaults to the supported
+`button_board_v2`; `facility_profile="legacy_v1"` reconstructs the original model.
 
 Install and run a real-contact diagnostic:
 
@@ -511,11 +573,20 @@ CoPuzzle/
 
 `copuzzle.games.lights_out` is the canonical implementation namespace. The existing `copuzzle.rules`, `copuzzle.env`, `copuzzle.data`, `copuzzle.oracle`, `copuzzle.diagnostics`, and `copuzzle.evaluation` imports remain compatible. Their `PuzzleRule`/`PuzzleEnv` names currently refer specifically to Lights Out; they are not cross-game base classes.
 
-Additional families such as pancake, sliding puzzle, TopSpin, and Rubik's Clock can be implemented as sibling game packages. They are not implemented or registered yet. Each family must define its state encoding, action space and legality, goal predicate, transition/effect semantics, sampling, and diagnostic solver. The current assumptions that states are binary, action count equals state width, effects compose by XOR, and shortest solutions are found by GF(2) are specific to Lights Out.
+Pancake and TopSpin now have sibling `games/pancake/` and `games/topspin/`
+entry points, with concrete shared permutation rules, environments, exact search,
+data, goals, diagnostics and CLI in `games/permutation/`. Top-level `get_rule`
+and `make_env` dispatch their task IDs; the older `copuzzle.rules`, `PuzzleRule`
+and `PuzzleEnv` compatibility exports remain Lights Out-specific.
 
-The current trajectory schema is also family-specific. New games must not silently reinterpret its binary arrays. A future shared schema should separate state shape from action/event shape and declare each representation explicitly. Task difficulty must record whether a distance is exact, a bound, or unknown; an efficient exact solver is not a prerequisite for every future game.
-
-Shared lifecycle, storage integrity, and evaluation utilities will be extracted when a second concrete game establishes the actual common requirements. No placeholder game implementations or speculative common base class are required now.
+Permutation trajectories use `copuzzle.permutation_trajectory.v1`, with N integer
+tokens and A action-event entries (A need not equal N). They do not reinterpret
+the binary Lights Out arrays. All currently supported permutation tasks use
+bounded exact BFS distances. Sliding Puzzle and Hanoi share the concrete
+`games/classic/` implementation with family entry points in `games/sliding/`
+and `games/hanoi/`. Their `copuzzle.classic_trajectory.v1` schema also records
+state-dependent legal masks. Modular dials, Sokoban, Rubik's Clock and Rubik's
+Cube remain future families; no placeholder implementations are registered.
 
 No neural architecture is imposed. The proposed state-evaluation/operation module can later be compared through the same data and policy interfaces. A scripted physical executor is included for contact diagnostics; learned RL baselines belong in a separate algorithm project.
 
@@ -559,6 +630,7 @@ These identifiers version different contracts:
 | Gym environment IDs | `CoPuzzle/*-v0` | Relevant environment behavior or observation/action/reward semantics change |
 | Physical configuration / trajectories | `copuzzle.physics_config.v1` / `copuzzle.physics_trajectory.v1` | Physical configuration or continuous episode semantics change |
 | Trajectory format | `copuzzle.trajectory.v1` | Stored fields, encodings, or their meaning change |
+| Permutation trajectories / tasks | `copuzzle.permutation_trajectory.v1` / `copuzzle.permutation_goal_tasks.v1` | Integer-token storage or fixed-position task semantics change |
 | Data generator | `copuzzle.uniform_operations.v1` | Generation/distribution or reproducible RNG semantics change |
 | Public structure | `copuzzle.structure.v1` | Geometry/topology fields, indexing or meaning change |
 | Offline bundle | `copuzzle.offline_bundle.v1` | Structure-to-trajectory binding changes |

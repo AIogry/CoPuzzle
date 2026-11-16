@@ -1,5 +1,44 @@
 # Changelog
 
+## Unreleased
+
+- Add direct-contact multi-operation development suites with disjoint task pairs,
+  native physical collection/replay and failure-inclusive evaluation reports.
+- Add checked continuous transition batches with explicit episode boundaries,
+  original goals and configurable timeout bootstrap semantics; keep privileged
+  reference plans outside policy inputs and learner features.
+- Replace the TopSpin friction-drag interface with versioned physical pin/socket
+  engagement, measured contact diagnostics and post-withdrawal index verification;
+  preserve the earlier model as `legacy_v1` for historical replay.
+- Add Pancake single-disc grasp/flip execution diagnostics alongside existing
+  2/3/4-disc goal operations, without adding an identity move to the abstract game.
+- Allow native MP4 export from a selected physical trajectory and reconstruct
+  its recorded facility/task mode before checking every replayed observation.
+- Rebuild TopSpin as a numbered 20-token closed track with a horizontal four-token
+  turntable, directly contacted by the UR5e. Rebuild Pancake with different-size
+  gravity-supported sorting discs and a contact-only fork clamp for lift/flip/place.
+  Expose these separately through `make_manipulation_env`; retain earlier indexed
+  fixtures as archived experiments instead of relabeling their data.
+- Rebuild the default Lights Out button assembly with real stems, hollow collision
+  guides and supported bases; retain the exact earlier facility as `legacy_v1`.
+  Add full-stroke geometry, contact and native-render acceptance checks.
+- Add UR5e contact-driven TopSpin-8-4 and Pancake-4 indexed fixtures, with explicit
+  ideal clamps/gears, measured token permutations, stable success, ordered event
+  trajectories, action replay, future goals, and physical development collection.
+- Add Sliding Puzzle and Hanoi with state-dependent action masks, bounded exact
+  oracles, checked offline data, dev/test goals, and `copuzzle classic` workflows.
+- Add bounded Pancake and fixed-position three-action TopSpin environments,
+  independent permutation trajectory/goal formats, exact BFS and four Gym presets.
+- Add offline future-goal sampling with action widths independent of token count,
+  strict artifact checks, and ordered position-map diagnostics fitted from data.
+- Add `copuzzle permutation` commands and a reproducible development collection
+  with disjoint dev/test goal pairs, training-overlap audits, random/oracle
+  references and source/output checksums.
+- Preserve existing Lights Out data, RNG, environment IDs and defaults.
+
+These working changes are not a new published package release. Learned baseline
+performance and a frozen cross-game benchmark remain separate milestones.
+
 ## 0.1.0.dev3
 
 Development prototype of state-based physical Lights Out for offline GCRL.

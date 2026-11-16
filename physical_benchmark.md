@@ -5,6 +5,25 @@ Lights Out rules used by the abstract environments. It supports all 12 standard
 Grid, Path and Cycle presets. This is a development interface for offline GCRL;
 the physical training distribution and evaluation suite are not frozen.
 
+The default facility is now `button_board_v2`, with a grounded button assembly:
+an opaque solid cap, a moving steel stem, a genuinely hollow collision sleeve,
+and a bottom plate. Number markings identify each button; debug sites are hidden
+in rendered output. The original assembly omitted the stem and sleeve, leaving
+an 18 mm unsupported cap gap at rest. It remains available only for reproducing
+historical models with `facility_profile="legacy_v1"`; its original model and
+configuration hashes are preserved. New v2 trajectories have distinct model
+identities and must not overwrite or be mixed with the earlier artifacts.
+
+A downward rigid probe is appropriate here because the desired operation is
+normal pressing along the guided button travel. It does not require tangential
+transport or grasping. A substep audit of the retained six-press episode checked
+10,975 simulation steps: all six events occurred on the intended cap at the
+required compression, with no unintended cap contacts. That finite acceptance
+episode does not establish a success rate under disturbances. Its final press
+ends the goal episode before a final release; release/rearming is tested
+separately. See `docs/analysis/contact_engagement_findings.md` for instrumentation
+and evidence.
+
 ## Installation and ownership
 
 Install `copuzzle[physics]` for simulation or `copuzzle[render]` for the example
@@ -31,6 +50,26 @@ obs, reward, terminated, truncated, info = env.step([0.0, 0.0, -0.5])
 configuration = env.configuration()
 env.close()
 ```
+
+For an earlier physical trajectory, create the corresponding old model explicitly:
+
+```python
+env = copuzzle.make_physics_env("grid-3x3", facility_profile="legacy_v1")
+```
+
+The v2 guide spans z=32–54 mm. The 15 mm diameter stem spans z=46–68 mm at
+rest and z=34–56 mm at the full 12 mm stroke. The stem clears the guide bore
+by 2.5 mm radially and the bottom plate by 2 mm; the fully pressed cap clears
+the sleeve by 2 mm. Cap and stem masses total the same 20 g as the earlier cap.
+The guide's collision wall is a union of convex sectors, preserving an actual
+open bore instead of closing it with a convex-hulled annular mesh.
+
+Run `MUJOCO_GL=egl python examples/lights_out_facility_review.py --output NEW_PATH`
+for rendered rest/full-stroke checks, geometry clearances, an actual six-press
+episode and action replay. Static full-stroke diagnostic frames are explicitly
+distinguished from the contact-driven animation. This verifies the button
+assembly; the slider joint and spring remain standard rigid-body approximations
+of a mechanical switch, not a microscopic electronics model.
 
 Each command targets the measured tip position plus `0.02 * action` metres,
 clipped to the workspace. Tool orientation remains downward. Damped Jacobian

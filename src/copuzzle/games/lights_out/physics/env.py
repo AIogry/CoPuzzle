@@ -78,7 +78,8 @@ class PhysicalPuzzleEnv(gym.Env):
                  render_mode: str | None = None, *, physics_dt: float = 0.002,
                  control_dt: float = 0.05, action_scale: float = 0.02,
                  press_depth: float = 0.008, release_depth: float = 0.003,
-                 render_width: int = 640, render_height: int = 480):
+                 render_width: int = 640, render_height: int = 480,
+                 facility_profile: str = 'button_board_v2'):
         super().__init__()
         if not isinstance(rule, PuzzleRule):
             raise TypeError('rule must be a PuzzleRule')
@@ -99,7 +100,8 @@ class PhysicalPuzzleEnv(gym.Env):
                                            release_depth=release_depth)
         self.rule = rule
         self.public_structure = export_structure(rule)
-        self.model, self.scene = build_scene(rule, physics_dt=self.physics_timestep)
+        self.model, self.scene = build_scene(rule, physics_dt=self.physics_timestep,
+                                            facility_profile=facility_profile)
         self.model.vis.global_.offwidth = max(self.model.vis.global_.offwidth, self.render_width)
         self.model.vis.global_.offheight = max(self.model.vis.global_.offheight, self.render_height)
         self.data = mujoco.MjData(self.model)
@@ -321,7 +323,10 @@ class PhysicalPuzzleEnv(gym.Env):
             raise ResetNeeded('Call reset before rendering')
         if self._renderer is None:
             self._renderer = mujoco.Renderer(self.model, height=self.render_height, width=self.render_width)
-        self._renderer.update_scene(self.data, camera=getattr(self.scene, 'camera_name', 'overview'))
+        options = mujoco.MjvOption()
+        options.sitegroup[:] = 0
+        self._renderer.update_scene(self.data, camera=getattr(self.scene, 'camera_name', 'overview'),
+                                   scene_option=options)
         return self._renderer.render().copy()
 
     def close(self):
