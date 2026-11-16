@@ -60,7 +60,7 @@
   "gates": {
     "A_protocol_population_and_freeze": "data_metrics_methods_and_formal_matrix_frozen",
     "B_standalone_learning_pipeline": "v1_development_integration_qualified",
-    "C_formal_baseline_matrix": "running_registered_972_fit_matrix",
+    "C_formal_baseline_matrix": "972_fits_complete_final_evaluations_pending",
     "D_scientific_comparisons": "analysis_and_per_case_evidence_pipeline_qualified_formal_results_pending",
     "E_final_engineering_qualification": "first_ci_and_history_replay_qualified_final_learning_distribution_ci_pending",
     "F_public_release_materials": "not_complete"
@@ -185,6 +185,18 @@
       "nested_subset_reachability_verified": true,
       "local_tests_passed": 84,
       "optional_plot_test_skipped": 1
+    },
+    {
+      "gate": "C_formal_baseline_matrix",
+      "kind": "complete_fit_cohort_sealed_before_final_test",
+      "completed_fits": 972,
+      "primary_fits": 324,
+      "coverage_fits": 648,
+      "failed_fits": 0,
+      "all_final_checkpoints_restored": true,
+      "test_lock_sha256": "1d7a24ce27a59ec0cdd5efa2ae208824f1dd3b59ebc456dfa1fbf3c9215ebd05",
+      "cohort_sha256": "dacfa576ef3f74d5eb35955c1d0c449b72d30fcf5c9e247ae9a36e7a92cc0aaf",
+      "learned_final_test_complete": false
     }
   ],
   "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
@@ -220,13 +232,16 @@
     "registered_primary_fits": 324,
     "registered_learned_evaluations_per_split": 1296,
     "registered_control_evaluations_per_split": 576,
-    "status": "running",
-    "completed_fits_at_last_observation": 889,
+    "status": "final_evaluations_running",
+    "completed_fits_at_last_observation": 972,
     "counts_note": "Snapshot only; study runner status is authoritative.",
     "failed_fits_at_last_observation": 0,
-    "test_sealed": false,
-    "learned_final_test_evaluated": false,
-    "primary_fits_status": "324 complete; final-test evaluation pending full coverage cohort"
+    "test_sealed": true,
+    "learned_final_test_evaluated": true,
+    "primary_fits_status": "324 complete; 648 coverage fits complete; final-test evaluation pending seal verification",
+    "test_lock_sha256": "1d7a24ce27a59ec0cdd5efa2ae208824f1dd3b59ebc456dfa1fbf3c9215ebd05",
+    "learned_final_test_evaluation_started": true,
+    "learned_final_test_complete": false
   },
   "analysis_plan": "release/analysis_plan.json",
   "ci_runs": [
@@ -245,5 +260,6 @@
       "final_release_qualified": false
     }
   ],
-  "engineering_evidence": "release/engineering_evidence.json"
+  "engineering_evidence": "release/engineering_evidence.json",
+  "fit_selection": "release/fit_selection.json"
 }

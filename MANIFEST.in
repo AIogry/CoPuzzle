@@ -16,6 +16,7 @@ include release/method_selection_plan.json
 include release/selected_methods.json
 include release/study_registration.json
 include release/analysis_plan.json
+include release/fit_selection.json
 include release/physical_history_inputs.json
 include release/engineering_evidence.json
 include release/license_proposal.md
