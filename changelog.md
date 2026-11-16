@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add checked artifact relocation, deterministic distribution staging and
+  installed-wheel physical history qualification with NPZ/sidecar bindings.
+  Preserve selected checkpoints, recovery evidence and all attempt costs in the
+  study package; local drafts remain separate from public release acceptance.
 - Add complete-cohort analysis with paired data/fit-seed intervals, equal-family
   weighting, retained failed runs, checked attempt costs and per-case R/C archives
   that reproduce saved scores. Register the analysis plan before final testing,

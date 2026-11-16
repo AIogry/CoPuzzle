@@ -1,0 +1,33 @@
+{
+  "schema": "copuzzle.physical_history_inputs.v1",
+  "purpose": "historical native-action compatibility qualification; not learned policy performance",
+  "cases": [
+    {
+      "task": "grid-3x3",
+      "path": "lightsout-board-v2/six_press_episode.npz",
+      "sha256": "bc3584fe891cde6894e9bde207937964d8ee826741501c4c6ddb82d93a43f52c",
+      "configuration_sha256": "300da81e4f1bb5a939fa22e027bdae5dfd23ae57a2931e3074c2dca75dd250b4",
+      "control_steps": 439,
+      "metadata_path": "lightsout-board-v2/six_press_episode.json",
+      "metadata_sha256": "e54f086eb0e4df9c4500ef4730ffa6f18316efadf47d7108ff019807d8525bec"
+    },
+    {
+      "task": "pancake-4",
+      "path": "pancake-contact-v1/episodes/1234-flip2.npz",
+      "sha256": "2a12be45c15d7608298aae3a0dee65ceded4d3aae1f16dac48df870b610a1665",
+      "configuration_sha256": "92344026180ae018a4aed88e15b163bc1edb32a23403aa5c0b3bee8686e8b7e0",
+      "control_steps": 1044,
+      "metadata_path": "pancake-contact-v1/episodes/1234-flip2.json",
+      "metadata_sha256": "196b0cfd08f0487861bfad6ff9bbeef33a06a2867f9f0ecca60caa3b6d953892"
+    },
+    {
+      "task": "topspin-20-4",
+      "path": "topspin-engaged-v2/mixed.npz",
+      "sha256": "859cfbe09c612ff0f6b74e3de41d0a7fca5dcb7ef9af892a8e1980cfe938e04d",
+      "configuration_sha256": "87a57449b7b63257cff14f05bd345f9094fb2ac48e940655d614e3827cc30f4e",
+      "control_steps": 1777,
+      "metadata_path": "topspin-engaged-v2/mixed.json",
+      "metadata_sha256": "042bcc521d8ee7723dc17f48be73c9581b41b9b9b9386df9e9379ccd516e0fb2"
+    }
+  ]
+}

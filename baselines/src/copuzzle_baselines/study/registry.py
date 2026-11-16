@@ -5,6 +5,7 @@ from dataclasses import replace
 from functools import lru_cache
 from pathlib import Path
 import shutil
+import time
 
 from ..config import Config, fingerprint
 from ..data import load_training
@@ -135,6 +136,37 @@ def load_study(root):
 
 def data_directory(root, override=None):
     return Path(override or read_json(Path(root) / "locations.json")["data_root"]).resolve()
+
+
+def relocate(root, data_root):
+    """Bind a moved study to byte-identical data while no controller/worker runs."""
+    from ..runtime import _json
+    from .storage import active, lease
+    root, data_root = Path(root).resolve(), Path(data_root).resolve()
+    study, checksum = load_study(root)
+    validate_study(root, verify_snapshot=True)
+    if study["role"] == "formal":
+        from copuzzle.benchmark.collection import validate_inventory
+        verified = validate_inventory(data_root)
+        if verified["inventory_sha256"] != study["data_inventory_sha256"]:
+            raise ValueError("relocated data differ from the registered inventory")
+    else:
+        from copuzzle.benchmark.generation import validate_bundle
+        for row in study["datasets"]:
+            bundle = data_root / row["path"]
+            if file_hash(bundle / "manifest.json") != row["manifest_sha256"]:
+                raise ValueError("relocated qualification bundle differs")
+            validate_bundle(bundle)
+    with lease(root / ".controller.lock", "relocating registered data"):
+        if any(active(p) for p in (root / "jobs").glob("*/*/.lease")):
+            raise ValueError("cannot relocate while a worker is active")
+        previous = read_json(root / "locations.json") if (root / "locations.json").exists() else None
+        location = {"data_root": str(data_root)}
+        history = {"study_sha256": checksum, "previous": previous, "current": location,
+                   "relocated_unix": time.time(), "data_inventory_sha256": study["data_inventory_sha256"]}
+        write_new(root / "locations_history" / f"{time.time_ns()}.json", history)
+        _json(root / "locations.json", location)
+    return {"relocated": True, "study_sha256": checksum, "data_root": str(data_root)}
 
 
 def validate_study(root, *, verify_data=False, verify_snapshot=False):

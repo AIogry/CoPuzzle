@@ -1,0 +1,88 @@
+# Local distribution staging and independent verification
+
+Staging creates local drafts. It neither uploads artifacts nor grants a license.
+The complete formal experiment, CI/install/replay evidence, rights and citation
+decisions, and public hosting remain separate release gates. Current licensing
+status is recorded in [`release/license_proposal.md`](../release/license_proposal.md).
+
+The frozen dataset can be staged independently of fitting:
+
+```sh
+python -m copuzzle_baselines.study.packaging data \
+  --data artifacts/benchmark-v1-frozen --output artifacts/distribution-draft-v1/data
+python -m copuzzle_baselines.study.packaging verify \
+  --output artifacts/distribution-draft-v1/data
+```
+
+The archive manifest binds every member and every compressed part by SHA-256 and
+byte count. Members have deterministic path ordering and zero metadata timestamps;
+gzip headers omit machine paths and timestamps. Parts default to at most 1 GiB
+of uncompressed input. Verification checks regular-file types, paths, duplicates,
+member hashes and completeness without extracting files or following links.
+The exact builder source is retained alongside each draft archive manifest.
+
+After all registered fits and evaluations finish, the cohort is sealed, R/C case
+archives are verified, and the [analysis](ANALYSIS.md) is complete:
+
+```sh
+python -m copuzzle_baselines.study.packaging study \
+  --study artifacts/benchmark-v1-study \
+  --predictions artifacts/benchmark-v1-predictions \
+  --analysis artifacts/benchmark-v1-analysis \
+  --output artifacts/distribution-draft-v1/study
+```
+
+This rejects an active study, incomplete or changed outcomes, mismatched case
+archives, changed attempt costs, or statistics that fail recomputation. It stages
+the selected final checkpoints, recovery checkpoints referenced by attempt
+records, full registered source snapshots, every original/retry attempt record,
+logs, training manifests, metrics, evaluation reports, case evidence and analysis.
+Unselected intermediate checkpoints and duplicate per-fit source copies are
+omitted explicitly. This is sufficient to restore and evaluate the selected
+models; it is not an archive of every intermediate training state.
+
+The staged study has no machine-specific `locations.json`. After verifying and
+extracting the data and study parts, install the declared package/dependency
+versions and bind the new location:
+
+```sh
+python -m copuzzle_baselines.study.runner relocate --study /new/root/study --data /new/root/data
+python -m copuzzle_baselines.study.runner validate --study /new/root/study
+python -m copuzzle_baselines.study.prediction_archive --verify \
+  --study /new/root/study --output /new/root/predictions
+```
+
+Relocation verifies the same frozen inventory and refuses a live controller or
+worker. It does not modify the experiment, checkpoint or selection identities.
+Recorded numerical sources and runtime versions remain mandatory; bitwise
+cross-platform learning equivalence is not promised.
+
+## Physical compatibility evidence
+
+Historical physical inputs have separate NPZ and JSON-sidecar checksums in
+[`release/physical_history_inputs.json`](../release/physical_history_inputs.json).
+Run the installed core from outside the checkout:
+
+```sh
+MUJOCO_GL=egl python /path/to/source/scripts/verify_physical_history.py \
+  --manifest /path/to/source/release/physical_history_inputs.json \
+  --inputs /path/to/physical-history \
+  --output /path/to/new/physical-history-report.json \
+  --forbid-source /path/to/source
+```
+
+The check replays every saved continuous action under its original configuration,
+comparing observations, events and episode endings through the native APIs. It
+retains failures and actual runtime/source identities. Its result is historical
+compatibility evidence, not a learned-policy score or a promise of identical
+floating-point behavior on another simulator version.
+
+After that qualification passes, stage the original NPZ/JSON pairs and evidence:
+
+```sh
+python -m copuzzle_baselines.study.packaging physical \
+  --manifest release/physical_history_inputs.json --inputs artifacts \
+  --qualification artifacts/release-engineering-v1/physical-history-with-metadata.json \
+  --script scripts/verify_physical_history.py \
+  --output artifacts/distribution-draft-v1/physical
+```

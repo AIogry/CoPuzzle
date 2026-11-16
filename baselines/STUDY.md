@@ -35,6 +35,19 @@ its early exit are retained there; completed fits were reused without refitting.
 
 ## Recovery and liveness
 
+After moving downloaded/extracted artifacts, bind the study to its new data
+location. This checks the complete inventory before updating the location,
+retains location history, and rejects a live controller or worker:
+
+```sh
+python -m copuzzle_baselines.study.runner relocate \
+  --study /path/to/study --data /path/to/benchmark-v1-frozen
+```
+
+Model, data and selection identities stay unchanged. Worker source snapshots
+continue to load the newly bound absolute location; no machine-specific original
+path is required for reproduction.
+
 Every job has immutable attempt records and an atomic receipt. A receipt never
 points to a record being rewritten. Reports/checkpoints have independent hashes.
 Startup failure without a `run.json` is recorded as failure, never success.

@@ -13,7 +13,7 @@ import time
 from ..runtime import _json
 from .evidence import seal, verify_fit, verify_seal
 from .jobs import record_startup_failure, run_job
-from .registry import job_for, load_study, register, validate_study
+from .registry import job_for, load_study, register, relocate, validate_study
 from .storage import BusyStudy, active, file_hash, inside, lease, verified_record, write_new
 
 
@@ -163,7 +163,7 @@ def main(argv=None):
     create.add_argument("--data", type=Path, required=True)
     create.add_argument("--methods", type=Path, required=True)
     create.add_argument("--output", type=Path, required=True)
-    for name in ("run", "worker", "status", "stop", "seal", "validate"):
+    for name in ("run", "worker", "status", "stop", "seal", "validate", "relocate"):
         p = commands.add_parser(name)
         p.add_argument("--study", type=Path, required=True)
         if name in ("run", "worker", "status"):
@@ -177,6 +177,8 @@ def main(argv=None):
             p.add_argument("--clear-stop", action="store_true")
         if name == "seal":
             p.add_argument("--include-failed", action="store_true")
+        if name == "relocate":
+            p.add_argument("--data", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
         if args.command == "register":
@@ -191,6 +193,8 @@ def main(argv=None):
             result = snapshot(args.study, args.phase)
         elif args.command == "validate":
             result = validate_study(args.study, verify_data=True, verify_snapshot=True)
+        elif args.command == "relocate":
+            result = relocate(args.study, args.data)
         elif args.command == "seal":
             lock = seal(args.study, allow_failed=args.include_failed)
             result = {"sealed": True, "fits": lock["expected_fit_count"], "failed": len(lock["failed_fit_ids"])}

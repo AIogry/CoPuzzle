@@ -15,7 +15,7 @@ from copuzzle_baselines.data import load_training
 from copuzzle_baselines.runtime import load_checkpoint, sources, state_digest, train, versions
 from copuzzle_baselines.study.evidence import seal, verify_seal
 from copuzzle_baselines.study.jobs import record_startup_failure, run_job
-from copuzzle_baselines.study.registry import compile_jobs, load_study, validate_study
+from copuzzle_baselines.study.registry import compile_jobs, load_study, relocate, validate_study
 from copuzzle_baselines.study.runner import run, snapshot
 from copuzzle_baselines.study.storage import BusyStudy, active, file_hash, lease, verified_record, write_new
 
@@ -168,6 +168,34 @@ def test_kernel_lease_is_authoritative_and_probe_does_not_rewrite(tmp_path):
         assert path.read_bytes() == before
     before = path.read_bytes()
     assert not active(path) and path.read_bytes() == before
+
+
+def test_relocation_requires_matching_data_and_idle_workers(qualification, tmp_path):
+    root, bundle, _ = qualification
+    moved = tmp_path / "relocated"
+    shutil.copytree(bundle.parent, moved)
+    original = (root / "locations.json").read_bytes()
+    with lease(root / ".controller.lock"):
+        with pytest.raises(BusyStudy):
+            relocate(root, moved)
+    with lease(root / "jobs/fit/tiny-gcbc/.lease"):
+        with pytest.raises(ValueError, match="active"):
+            relocate(root, moved)
+    assert (root / "locations.json").read_bytes() == original
+    before, checksum = load_study(root)
+    assert relocate(root, moved)["relocated"]
+    assert validate_study(root, verify_data=True)["valid"]
+    assert load_study(root) == (before, checksum)
+    assert len(list((root / "locations_history").glob("*.json"))) == 1
+    (root / "locations.json").unlink()
+    assert relocate(root, moved)["relocated"]
+    bundle.parent.rename(tmp_path / "original-location-no-longer-available")
+    assert run_job(root, "fit", "tiny-gcbc")["status"] == "completed"
+    (moved / "tiny/manifest.json").write_text('{}\n')
+    location = (root / "locations.json").read_bytes()
+    with pytest.raises(ValueError, match="differs"):
+        relocate(root, moved)
+    assert (root / "locations.json").read_bytes() == location
 
 
 def test_interrupted_fit_resumes_exact_state_and_keeps_attempt_history(qualification, tmp_path, monkeypatch):

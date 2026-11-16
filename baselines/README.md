@@ -206,3 +206,7 @@ adds registration, kernel-backed job leases, immutable attempts, checkpoint
 recovery and complete-cohort test sealing. The [analysis workflow](ANALYSIS.md)
 adds verified per-case evidence and paired statistics. Executed formal analysis
 and public acceptance remain separate gates.
+
+The [distribution workflow](DISTRIBUTION.md) stages verified local data,
+checkpoint/evidence and physical-history archives, and describes independent
+relocation and validation. Staging does not publish artifacts or resolve rights.

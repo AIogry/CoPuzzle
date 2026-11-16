@@ -16,6 +16,8 @@ include release/method_selection_plan.json
 include release/selected_methods.json
 include release/study_registration.json
 include release/analysis_plan.json
+include release/physical_history_inputs.json
+include release/engineering_evidence.json
 include release/license_proposal.md
 include release/third_party_inventory.json
 recursive-include release/proposals *.txt *.md
@@ -34,6 +36,7 @@ recursive-include baselines/examples *.py
 include CONTRIBUTING.md
 include DATASET_CARD.md
 include baselines/METHOD_CARD.md
+include baselines/DISTRIBUTION.md
 recursive-include src/copuzzle/games/lights_out/physics/assets *.xml *.obj *.json *.md LICENSE
 recursive-include examples *.py
 recursive-include tests *.py

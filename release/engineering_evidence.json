@@ -1,0 +1,123 @@
+{
+  "schema": "copuzzle.engineering_evidence.v1",
+  "release_acceptance_complete": false,
+  "core_ci": {
+    "revision": "642d666343dd03ccc2dc60e36d9fe399eafb41c0",
+    "url": "https://github.com/AIogry/CoPuzzle/actions/runs/43950479514",
+    "status": "passed",
+    "passed": 1353,
+    "skipped": 8,
+    "warnings": 2,
+    "seconds": 885.42,
+    "skip_reason": "local historical archives intentionally absent from source checkout",
+    "saved_log_sha256": "5871a2dbf453d2a154a614c2362494624d7f700f14d661a215b7da8c2fd52c50",
+    "current_core_and_core_tests_unchanged": true
+  },
+  "additional_local_history_tests": {
+    "passed": 8,
+    "skipped": 0,
+    "seconds": 7.99,
+    "log_sha256": "4b47a3ff9de92883323fe3d40bf9b27be294452f7f56aa4777a99373d4ab939f"
+  },
+  "baseline_local_tests": {
+    "passed": 75,
+    "seconds": 23.56,
+    "log_sha256": "4ab22ae3539acfe785096c2341c17333142727833b9412ef48908feecc6bb1b6",
+    "later_focused_checks": {
+      "relocation_and_packaging": 11,
+      "archive_integrity": 10
+    },
+    "qualified_sources": {
+      "__init__.py": "ecf94c662dd66fea33d03f3635a6e533bc561d4c7a8aa6d40d2ef41ac6834876",
+      "agents.py": "30f4e7eb1989061cbf0022cd0b6f2d4fb8d5e0d484c56acbe199c4468814cf46",
+      "cli.py": "f7a6ca9a26f44425ef44fef8e50377936cc6ad3a42b4e80b97e272e1f3de22dc",
+      "config.py": "61edb4306e3676dcd2d18d67cbc6830a083723216d608b8c90146d081edbaa38",
+      "controls/__init__.py": "f2164e7aa3fe31a29c70486594fc13853b51d2b4f28ada00ad46b5d67f6282d1",
+      "controls/evaluate.py": "3f7d8ccdfdfa4975f644d078bbc43148a68a648b6c8be166c1e516713c493d69",
+      "controls/models.py": "ba64e8643bd7fc8aaaafe5bf2ccb53f528022c52758b6e807b2c03025e213a2a",
+      "data.py": "4cd2f73d5f920657ebb9f22c99d64a2bad20263bb3142aa1fcf9dfd7541a2aab",
+      "planning.py": "d3e0aa71f06f510ae7450852220a03399653ee7e34e7d775d44ee00fb9e6b664",
+      "protocols.py": "5b0ce1871efc0c51721b3d8fc9fe135d543b85fd7a35e752dcaed1d7ee911175",
+      "runtime.py": "4525f7f859a7dee7c5180184f8427406d290599f4c5aed36c72a17ea2df8bffe",
+      "study/__init__.py": "ea0e3600920dc56eeb5ebe286e07a5304c37fc54ae198bc28ef695e735562cd4",
+      "study/access.py": "46c43afc58c5388505717a79040dd3cb1e6a9d235233b0ab03874deeeaab5ef1",
+      "study/analysis.py": "2a831468a7fdbec9a08c35397c29e4b3ad2ab87fcd9f72a8c3658f4a42b3c71e",
+      "study/diagnostics.py": "37309d43b23c4e5caf5ae0e46a3f6ba98e420a237f99aca9cc1492d400ad6f27",
+      "study/evidence.py": "1fdd0cd0cb604b44500b5cd21820f22a009aa15c25dc86d3bf8eed038adde648",
+      "study/jobs.py": "27f42e536d3e8ba2dfa63257630952543a095240d42a13e3bcbc7207a96cab7c",
+      "study/packaging.py": "ad714dbff4f72a31d88bb44fab247cf80eae70d081c1e4cc37ae7b35a5b9d935",
+      "study/pilot.py": "12affcecc4ef31068a738f1c1acce81f0ff00fada918fc977b413b02fb5b32dc",
+      "study/prediction_archive.py": "62ff409ce34a34f5d77310f9ff5170a28fbc1b256d5c628248cc6c7ec36f60f9",
+      "study/registry.py": "9ed255e0ab2b095b5d995356fa0fe86c6978c8802e715e8b97a564bf0fdb1d1f",
+      "study/runner.py": "8679d9dedd6518dd27f6b93ed1da3436201854df1374a76f4c6dd6645bf61658",
+      "study/statistics.py": "6cdf6bef9620fd9e8dfdf20af0ccae99dd3189440567315da96e8aa814c33eec",
+      "study/storage.py": "026dff9afa0a2e512b7635398b561658cb42ae455e07b12138d020ca3ac0fd5f"
+    },
+    "qualification_note": "Full 75-test suite passed after final archive-builder changes."
+  },
+  "independent_installation": {
+    "valid": true,
+    "core_and_learning": true,
+    "sibling_and_physics_imports_blocked_during_abstract_smoke": true,
+    "log_sha256": "32b9a39a61cc37e32139fc4820900c00b70072ada9dc57e0edc9d76d68165591",
+    "archive_verification_from_installed_package": true
+  },
+  "physical_history": {
+    "report_sha256": "bad117d9874e4a610f158db3c4430f6fe4389532703a5fadcd472deb163b65f7",
+    "manifest_sha256": "f7f832eac2737eee2323f43df055b72e23c498d40839a4f6f6fd00e025ae75d3",
+    "cases": [
+      {
+        "task": "grid-3x3",
+        "control_steps": 439,
+        "status": "passed",
+        "replay": {
+          "control_steps": 439,
+          "press_events": 6,
+          "max_absolute_observation_error": 0.0,
+          "atol": 1e-09,
+          "configuration_sha256": "300da81e4f1bb5a939fa22e027bdae5dfd23ae57a2931e3074c2dca75dd250b4"
+        }
+      },
+      {
+        "task": "pancake-4",
+        "control_steps": 1044,
+        "status": "passed",
+        "replay": {
+          "control_steps": 1044,
+          "max_absolute_observation_error": 0.0,
+          "configuration_sha256": "92344026180ae018a4aed88e15b163bc1edb32a23403aa5c0b3bee8686e8b7e0"
+        }
+      },
+      {
+        "task": "topspin-20-4",
+        "control_steps": 1777,
+        "status": "passed",
+        "replay": {
+          "control_steps": 1777,
+          "max_absolute_observation_error": 0.0,
+          "measured_operations": [
+            "reverse_four",
+            "shift_right",
+            "reverse_four",
+            "shift_left"
+          ],
+          "configuration_sha256": "87a57449b7b63257cff14f05bd345f9094fb2ac48e940655d614e3827cc30f4e",
+          "atol": 1e-08,
+          "source_compatibility": "exact_source_match"
+        }
+      }
+    ],
+    "versions": {
+      "python": "3.12.9",
+      "numpy": "2.5.3",
+      "mujoco": "3.15.0"
+    }
+  },
+  "local_drafts": {
+    "data_manifest_sha256": "ef11c6ca28d3730852bc8f9a09a3120b6c72c446e794dcbf27e95c1a02740811",
+    "physical_manifest_sha256": "36f0d499b01efbfa116334fd2de413fcc16852a597e0a98159cb3af57d6d6f81",
+    "data_reextraction_matches_frozen_inventory": true,
+    "published": false
+  },
+  "remaining": "final formal outcomes, final learning/distribution CI snapshot, accepted rights/authorship and public release acceptance"
+}

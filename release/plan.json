@@ -54,7 +54,7 @@
   ],
   "final_artifact_inventory_frozen": true,
   "training_configuration_frozen": true,
-  "primary_fits_completed": 146,
+  "primary_fits_completed": 285,
   "ci_qualified": false,
   "project_license_resolved": false,
   "gates": {
@@ -62,7 +62,7 @@
     "B_standalone_learning_pipeline": "v1_development_integration_qualified",
     "C_formal_baseline_matrix": "running_registered_972_fit_matrix",
     "D_scientific_comparisons": "analysis_and_per_case_evidence_pipeline_qualified_formal_results_pending",
-    "E_final_engineering_qualification": "pending_final_snapshot",
+    "E_final_engineering_qualification": "first_ci_and_history_replay_qualified_final_learning_distribution_ci_pending",
     "F_public_release_materials": "not_complete"
   },
   "next_deliverable": "complete registered fits, full-cohort test seal, failure-inclusive paired aggregation, CI and installation qualification",
@@ -152,6 +152,18 @@
         "exact_R_C_prediction_archive_score_reproduction"
       ],
       "formal_test_evaluated": false
+    },
+    {
+      "gate": "E_final_engineering_qualification",
+      "kind": "core_ci_and_local_history_coverage",
+      "ci_revision": "642d666343dd03ccc2dc60e36d9fe399eafb41c0",
+      "ci_core_passed": 1353,
+      "ci_skipped_local_archives": 8,
+      "additional_local_history_tests_passed": 8,
+      "independent_physical_replay_families": 3,
+      "all_replay_max_absolute_errors": 0.0,
+      "baseline_local_tests_passed": 75,
+      "final_release_acceptance": false
     }
   ],
   "data_inventory_sha256": "c43ba9209ecbfccf44edd28fce9d77c93a553d7a227fd3179e84d5bf907abb35",
@@ -188,7 +200,7 @@
     "registered_learned_evaluations_per_split": 1296,
     "registered_control_evaluations_per_split": 576,
     "status": "running",
-    "completed_fits_at_last_observation": 146,
+    "completed_fits_at_last_observation": 285,
     "counts_note": "Snapshot only; study runner status is authoritative.",
     "failed_fits_at_last_observation": 0,
     "test_sealed": false,
@@ -200,8 +212,9 @@
       "commit": "642d666343dd03ccc2dc60e36d9fe399eafb41c0",
       "url": "https://github.com/AIogry/CoPuzzle/actions/runs/43950479514",
       "learning": "passed",
-      "core": "running_at_last_observation",
+      "core": "passed_1353_plus_8_local_history_checks",
       "final_release_qualified": false
     }
-  ]
+  ],
+  "engineering_evidence": "release/engineering_evidence.json"
 }
