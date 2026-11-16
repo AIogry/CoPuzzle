@@ -117,9 +117,10 @@
     "data_manifest_sha256": "ef11c6ca28d3730852bc8f9a09a3120b6c72c446e794dcbf27e95c1a02740811",
     "physical_manifest_sha256": "36f0d499b01efbfa116334fd2de413fcc16852a597e0a98159cb3af57d6d6f81",
     "data_reextraction_matches_frozen_inventory": true,
-    "published": false
+    "published": false,
+    "study_manifest_sha256": "22f431a69bb810f7abbc5e5e1a87c1ea78373ce441eccaddf16d5916afe7de14"
   },
-  "remaining": "final formal outcomes, final learning/distribution CI snapshot, accepted rights/authorship and public release acceptance",
+  "remaining": "owner-confirmed licensing/authorship and authorized public distribution; technical qualification complete",
   "readable_reporting": {
     "unit_tests_passed": 78,
     "optional_plot_test_skipped_in_learning_runtime": 1,
@@ -134,5 +135,22 @@
     "formal_results_contributed": 0,
     "render_manifest_sha256": "96a5975b590bfb6806300a54ef01af84c554349a903b46c313cae184ed40da77",
     "report_source_sha256": "0af08fc37a147ecb31128f78e40aeaf869de2416fba6340da3a4e715a359c0c1"
+  },
+  "latest_ci": {
+    "revision": "c6a2c78b6e53819fbca1456d05c659c53371a563",
+    "url": "https://github.com/AIogry/CoPuzzle/actions/runs/43971296596",
+    "learning_passed": 87,
+    "core_passed": 1353,
+    "core_skipped_local_archives": 8,
+    "local_history_passed": 8
+  },
+  "independent_formal_reproduction": {
+    "evaluations": 104,
+    "verified": 104,
+    "failed": 0,
+    "manifest_sha256": "eef4d3e707e11082f60c799a6e73c00867f38b205d1b18358d6274c02d6daaf5",
+    "installed_packages": true,
+    "relocated_extracted_inputs": true,
+    "no_refitting": true
   }
 }

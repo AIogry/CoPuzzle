@@ -22,6 +22,7 @@ include release/engineering_evidence.json
 include release/license_proposal.md
 include release/third_party_inventory.json
 recursive-include release/proposals *.txt *.md
+include release/proposals/CITATION.cff
 include ci/constraints.txt
 recursive-include scripts *.py
 include baselines/pyproject.toml

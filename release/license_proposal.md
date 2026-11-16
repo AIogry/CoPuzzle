@@ -9,7 +9,7 @@ The proposed split is:
 | Material | Proposed treatment |
 |---|---|
 | Original CoPuzzle and baseline code | MIT; proposed notice: “Copyright (c) 2026 CoPuzzle contributors” |
-| Original generated state/action datasets, annotations and result tables | CC BY 4.0, with attribution to the project and exact artifact/version |
+| Original generated state/action datasets, trained checkpoints, annotations and experimental result materials (tables, figures and reports) | Proposed CC BY 4.0, with attribution to the project and exact artifact/version; the complete artifact scope requires owner confirmation |
 | Bundled UR5e XML/mesh assets | Keep their existing BSD-3-Clause license and ROS Industrial Consortium notice |
 | OGBench-derived/reference baseline material | Retain the OGBench Authors' MIT notice and source attribution |
 | Separately installed dependencies | Retain their own package licenses; do not claim CoPuzzle licenses those packages |
@@ -30,6 +30,11 @@ data, including any institutional/coauthor requirements, and accept or replace
 this proposed license split. The public copyright/citation name also needs to be
 confirmed. “CoPuzzle contributors” is a proposed collective label, not an invented
 list of individual authors or an assertion of institutional endorsement.
+The proposed citation metadata is [proposals/CITATION.cff](proposals/CITATION.cff).
+It is a draft under the [CFF 1.2.0 schema](https://github.com/citation-file-format/citation-file-format/blob/main/schema.json),
+with no invented DOI, publication date or named authors. The final decision must
+explicitly cover trained checkpoints as well as code, generated data and results;
+no checkpoint license is inferred from an incomplete earlier approval.
 
 The asset/reference inventory is [third_party_inventory.json](third_party_inventory.json).
 Original third-party files and notices are retained; no approval is being sought

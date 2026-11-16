@@ -55,17 +55,17 @@
   "final_artifact_inventory_frozen": true,
   "training_configuration_frozen": true,
   "primary_fits_completed": 324,
-  "ci_qualified": false,
+  "ci_qualified": true,
   "project_license_resolved": false,
   "gates": {
-    "A_protocol_population_and_freeze": "data_metrics_methods_and_formal_matrix_frozen",
-    "B_standalone_learning_pipeline": "v1_development_integration_qualified",
-    "C_formal_baseline_matrix": "972_fits_complete_final_evaluations_pending",
-    "D_scientific_comparisons": "analysis_and_per_case_evidence_pipeline_qualified_formal_results_pending",
-    "E_final_engineering_qualification": "first_ci_and_history_replay_qualified_final_learning_distribution_ci_pending",
-    "F_public_release_materials": "not_complete"
+    "A_protocol_population_and_freeze": "complete",
+    "B_standalone_learning_pipeline": "complete",
+    "C_formal_baseline_matrix": "complete_972_fits_and_1872_final_evaluations",
+    "D_scientific_comparisons": "complete_verified_case_evidence_paired_statistics_and_interpretation",
+    "E_final_engineering_qualification": "complete_ci_independent_install_replay_and_relocated_formal_reproduction",
+    "F_public_release_materials": "reviewable_candidates_ready_rights_authorship_publication_pending"
   },
-  "next_deliverable": "complete registered fits, full-cohort test seal, failure-inclusive paired aggregation, CI and installation qualification",
+  "next_deliverable": "owner decision on complete license/authorship/public-distribution proposal, then adopted notices and final release candidate",
   "decisions_required_before_formal_runs": [],
   "completion_evidence": [
     {
@@ -232,7 +232,7 @@
     "registered_primary_fits": 324,
     "registered_learned_evaluations_per_split": 1296,
     "registered_control_evaluations_per_split": 576,
-    "status": "final_evaluations_running",
+    "status": "technical_qualification_complete_owner_decisions_pending",
     "completed_fits_at_last_observation": 972,
     "counts_note": "Snapshot only; study runner status is authoritative.",
     "failed_fits_at_last_observation": 0,
@@ -241,7 +241,19 @@
     "primary_fits_status": "324 complete; 648 coverage fits complete; final-test evaluation pending seal verification",
     "test_lock_sha256": "1d7a24ce27a59ec0cdd5efa2ae208824f1dd3b59ebc456dfa1fbf3c9215ebd05",
     "learned_final_test_evaluation_started": true,
-    "learned_final_test_complete": false
+    "learned_final_test_complete": true,
+    "completed_learned_evaluations": 1296,
+    "failed_learned_evaluations": 0,
+    "completed_control_evaluations": 576,
+    "failed_control_evaluations": 0,
+    "verified_case_prediction_jobs": 1872,
+    "unique_prediction_archives": 576,
+    "analysis_manifest_sha256": "2136ae7e69c3c388c3d4e45391dc03a296b63dd34b183a167b7fbf0dd9275f82",
+    "report_manifest_sha256": "d5fc4703b1b899c0baa65096fc4b18eeeb959fb671b19e85898336d147348cc4",
+    "distribution_manifest_sha256": "22f431a69bb810f7abbc5e5e1a87c1ea78373ce441eccaddf16d5916afe7de14",
+    "independent_reproduction_expected_evaluations": 104,
+    "independent_reproduction_completed_evaluations": 104,
+    "independent_reproduction_failed_evaluations": 0
   },
   "analysis_plan": "release/analysis_plan.json",
   "ci_runs": [
@@ -258,8 +270,16 @@
       "learning": "passed",
       "core": "passed",
       "final_release_qualified": false
+    },
+    {
+      "commit": "c6a2c78b6e53819fbca1456d05c659c53371a563",
+      "url": "https://github.com/AIogry/CoPuzzle/actions/runs/43971296596",
+      "learning": "passed_87",
+      "core": "passed_1353_plus_8_local_history_checks",
+      "final_release_qualified": false
     }
   ],
   "engineering_evidence": "release/engineering_evidence.json",
-  "fit_selection": "release/fit_selection.json"
+  "fit_selection": "release/fit_selection.json",
+  "acceptance_evidence": "artifacts/release-review-v1/acceptance.json"
 }

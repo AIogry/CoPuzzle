@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: >-
+  Citation draft awaiting confirmation of authorship and release metadata.
+  This is not an adopted release citation.
+type: software
+title: CoPuzzle
+version: 0.1.0.dev3
+authors:
+  - name: CoPuzzle contributors
+repository-code: https://github.com/AIogry/CoPuzzle
+url: https://github.com/AIogry/CoPuzzle
+abstract: >-
+  CoPuzzle provides finite-state puzzle environments, offline data contracts,
+  rule prediction, composition prediction and goal-control evaluation,
+  with separately documented physical execution extensions. Benchmark protocol
+  versions and frozen artifact hashes are separate from the software version.
+keywords:
+  - offline reinforcement learning
+  - rule induction
+  - compositional generalization
+  - goal-conditioned control
+  - benchmark
