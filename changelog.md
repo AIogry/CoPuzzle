@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add an explicit development training path from checked multi-step symbolic
+  archives to the learning baselines. Preserve episode-local future goals,
+  repeated transitions and cutoff bootstrap semantics, with checkpoint-bound
+  sampling and no unattempted-action masks in model inputs. Keep this path
+  separate from the frozen v1 experiment and physical-play contracts.
 - Report observed-graph connectivity and goal reachability for each actual
   coverage subset, separately from frozen full-corpus G labels. Preserve primary
   scores and verify full-view agreement and nested-subset reachability.

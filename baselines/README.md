@@ -1,7 +1,7 @@
 # CoPuzzle learning baselines
 
 This is a separately installable JAX/Flax/Optax component in the CoPuzzle
-repository. The base environment does not depend on it. It uses the
+repository. The base environment does not depend on it. Its formal workflows use the
 `copuzzle.rule-composition.v1` and legacy RC1 learner arrays, not the sibling CoPuzzleLab
 checkout or its legacy masks. The v1 data inventory, method configurations and
 formal matrix are frozen. All 972 fits and 1,872 final evaluations are complete,
@@ -46,7 +46,70 @@ XLA_PYTHON_CLIENT_PREALLOCATE=false`. Check existing jobs and measure memory/tim
 before scheduling a matrix. The package does not change device allocation or
 terminate other processes.
 
-## Information and sampling contract
+## Development training on multi-step symbolic trajectories
+
+The explicit `--trajectories` path trains on existing checked native NPZ archives
+and their JSON sidecars. Choose `--trajectory-family lights_out`, `permutation`,
+or `classic` to select the archive reader. This is a development interface,
+separate from `--learner` and the frozen v1/RC1 study. It does not create a new
+dataset format or turn development trajectories into a benchmark split.
+
+For a small reproducible pipeline check, generate a training archive and fit:
+
+```sh
+python - <<'PY'
+from copuzzle import get_rule
+from copuzzle.games.permutation.data import generate_dataset
+
+data = generate_dataset(get_rule("pancake-6"), num_episodes=32,
+                        horizon=30, seed=0, split="train")
+data.save("artifacts/multistep-development/train.npz")
+PY
+JAX_PLATFORMS=cpu copuzzle-baselines train \
+  --trajectories artifacts/multistep-development/train.npz \
+  --trajectory-family permutation --method gciql --seed 0 --steps 100 \
+  --output artifacts/multistep-development/gciql
+```
+
+Use a fresh archive/output path when repeating this example. The short run checks
+the pipeline; it does not establish algorithm performance. To resume, repeat the
+same data, family and configuration with `--resume` pointing to the checkpoint,
+a larger total `--steps`, and a new output directory. The Python equivalent is
+`runtime.train(archive_path, output, ..., trajectory_family="permutation")`.
+
+Only archives whose recorded split is `train` are accepted. Full coverage is
+required: transition subsampling would break the interpretation of contiguous
+future paths. Repeated state-action observations are retained. Vocabulary and
+the random-goal pool are fitted only from this training archive. These archives
+use native action IDs, not the frozen benchmark's opaque action mapping. Source
+manifests and Classic action masks may be read for archive validation, but rule
+descriptions, unattempted-action masks and oracle labels are not model inputs.
+These native archives contain executed legal operations only. Classic's behavior
+policy selected legal actions during collection; withholding its masks from the
+learner does not remove that collection prior. A dynamics fit on these archives
+receives no negative legality examples and cannot establish rejection prediction
+performance without a separately designed dataset and evaluation.
+
+Future goals are sampled from strictly later states in the same episode,
+including its final state, excluding boards equal to the current state. Repeated
+future occurrences retain their index multiplicity. GCBC samples uniformly among
+transitions with an eligible future goal, then uniformly among that transition's
+eligible future indices. GCIQL samples all transitions and draws independent
+actor/value mixtures of future and random observed goals. An empty eligible
+future falls back to a random observed goal different from the current state.
+Rewards are zero at successor-goal equality and minus one otherwise; bootstrap
+is disabled only by that relabeled success, never by a collection cutoff.
+
+The native symbolic archives contain no behavior-goal segment labels; this path
+does not infer such labels or cross episode resets. It is not a physical-data
+adapter. Physical play retains its separate first-hit and segment semantics.
+Data identities and sampling RNG are checkpoint-bound. Formal study contexts and
+the frozen R/C/G evaluation commands reject these development checkpoints;
+`runtime.load_checkpoint` returns the agent and fitted vocabulary for development
+inference. A multi-step evaluation protocol must be specified independently
+before reporting new benchmark results.
+
+## Frozen one-step information and sampling contract
 
 Training reads only `learner/train.npz` and `learner/metadata.json`. It does not
 read R/C/G queries, the evaluator directory, rules, exact distances, or action

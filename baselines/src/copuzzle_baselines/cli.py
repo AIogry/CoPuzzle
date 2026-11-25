@@ -14,7 +14,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser(prog="copuzzle-baselines", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     fit = commands.add_parser("train")
-    fit.add_argument("--learner", type=Path, required=True)
+    source = fit.add_mutually_exclusive_group(required=True)
+    source.add_argument("--learner", type=Path)
+    source.add_argument("--trajectories", type=Path, help="checked native train.npz (development only)")
+    fit.add_argument("--trajectory-family", choices=("lights_out", "permutation", "classic"))
     fit.add_argument("--output", type=Path, required=True)
     fit.add_argument("--config", type=Path)
     fit.add_argument("--method", choices=METHODS)
@@ -42,6 +45,8 @@ def main(argv=None):
         if args.output.exists():
             raise FileExistsError(args.output)
         if args.command == "train":
+            if (args.trajectories is not None) != (args.trajectory_family is not None):
+                raise ValueError("--trajectories and --trajectory-family must be supplied together")
             from .runtime import load_checkpoint, train
             settings = json.loads(args.config.read_text()) if args.config else {}
             seed = args.seed
@@ -53,8 +58,10 @@ def main(argv=None):
                     seed = restored.seed
             if args.method is not None:
                 settings["method"] = args.method
-            result = train(args.learner, args.output, config=Config.from_dict(settings), seed=0 if seed is None else seed,
-                           steps=args.steps, checkpoint_every=args.checkpoint_every, log_every=args.log_every, resume=args.resume)
+            result = train(args.trajectories if args.trajectories is not None else args.learner,
+                           args.output, config=Config.from_dict(settings), seed=0 if seed is None else seed,
+                           steps=args.steps, checkpoint_every=args.checkpoint_every, log_every=args.log_every,
+                           resume=args.resume, trajectory_family=args.trajectory_family)
             print(json.dumps({key: result[key] for key in ("status", "completed_step", "train_seconds", "checkpoints")}, indent=2))
         elif args.command == "predict":
             from .runtime import predict

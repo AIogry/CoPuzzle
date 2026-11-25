@@ -72,7 +72,7 @@ class Config:
         object.__setattr__(self, "temperature", number(self.temperature, "temperature", 0))
         object.__setattr__(self, "coverage", number(self.coverage, "coverage", 0, 1, open_low=True))
         if self.method == "gcbc" and self.actor_future_probability != 1:
-            raise ValueError("GCBC uses observed successor goals only")
+            raise ValueError("GCBC requires actor_future_probability=1")
 
     def to_dict(self):
         value = asdict(self)

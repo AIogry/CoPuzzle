@@ -19,7 +19,7 @@ from .data import Sampler, Vocabulary, immutable, load_training
 
 def sources():
     root = Path(__file__).parent
-    names = ("__init__.py", "agents.py", "config.py", "data.py", "planning.py", "protocols.py", "runtime.py")
+    names = ("__init__.py", "agents.py", "config.py", "data.py", "planning.py", "protocols.py", "runtime.py", "trajectories.py")
     return {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in names}
 
 
@@ -103,7 +103,8 @@ def load_checkpoint(path):
 
 
 def train(learner_directory, output, *, config: Config, seed: int, steps: int,
-          checkpoint_every=1000, log_every=100, resume=None, fit_context=None):
+          checkpoint_every=1000, log_every=100, resume=None, fit_context=None,
+          trajectory_family=None):
     """No evaluator imports or file reads occur on the training path."""
     entered = time.perf_counter()
     from .agents import Agent
@@ -112,8 +113,16 @@ def train(learner_directory, output, *, config: Config, seed: int, steps: int,
     output = Path(output)
     if output.exists():
         raise FileExistsError(output)
-    data = load_training(learner_directory, coverage=config.coverage, coverage_seed=config.coverage_seed)
-    sampler = Sampler(data, config, seed + 10_000)
+    if trajectory_family is None:
+        data = load_training(learner_directory, coverage=config.coverage, coverage_seed=config.coverage_seed)
+        sampler = Sampler(data, config, seed + 10_000)
+    else:
+        if fit_context is not None:
+            raise ValueError("development trajectories cannot enter the frozen formal study")
+        from .trajectories import TrajectorySampler, load_trajectories
+        data = load_trajectories(learner_directory, family=trajectory_family,
+                                 coverage=config.coverage, coverage_seed=config.coverage_seed)
+        sampler = TrajectorySampler(data, config, seed + 10_000)
     agent = Agent(config, data.width, data.vocabulary.size, data.n_actions, seed)
     parent = None
     if resume is not None:
@@ -182,6 +191,8 @@ def train(learner_directory, output, *, config: Config, seed: int, steps: int,
 def _check_data(learner_directory, header):
     path = Path(learner_directory)
     identity = header["data"]
+    if identity["protocol"] == "copuzzle.symbolic-trajectories.dev1":
+        raise ValueError("development trajectory checkpoints cannot use frozen R/C/G evaluation bundles")
     for name, key in (("train.npz", "train_sha256"), ("metadata.json", "metadata_sha256")):
         if hashlib.sha256((path / name).read_bytes()).hexdigest() != identity[key]:
             raise ValueError("checkpoint and evaluation bundle have different training/action identities")
